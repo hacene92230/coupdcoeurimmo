@@ -3,31 +3,34 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}CoupdCoeurimmo
+			{% block title %}CoupDcoeurimmo
 			{% endblock %}
 		</title>
-<meta property="og:url"           content="https://www.facebook.com/Sahreply-101036832043176" />
 		{% block stylesheets %}
 			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 		{% endblock %}
 
 
 	</head>
 	<body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand" href="{{path('app_home')}}">COUPDCOEURIMMO</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-{% include "shared/header.html.twig" %}
+{% include "shared/Menu.html.twig" %}	
+{% if app.user %}
+		{% include "shared/MenuUser.html.twig" %}	
+						{% endif %}
+						
 </nav>
-		        {% for message in app.flashes('success') %}
-		            <div class="alert alert-success">
-					{{ message }}
-					            </div>
-								        {% endfor %}
-										
+{% for type, messages in app.session.flashbag.all %}
+    <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
 		<main>
 		{% block body %}{% endblock %}
 		</main>
