@@ -1,37 +1,33 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-6">
-<header>
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-  <a class="navbar-brand" href="#">
-    <img src="logo.png" alt="Logo de l'entreprise" width="30" height="30">
-    Coupdcoeurimmo
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
-        <a class="nav-link text-dark" href={{ path("app_home") }}>Accueil</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-dark" href="#">À propos</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-dark" href="">Contact</a>
-      </li>
-{% if app.user is empty%}
-<!-- Liens de connexion et d'inscription -->
-<li class="nav-item">
-  <a class="nav-link text-dark" href="{{ path('app_login') }}"><i class="fas fa-sign-in-alt"></i> Connexion</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link text-dark" href="{{ path('app_register') }}"><i class="fas fa-user-plus"></i> Inscription</a>
-</li>
-</ul>
-{% endif %}
-  </div>
-</nav>
-</header>
-</div>
+  <nav class="navbar navbar-expand-sm navbar-dark bg-primary fixed-top">
+    <a class="navbar-brand" href="#">
+      <img src="logo.png" alt="Logo de l'entreprise" width="30" height="30">
+      Coupdcoeurimmo
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link navbar-text text-white" href={{ path("app_home") }}><i class="fas fa-home fa-fw"></i> Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navbar-text text-white" href="#"><i class="fas fa-info-circle fa-fw"></i> À propos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navbar-text text-white" href=""><i class="fas fa-envelope fa-fw"></i> Contact</a>
+        </li>
+        {% if app.user is empty%}
+        <!-- Liens de connexion et d'inscription -->
+        <li class="nav-item">
+          <a class="nav-link navbar-text text-white" href="{{ path('app_login') }}"><i class="fas fa-sign-in-alt fa-fw"></i> Connexion</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navbar-text text-white" href="{{ path('app_register') }}"><i class="fas fa-user-plus fa-fw"></i> Inscription</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+</div> 
