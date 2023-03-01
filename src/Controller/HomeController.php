@@ -16,12 +16,12 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig');
     }
   /**
-     * @Route("/apropos", name="app_apropos")
+     * @Route("/about", name="app_about")
      */
-    public function apropos(): Response
+    public function about(): Response
     {
         return $this->render(
-            'home/apropos.html.twig',
+            'home/about.html.twig',
             [
                
             ]
