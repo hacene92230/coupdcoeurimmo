@@ -15,5 +15,16 @@ class HomeController extends AbstractController
     {
         return $this->render('home/index.html.twig');
     }
-  
+  /**
+     * @Route("/apropos", name="app_apropos")
+     */
+    public function apropos(): Response
+    {
+        return $this->render(
+            'home/apropos.html.twig',
+            [
+               
+            ]
+        );
+    }
 }
