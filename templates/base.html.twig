@@ -19,8 +19,6 @@
 {% if app.user %}
 		{% include "shared/MenuUser.html.twig" %}	
 						{% endif %}
-						
-</nav>
 {% for type, messages in app.session.flashbag.all %}
     <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
         {% for message in messages %}
