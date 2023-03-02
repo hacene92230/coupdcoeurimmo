@@ -5,7 +5,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       {% if app.user %}
-      <!-- Menu utilisateur -->
+      <!-- Menu administrateur -->
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -14,7 +14,7 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ path('app_contact_index') }}"><i class="fas fa-user-edit"></i> Gérer les demande de contact</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+            <a class="dropdown-item" href="{{ path('app_user_index') }}">Gestion des utilisateurs</a>
             {{ include('user/_delete_form.html.twig') }}          
           </div>
         </li>

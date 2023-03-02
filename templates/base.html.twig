@@ -9,37 +9,38 @@
 		{% block stylesheets %}
 			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 		{% endblock %}
 
 
 	</head>
 	<body>
-{% include "shared/Menu.html.twig" %}	
-{% if app.user %}
-		{% include "shared/MenuUser.html.twig" %}	
-						{% endif %}
-{% for type, messages in app.session.flashbag.all %}
-    <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-{% endfor %}
+		{% include "shared/Menu.html.twig" %}
+		{% if app.user %}
+			{% include "shared/MenuUser.html.twig" %}
+			{% for role in app.user.roles %}
+				{% if role == "ROLE_ADMIN" %}
+					{% include "shared/MenuAdmin.html.twig" %}
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+		{% for type, messages in app.session.flashbag.all %}
+			<div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+				{% for message in messages %}
+					{{ message }}
+				{% endfor %}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
 		<main>
-		{% block body %}{% endblock %}
+			{% block body %}{% endblock %}
 		</main>
- 		{% block javascripts %}{% endblock %}
+		{% block javascripts %}{% endblock %}
 		{% include "shared/footer.html.twig" %}
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-
-		
-
-
 	</body>
-</html>
+</html></body></html>
