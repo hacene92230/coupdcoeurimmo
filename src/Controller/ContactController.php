@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use DateTimeImmutable;
 
 /**
  * @Route("/contact")
@@ -26,7 +27,7 @@ class ContactController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_contact_new", methods={"GET", "POST"})
+     * @Route("/contact", name="app_contact_new", methods={"GET", "POST"})
      */
     public function new(Request $request, ContactRepository $contactRepository): Response
     {
@@ -35,16 +36,18 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $contact->setCreatedAt(new DateTimeImmutable());
+            $contact->setResolved(false);
             $contactRepository->add($contact, true);
 
-            return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('contact/new.html.twig', [
-            'contact' => $contact,
             'form' => $form,
         ]);
     }
+
 
     /**
      * @Route("/{id}", name="app_contact_show", methods={"GET"})
@@ -81,7 +84,7 @@ class ContactController extends AbstractController
      */
     public function delete(Request $request, Contact $contact, ContactRepository $contactRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$contact->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $contact->getId(), $request->request->get('_token'))) {
             $contactRepository->remove($contact, true);
         }
 
