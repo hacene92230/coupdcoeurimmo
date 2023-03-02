@@ -19,7 +19,7 @@ class ContactType extends AbstractType
     {
         $builder
         ->add ('name', TextType::class, [
-            'label'=> "Votre nom"
+            'label'=> "Votre prénom"
         ])
         ->add('email',EmailType::class, [
             'label'=> "Votre adresse email"
