@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-use app\Repository\ContactRepository;
+use App\Repository\ContactRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +18,7 @@ class DashboardController extends AbstractController
         ]);
     }
      /**
-     * @Route("/dashboard/contact", name="dashobard_contact_index", methods={"GET"})
+     * @Route("/dashboard/contact", name="dashboard_contact_index", methods={"GET"})
      */
     public function showContact(ContactRepository $contactRepository): Response
     {
