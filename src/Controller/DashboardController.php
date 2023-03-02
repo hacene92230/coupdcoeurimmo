@@ -1,16 +1,11 @@
 <?php
 
 namespace App\Controller;
-<<<<<<< HEAD
-use App\Repository\ContactRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-=======
 
 use App\Repository\ContactRepository;
->>>>>>> main
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/dashboard", name="dashboard", methods={"GET"})
@@ -26,8 +21,7 @@ class DashboardController extends AbstractController
             'controller_name' => 'DashboardController',
         ]);
     }
-<<<<<<< HEAD
-     /**
+    /**
      * @Route("/dashboard/contact", name="dashboard_contact_index", methods={"GET"})
      */
     public function showContact(ContactRepository $contactRepository): Response
@@ -36,6 +30,4 @@ class DashboardController extends AbstractController
             'contact' => $contactRepository->findAll(),
         ]);
     }
-=======
->>>>>>> main
 }
