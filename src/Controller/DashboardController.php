@@ -17,17 +17,6 @@ class DashboardController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('dashboard/index.html.twig', [
-            'controller_name' => 'DashboardController',
-        ]);
-    }
-    /**
-     * @Route("/dashboard/contact", name="dashboard_contact_index", methods={"GET"})
-     */
-    public function showContact(ContactRepository $contactRepository): Response
-    {
-        return $this->render('contact/index.html.twig', [
-            'contact' => $contactRepository->findAll(),
-        ]);
+        return $this->render('dashboard/index.html.twig');
     }
 }
