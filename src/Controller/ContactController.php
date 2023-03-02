@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 
- use App\Entity\User;
+
 use App\Form\ContactType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,22 +18,16 @@ class ContactController extends AbstractController
     /**
      * @Route("/contact", name="app_contact")
      */
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityMangaer): Response
     {
         $contact = new contact();
         $form= $this-> createForm(ContactType::class, $contact);
         $form->handleRequest($request);
         if($form->isSubmitted()&& $form->isValid()){
            
-            $contact->setSubject(
-                $form->get('subject')-> getData()
-            );
+            $entityManager =$this->getDoctrine()->getManager();
 
-            $contact->setContent(
-                $form->get('content')->getData()
-            );
-
-            $entityManager->persist($contact);
+            $entityManager->persist($contact)
             $entityManager->flush();
             
         }
