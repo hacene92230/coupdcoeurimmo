@@ -27,12 +27,6 @@ class Contact
      */
     private $content;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="contacts")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $users;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -58,18 +52,6 @@ class Contact
     public function setContent(string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getUsers(): ?User
-    {
-        return $this->users;
-    }
-
-    public function setUsers(?User $users): self
-    {
-        $this->users = $users;
 
         return $this;
     }

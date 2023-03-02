@@ -40,15 +40,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Contact::class, mappedBy="users", orphanRemoval=true)
-     */
-    private $contacts;
-
-    public function __construct()
-    {
-        $this->contacts = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -137,35 +128,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection<int, Contact>
-     */
-    public function getContacts(): Collection
-    {
-        return $this->contacts;
-    }
-
-    public function addContact(Contact $contact): self
-    {
-        if (!$this->contacts->contains($contact)) {
-            $this->contacts[] = $contact;
-            $contact->setUsers($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContact(Contact $contact): self
-    {
-        if ($this->contacts->removeElement($contact)) {
-            // set the owning side to null (unless already changed)
-            if ($contact->getUsers() === $this) {
-                $contact->setUsers(null);
-            }
-        }
-
-        return $this;
     }
 }

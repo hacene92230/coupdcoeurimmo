@@ -41,6 +41,7 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $contactRepository->add($contact, true);
 
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
