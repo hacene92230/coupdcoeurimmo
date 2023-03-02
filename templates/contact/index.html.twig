@@ -1,55 +1,47 @@
 {% extends 'base.html.twig' %}
 
-<<<<<<< HEAD
-{% block title %}User index{% endblock %}
+{% block title %}Contact index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h1>Contact index</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Subject</th>
+                <th>Content</th>
+                <th>Name</th>
                 <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
+                <th>Phone</th>
+                <th>CreatedAt</th>
+                <th>Resolved</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for user in users %}
+        {% for contact in contacts %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
+                <td>{{ contact.id }}</td>
+                <td>{{ contact.subject }}</td>
+                <td>{{ contact.content }}</td>
+                <td>{{ contact.name }}</td>
+                <td>{{ contact.email }}</td>
+                <td>{{ contact.phone }}</td>
+                <td>{{ contact.createdAt ? contact.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ contact.resolved ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('app_contact_show', {'id': contact.id}) }}">show</a>
+                    <a href="{{ path('app_contact_edit', {'id': contact.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="9">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
-=======
-{% block title %} Contact!{% endblock %}
-
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-<h1> Contez-nous!</h1>
-{{ form_start(contactForm) }}
-    {{ form_widget(contactForm) }}
-    <button class="btn">{{ button_label|default('Envoyer') }}</button>
-{{ form_end(contactForm) }}
-
->>>>>>> b0aa3a380282169a48f3fcacc886a10344b92508
+    <a href="{{ path('app_contact_new') }}">Create new</a>
 {% endblock %}

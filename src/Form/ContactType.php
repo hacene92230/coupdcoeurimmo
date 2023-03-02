@@ -19,19 +19,19 @@ class ContactType extends AbstractType
     {
         $builder
         ->add ('name', TextType::class, [
-            'label'=> "Name"
+            'label'=> "Votre nom"
         ])
         ->add('email',EmailType::class, [
-            'label'=> "Email"
+            'label'=> "Votre adresse email"
         ])
         ->add('phone', TelType::class, [
-            'label' => "Phone"
+            'label' => "Saisir votre numéro de téléphone"
         ])
         ->add('subject',TextType::class, [
-            'label' => "Subject"
+            'label' => "Sujet de votre contact"
         ])
         ->add('content',TextareaType::class, [
-            'label' => "message"
+            'label' => "Contenu de votre message"
         ] )
         ;
     }
