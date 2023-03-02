@@ -1,26 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact{% endblock %}
+{% block title %}Contact {{ parent() }} {% endblock %}
 
 {% block body %}
-    <h1>Contact</h1>
+    <h1>Consultation d'une demande</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ contact.id }}</td>
-            </tr>
-            <tr>
-                <th>Subject</th>
+                <th>Sujet</th>
                 <td>{{ contact.subject }}</td>
             </tr>
             <tr>
-                <th>Content</th>
+                <th>Contenu</th>
                 <td>{{ contact.content }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>Prénom</th>
                 <td>{{ contact.name }}</td>
             </tr>
             <tr>
@@ -28,15 +24,15 @@
                 <td>{{ contact.email }}</td>
             </tr>
             <tr>
-                <th>Phone</th>
+                <th>Téléphone</th>
                 <td>{{ contact.phone }}</td>
             </tr>
             <tr>
-                <th>CreatedAt</th>
+                <th>Créé à</th>
                 <td>{{ contact.createdAt ? contact.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Resolved</th>
+                <th>Résolu</th>
                 <td>{{ contact.resolved ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
