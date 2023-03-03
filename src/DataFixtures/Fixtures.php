@@ -39,32 +39,34 @@ class Fixtures extends Fixture
                 ->setPhone("0612131415");
             $manager->persist($user);
         }
-        
-        for($k=0; $k<20; $k++){
-            $contact = New Contact();
-            $contact-> setName("nom".$k)
-                    ->setEmail("email".$k."@gmail.com")
-                    ->setSubject("subject".$k)
-                    ->setContent("content".$k)
-                    ->setPhone("0612131415")
-                    ->setCreatedAt(new DateTimeImmutable());
+
+        //Création des contacts
+        for ($k = 0; $k < 20; $k++) {
+            $contact = new Contact();
+            $contact->setName("nom" . $k)
+                ->setEmail("email" . $k . "@gmail.com")
+                ->setSubject("subject" . $k)
+                ->setContent("content" . $k)
+                ->setPhone("0612131415")
+                ->setCreatedAt(new DateTimeImmutable());
             $manager->persist($contact);
         }
-        for($k=0; $k<20; $k++){
-            $properties = New Properties();
-            $properties->setTitle("titre".$k)
-                        ->setContent("contenu".$k)
-                        ->setCreatedAt(new DateTimeImmutable())
-                        -> setRoomNumber("numChambre".$k)
-                        ->setSale("vente".$k)
-                        ->setRent("location".$k)
-                        ->setRental("loyer".$k)
-                        ->setPrice("prix".$k)
-                        ->setGarden("jardin".$k)
-                        ->setHouse("maison".$k)
-                        ->setApartment("appartemment".$k);
-                $manager->persist($properties);
 
+        //Création des biens
+        for ($k = 0; $k < 20; $k++) {
+            $properties = new Properties();
+            $properties->setTitle("titre" . $k)
+                ->setContent("contenu" . $k)
+                ->setCreatedAt(new DateTimeImmutable())
+                ->setRoomNumber(rand(3, 10))
+                ->setSale(rand(0, 1))
+                ->setRent(rand(0, 1))
+                ->setRental(rand(550, 900))
+                ->setPrice(rand(100000, 900000))
+                ->setGarden(rand(0, 1))
+                ->setHouse(rand(0, 1))
+                ->setApartment(rand(0, 1));
+            $manager->persist($properties);
         }
         $manager->flush();
     }
