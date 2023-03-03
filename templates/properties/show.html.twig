@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Properties{% endblock %}
+{% block title %}Vous consultez le bien {{ property.title }} {{ parent() }} {% endblock %}
 
 {% block body %}
-    <h1>Properties</h1>
+    <h1>Consultation du bien {{property.title }}</h1>
 
     <table class="table">
         <tbody>
@@ -12,51 +12,37 @@
                 <td>{{ property.id }}</td>
             </tr>
             <tr>
-                <th>RoomNumber</th>
+                <th>Nombre de pièces</th>
                 <td>{{ property.roomNumber }}</td>
             </tr>
-            <tr>
-                <th>Sale</th>
-                <td>{{ property.sale ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Rental</th>
-                <td>{{ property.rental ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Rent</th>
+                        <tr>
+                <th>Loyer</th>
                 <td>{{ property.rent }}</td>
             </tr>
             <tr>
-                <th>Price</th>
+                <th>Prix</th>
                 <td>{{ property.price }}</td>
             </tr>
             <tr>
-                <th>Garden</th>
-                <td>{{ property.garden ? 'Yes' : 'No' }}</td>
+                <th>Ce bien dispose d'un jardin</th>
+                <td>{{ property.garden ? 'Oui' : 'Non' }}</td>
             </tr>
             <tr>
-                <th>House</th>
-                <td>{{ property.house ? 'Yes' : 'No' }}</td>
+                <th>Type du logement</th>
+                <td>{{ property.housingType ? "maison" : "appartement" }}</td>
             </tr>
             <tr>
-                <th>Apartment</th>
-                <td>{{ property.apartment ? 'Yes' : 'No' }}</td>
+                <th>Type de transaction</th>
+                <td>{{ property.transactionType ? "location": "vente" }}</td>
             </tr>
             <tr>
-                <th>Title</th>
+                <th>Titre</th>
                 <td>{{ property.title }}</td>
             </tr>
             <tr>
-                <th>Content</th>
+                <th>Contenu</th>
                 <td>{{ property.content }}</td>
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_properties_index') }}">back to list</a>
-
-    <a href="{{ path('app_properties_edit', {'id': property.id}) }}">edit</a>
-
-    {{ include('properties/_delete_form.html.twig') }}
 {% endblock %}
