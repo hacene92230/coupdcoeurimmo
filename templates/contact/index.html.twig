@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th>Sujet</th>
-                <th>Créé à</th>
+                <th>Créé le</th>
                 <th>Résolu</th>
                 <th>actions</th>
             </tr>
@@ -18,7 +18,7 @@
         {% for contact in contacts %}
             <tr>
                 <td>{{ contact.subject }}</td>
-                <td>{{ contact.createdAt ? contact.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ contact.createdAt ? contact.createdAt|date('d/m/Y') : '' }}</td>
                 <td>{{ contact.resolved ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ path('app_contact_show', {'id': contact.id}) }}">Consulter la demande</a>

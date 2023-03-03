@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -22,6 +23,10 @@ class UserType extends AbstractType
         $builder
             ->add("name", TextType::class, [
                 "label" => "Saisir votre prénom"
+            ])
+
+            ->add('phone', TelType::class, [
+                'label' => "Saisir votre numéro de téléphone"
             ])
 
             ->add('email', EmailType::class, [

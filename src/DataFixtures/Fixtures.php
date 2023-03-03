@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -31,7 +32,9 @@ class Fixtures extends Fixture
             } else {
                 $user->setRoles(["ROLE_USER"]);
             }
-            $user->setPassword($this->encoder->encodePassword($user, 'password'));
+            $user->setPassword($this->encoder->encodePassword($user, 'password'))
+                ->setCreatedAt(new DateTimeImmutable())
+                ->setPhone("0612131415");
             $manager->persist($user);
         }
         $manager->flush();
