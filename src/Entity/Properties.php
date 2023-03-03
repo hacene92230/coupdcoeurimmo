@@ -25,12 +25,7 @@ class Properties
     /**
      * @ORM\Column(type="boolean")
      */
-    private $sale;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $rental;
+    private $transactionType;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -50,12 +45,7 @@ class Properties
     /**
      * @ORM\Column(type="boolean")
      */
-    private $house;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $apartment;
+    private $housingType;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -89,26 +79,14 @@ class Properties
         return $this;
     }
 
-    public function isSale(): ?bool
+    public function isTransactionType(): ?bool
     {
-        return $this->sale;
+        return $this->transactionType;
     }
 
-    public function setSale(bool $sale): self
+    public function setTransactionType(bool $transactionType): self
     {
-        $this->sale = $sale;
-
-        return $this;
-    }
-
-    public function isRental(): ?bool
-    {
-        return $this->rental;
-    }
-
-    public function setRental(bool $rental): self
-    {
-        $this->rental = $rental;
+        $this->transactionType = $transactionType;
 
         return $this;
     }
@@ -149,29 +127,18 @@ class Properties
         return $this;
     }
 
-    public function isHouse(): ?bool
+    public function isHousingType(): ?bool
     {
-        return $this->house;
+        return $this->housingType;
     }
 
-    public function setHouse(bool $house): self
+    public function setHousingType(bool $housingType): self
     {
-        $this->house = $house;
+        $this->housingType = $housingType;
 
         return $this;
     }
 
-    public function isApartment(): ?bool
-    {
-        return $this->apartment;
-    }
-
-    public function setApartment(bool $apartment): self
-    {
-        $this->apartment = $apartment;
-
-        return $this;
-    }
 
     public function getTitle(): ?string
     {

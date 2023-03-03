@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -17,25 +19,27 @@ class PropertiesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add("sale", CheckboxType::class, [
-                "label" => "C'est une vente",
-                "required" => false
+            ->add('transactionType', ChoiceType::class, [
+                'choices' => [
+                    'Vente' => '0',
+                    'Location' => '1'
+                ],
+                'expanded' => true,
+                'multiple' => false,
+                'required' => true,
+                'label' => 'Type de transaction'
             ])
 
-            ->add("rental", CheckboxType::class, [
-                "label" => "c'est une location",
-                "required" => false
+            ->add('housingType', ChoiceType::class, [
+                'choices' => [
+                    'Appartement' => '0',
+                    'Maison' => '1'
+                ],
+                'expanded' => true,
+                'multiple' => false,
+                'required' => true,
+                'label' => 'Type du logement'
             ])
-
-            ->add("house", CheckboxType::class, [
-                "label" => "Maison",
-                "required" => false
-            ])
-
-->add("apartment", CheckboxType::class, [
-    "label" => "appartement",
-    "required" => false,
-])
 
             ->add('roomNumber', IntegerType::class, [
                 "label" => "Nombre de pièce de ce bien",

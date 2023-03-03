@@ -8,33 +8,27 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>RoomNumber</th>
-                <th>Sale</th>
-                <th>Rental</th>
-                <th>Rent</th>
-                <th>Price</th>
-                <th>Garden</th>
-                <th>House</th>
-                <th>Apartment</th>
-                <th>Title</th>
-                <th>Content</th>
+                <th>Nombre de pièces</th>              
+                <th>Type de la transaction</th>
+                <th>Loyer</th>
+                <th>Prix</th>
+                <th>Ce bien dispose d'un jardin</th>
+                <th>Type du logement</th>
+                <th>Titre</th>
+                <th>Contenu</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for property in properties %}
             <tr>
-                <td>{{ property.id }}</td>
                 <td>{{ property.roomNumber }}</td>
-                <td>{{ property.sale ? 'Yes' : 'No' }}</td>
-                <td>{{ property.rental ? 'Yes' : 'No' }}</td>
-                <td>{{ property.rent }}</td>
+                <td>{{ property.transactionType ? "location": "vente" }}</td>
+                                <td>{{ property.rent }}</td>
                 <td>{{ property.price }}</td>
                 <td>{{ property.garden ? 'Yes' : 'No' }}</td>
-                <td>{{ property.house ? 'Yes' : 'No' }}</td>
-                <td>{{ property.apartment ? 'Yes' : 'No' }}</td>
-                <td>{{ property.title }}</td>
+                <td>{{ property.housingType ? "maison" : "appartement" }}</td>
+                                <td>{{ property.title }}</td>
                 <td>{{ property.content }}</td>
                 <td>
                     <a href="{{ path('app_properties_show', {'id': property.id}) }}">show</a>
