@@ -48,7 +48,8 @@ class Fixtures extends Fixture
                 ->setSubject("subject" . $k)
                 ->setContent("content" . $k)
                 ->setPhone("0612131415")
-                ->setCreatedAt(new DateTimeImmutable());
+                ->setCreatedAt(new DateTimeImmutable())
+                ->setResolved(rand(0, 1));
             $manager->persist($contact);
         }
 
