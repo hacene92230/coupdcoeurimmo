@@ -55,6 +55,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $phone;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Properties::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $properties;
+
+    public function __construct()
+    {
+        $this->properties = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -177,6 +187,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Properties>
+     */
+    public function getProperties(): Collection
+    {
+        return $this->properties;
+    }
+
+    public function addProperty(Properties $property): self
+    {
+        if (!$this->properties->contains($property)) {
+            $this->properties[] = $property;
+            $property->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProperty(Properties $property): self
+    {
+        if ($this->properties->removeElement($property)) {
+            // set the owning side to null (unless already changed)
+            if ($property->getUser() === $this) {
+                $property->setUser(null);
+            }
+        }
 
         return $this;
     }

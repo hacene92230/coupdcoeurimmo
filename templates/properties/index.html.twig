@@ -4,10 +4,11 @@
 
 {% block body %}
     <h1>Nos biens</h1>
-
+                    <a href="{{ path('app_properties_new') }}">Créer un nouveau bien</a>
     <table class="table">
         <thead>
             <tr>
+            <th>Propriétaire</th>
                 <th>Nombre de pièces</th>              
                 <th>Type de la transaction</th>
                 <th>Type du logement</th>
@@ -18,7 +19,8 @@
         <tbody>
         {% for property in properties %}
             <tr>
-                <td>{{ property.roomNumber }}</td>
+            <td>{{ property.user.name }}</td>
+                 <td>{{ property.roomNumber }}</td>
                 <td>{{ property.transactionType ? "location": "vente" }}</td>
                 <td>{{ property.housingType ? "maison" : "appartement" }}</td>
                                 <td>{{ property.title }}</td>

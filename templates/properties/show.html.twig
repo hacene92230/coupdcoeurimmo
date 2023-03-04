@@ -1,48 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vous consultez le bien {{ property.title }} {{ parent() }} {% endblock %}
+{% block title %}Vous consultez le bien {{ property.title }} - {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Consultation du bien {{property.title }}</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ property.id }}</td>
-            </tr>
-            <tr>
-                <th>Nombre de pièces</th>
-                <td>{{ property.roomNumber }}</td>
-            </tr>
-                        <tr>
-                <th>Loyer</th>
-                <td>{{ property.rent }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ property.price }}</td>
-            </tr>
-            <tr>
-                <th>Ce bien dispose d'un jardin</th>
-                <td>{{ property.garden ? 'Oui' : 'Non' }}</td>
-            </tr>
-            <tr>
-                <th>Type du logement</th>
-                <td>{{ property.housingType ? "maison" : "appartement" }}</td>
-            </tr>
-            <tr>
-                <th>Type de transaction</th>
-                <td>{{ property.transactionType ? "location": "vente" }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ property.title }}</td>
-            </tr>
-            <tr>
-                <th>Contenu</th>
-                <td>{{ property.content }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <h1 class="text-center my-5">Consultation du bien "{{ property.title }}"</h1>
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Caractéristique</th>
+                    <th>Valeur</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+<th>Propriétaire</th>
+<td>{{ property.user.name }}</td>
+                </tr>
+                <tr>
+                    <th>Nombre de pièces</th>
+                    <td>{{ property.roomNumber }}</td>
+                </tr>
+                <tr>
+                    <th>Loyer</th>
+                    <td>{{ property.rent  }}</td>
+                </tr>
+                <tr>
+                    <th>Prix</th>
+                    <td>{{ property.price ? "aucun" }}</td>
+                </tr>
+                <tr>
+                    <th>Ce bien dispose d'un jardin</th>
+                    <td>{{ property.garden ? 'Oui' : 'Non' }}</td>
+                </tr>
+                <tr>
+                    <th>Type du logement</th>
+                    <td>{{ property.housingType == 'house' ? "Maison" : "Appartement" }}</td>
+                </tr>
+                <tr>
+                    <th>Type de transaction</th>
+                    <td>{{ property.transactionType == 'rent' ? "Location" : "Vente" }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ property.content }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
