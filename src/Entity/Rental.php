@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\RentalRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,24 +24,10 @@ class Rental
     private $tenant;
 
     /**
-     * @ORM\OneToMany(targetEntity=Properties::class, mappedBy="rental")
+     * @ORM\OneToOne(targetEntity=Properties::class, inversedBy="rental", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $property;
-
-    /**
-     * @ORM\Column(type="date_immutable")
-     */
-    private $startDate;
-
-    /**
-     * @ORM\Column(type="date_immutable")
-     */
-    private $endDate;
-
-    public function __construct()
-    {
-        $this->property = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -62,56 +46,14 @@ class Rental
         return $this;
     }
 
-    /**
-     * @return Collection<int, Properties>
-     */
-    public function getProperty(): Collection
+    public function getProperty(): ?Properties
     {
         return $this->property;
     }
 
-    public function addProperty(Properties $property): self
+    public function setProperty(Properties $property): self
     {
-        if (!$this->property->contains($property)) {
-            $this->property[] = $property;
-            $property->setRental($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProperty(Properties $property): self
-    {
-        if ($this->property->removeElement($property)) {
-            // set the owning side to null (unless already changed)
-            if ($property->getRental() === $this) {
-                $property->setRental(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getStartDate(): ?\DateTimeImmutable
-    {
-        return $this->startDate;
-    }
-
-    public function setStartDate(\DateTimeImmutable $startDate): self
-    {
-        $this->startDate = $startDate;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?\DateTimeImmutable
-    {
-        return $this->endDate;
-    }
-
-    public function setEndDate(\DateTimeImmutable $endDate): self
-    {
-        $this->endDate = $endDate;
+        $this->property = $property;
 
         return $this;
     }

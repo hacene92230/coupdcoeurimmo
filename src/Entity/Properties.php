@@ -74,8 +74,7 @@ class Properties
     private $address;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Rental::class, inversedBy="property")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity=Rental::class, mappedBy="property", cascade={"persist", "remove"})
      */
     private $rental;
 
@@ -222,8 +221,13 @@ class Properties
         return $this->rental;
     }
 
-    public function setRental(?Rental $rental): self
+    public function setRental(Rental $rental): self
     {
+        // set the owning side of the relation if necessary
+        if ($rental->getProperty() !== $this) {
+            $rental->setProperty($this);
+        }
+
         $this->rental = $rental;
 
         return $this;
