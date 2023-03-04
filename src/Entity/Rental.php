@@ -29,6 +29,16 @@ class Rental
      */
     private $property;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateStart;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateEnd;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +64,30 @@ class Rental
     public function setProperty(Properties $property): self
     {
         $this->property = $property;
+
+        return $this;
+    }
+
+    public function getDateStart(): ?\DateTime
+    {
+        return $this->dateStart;
+    }
+
+    public function setDateStart(\DateTime $dateStart): self
+    {
+        $this->dateStart = $dateStart;
+
+        return $this;
+    }
+
+    public function getDateEnd(): ?\DateTime
+    {
+        return $this->dateEnd;
+    }
+
+    public function setDateEnd(\DateTime $dateEnd): self
+    {
+        $this->dateEnd = $dateEnd;
 
         return $this;
     }

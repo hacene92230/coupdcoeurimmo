@@ -44,9 +44,10 @@ class RentalControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'rental[startDate]' => 'Testing',
-            'rental[endDate]' => 'Testing',
+            'rental[dateStart]' => 'Testing',
+            'rental[dateEnd]' => 'Testing',
             'rental[tenant]' => 'Testing',
+            'rental[property]' => 'Testing',
         ]);
 
         self::assertResponseRedirects('/rental/');
@@ -58,9 +59,10 @@ class RentalControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Rental();
-        $fixture->setStartDate('My Title');
-        $fixture->setEndDate('My Title');
+        $fixture->setDateStart('My Title');
+        $fixture->setDateEnd('My Title');
         $fixture->setTenant('My Title');
+        $fixture->setProperty('My Title');
 
         $this->repository->add($fixture, true);
 
@@ -76,27 +78,30 @@ class RentalControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Rental();
-        $fixture->setStartDate('My Title');
-        $fixture->setEndDate('My Title');
+        $fixture->setDateStart('My Title');
+        $fixture->setDateEnd('My Title');
         $fixture->setTenant('My Title');
+        $fixture->setProperty('My Title');
 
         $this->repository->add($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'rental[startDate]' => 'Something New',
-            'rental[endDate]' => 'Something New',
+            'rental[dateStart]' => 'Something New',
+            'rental[dateEnd]' => 'Something New',
             'rental[tenant]' => 'Something New',
+            'rental[property]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/rental/');
 
         $fixture = $this->repository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getStartDate());
-        self::assertSame('Something New', $fixture[0]->getEndDate());
+        self::assertSame('Something New', $fixture[0]->getDateStart());
+        self::assertSame('Something New', $fixture[0]->getDateEnd());
         self::assertSame('Something New', $fixture[0]->getTenant());
+        self::assertSame('Something New', $fixture[0]->getProperty());
     }
 
     public function testRemove(): void
@@ -106,9 +111,10 @@ class RentalControllerTest extends WebTestCase
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $fixture = new Rental();
-        $fixture->setStartDate('My Title');
-        $fixture->setEndDate('My Title');
+        $fixture->setDateStart('My Title');
+        $fixture->setDateEnd('My Title');
         $fixture->setTenant('My Title');
+        $fixture->setProperty('My Title');
 
         $this->repository->add($fixture, true);
 

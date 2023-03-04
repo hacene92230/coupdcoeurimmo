@@ -9,8 +9,8 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
+                <th>DateStart</th>
+                <th>DateEnd</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,8 +18,8 @@
         {% for rental in rentals %}
             <tr>
                 <td>{{ rental.id }}</td>
-                <td>{{ rental.startDate ? rental.startDate|date('Y-m-d') : '' }}</td>
-                <td>{{ rental.endDate ? rental.endDate|date('Y-m-d') : '' }}</td>
+                <td>{{ rental.dateStart ? rental.dateStart|date('Y-m-d') : '' }}</td>
+                <td>{{ rental.dateEnd ? rental.dateEnd|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('app_rental_show', {'id': rental.id}) }}">show</a>
                     <a href="{{ path('app_rental_edit', {'id': rental.id}) }}">edit</a>
