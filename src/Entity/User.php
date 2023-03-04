@@ -60,6 +60,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $properties;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Rental::class, mappedBy="tenant", cascade={"persist", "remove"})
+     */
+    private $rental;
+
     public function __construct()
     {
         $this->properties = new ArrayCollection();
@@ -217,6 +227,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $property->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getRental(): ?Rental
+    {
+        return $this->rental;
+    }
+
+    public function setRental(Rental $rental): self
+    {
+        // set the owning side of the relation if necessary
+        if ($rental->getTenant() !== $this) {
+            $rental->setTenant($this);
+        }
+
+        $this->rental = $rental;
 
         return $this;
     }

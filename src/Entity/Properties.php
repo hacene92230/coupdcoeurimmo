@@ -68,6 +68,17 @@ class Properties
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Rental::class, inversedBy="property")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $rental;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -190,6 +201,30 @@ class Properties
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getRental(): ?Rental
+    {
+        return $this->rental;
+    }
+
+    public function setRental(?Rental $rental): self
+    {
+        $this->rental = $rental;
 
         return $this;
     }

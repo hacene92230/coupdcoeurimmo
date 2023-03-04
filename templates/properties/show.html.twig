@@ -42,6 +42,14 @@
                     <td>{{ property.transactionType == 'rent' ? "Location" : "Vente" }}</td>
                 </tr>
                 <tr>
+                <th>Date de création</th>
+                <td>{{ property.createdAt|date('d/m/Y') }}</td>
+                </tr>
+                <tr>
+<th>Titre du bien</th>
+<td>{{ property.title }}</td>
+</tr>
+                <tr>
                     <th>Description</th>
                     <td>{{ property.content }}</td>
                 </tr>
