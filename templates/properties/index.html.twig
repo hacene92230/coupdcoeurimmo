@@ -4,7 +4,9 @@
 
 {% block body %}
     <h1>Nos biens</h1>
+        {% if app.user.roles[0] == "ROLE_ADMIN" %}
                     <a href="{{ path('app_properties_new') }}">Créer un nouveau bien</a>
+                    {% endif %}
     <table class="table">
         <thead>
             <tr>
