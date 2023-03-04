@@ -21,8 +21,13 @@ class PropertiesController extends AbstractController
      */
     public function index(PropertiesRepository $propertiesRepository): Response
     {
+        if ($this->getUser()->getRoles()[0] == "ROLE_ADMIN") {
+            $properties = $propertiesRepository->findAll();
+        } else {
+            $properties = $propertiesRepository->findBy(['user' => $this->getUser()]);
+        }
         return $this->render('properties/index.html.twig', [
-            'properties' => $propertiesRepository->findAll(),
+            'properties' => $properties,
         ]);
     }
 

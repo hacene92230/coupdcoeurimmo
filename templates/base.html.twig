@@ -19,6 +19,9 @@
 		{% if app.user %}
 			{% include "shared/MenuUser.html.twig" %}
 			{% for role in app.user.roles %}
+				{% if role == "ROLE_OWNER" %}
+{% include "shared/MenuOwner.html.twig" %}
+{% endif %}
 				{% if role == "ROLE_ADMIN" %}
 					{% include "shared/MenuAdmin.html.twig" %}
 				{% endif %}
