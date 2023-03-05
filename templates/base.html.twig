@@ -25,6 +25,9 @@
 				{% if role == "ROLE_ADMIN" %}
 					{% include "shared/MenuAdmin.html.twig" %}
 				{% endif %}
+								{% if role == "ROLE_TENANT" %}
+					{% include "shared/MenuTenant.html.twig" %}
+				{% endif %}
 			{% endfor %}
 		{% endif %}
 		{% for type, messages in app.session.flashbag.all %}

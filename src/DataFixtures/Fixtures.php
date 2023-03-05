@@ -24,16 +24,16 @@ class Fixtures extends Fixture
         // création des utilisateurs 
         $users = [];
         $owners = [];
-        for ($k = 0; $k <= 30; $k++) {
+        for ($u = 0; $u <= 30; $u++) {
             $user = new User();
-            $user->setName("nom" . $k)
-                ->setEmail("email" . $k . "@gmail.com");
-            if ($k == 0) {
+            $user->setName("nom" . $u)
+                ->setEmail("email" . $u . "@gmail.com");
+            if ($u == 0) {
                 $user->setRoles(["ROLE_ADMIN"]);
-            } else if ($k <= 10) {
+            } else if ($u <= 10) {
                 $user->setRoles(["ROLE_OWNER"]);
                 $owners[] = $user;
-            } else if ($k <= 20) {
+            } else if ($u <= 20) {
                 $user->setRoles(["ROLE_USER"]);
             } else {
                 $user->setRoles(["ROLE_TENANT"]);
@@ -41,7 +41,7 @@ class Fixtures extends Fixture
             $user->setPassword($this->hash->hashPassword($user, 'password')) // "hashPassword" avec minuscule "h"
                 ->setCreatedAt(new DateTimeImmutable())
                 ->setPhone("0612131415")
-                ->setAddress($k . " rue " . " du fobourg");
+                ->setAddress($u . " rue " . " du fobourg");
             $manager->persist($user);
             $users[] = $user;
         }
@@ -64,7 +64,7 @@ class Fixtures extends Fixture
         foreach ($owners as $owner) {
             for ($k = 0; $k < 2; $k++) { // Création de 2 biens pour chaque propriétaire
                 $property = new Properties();
-                $property->setTitle("titre" . $k)
+                $property->setTitle("bien" . $k)
                     ->setContent("contenu" . $k)
                     ->setCreatedAt(new DateTimeImmutable())
                     ->setRoomNumber(rand(3, 10))

@@ -39,6 +39,11 @@ class Rental
      */
     private $dateEnd;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Rent::class, mappedBy="rental", cascade={"persist", "remove"})
+     */
+    private $rent;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -88,6 +93,23 @@ class Rental
     public function setDateEnd(\DateTime $dateEnd): self
     {
         $this->dateEnd = $dateEnd;
+
+        return $this;
+    }
+
+    public function getRent(): ?Rent
+    {
+        return $this->rent;
+    }
+
+    public function setRent(Rent $rent): self
+    {
+        // set the owning side of the relation if necessary
+        if ($rent->getRental() !== $this) {
+            $rent->setRental($this);
+        }
+
+        $this->rent = $rent;
 
         return $this;
     }

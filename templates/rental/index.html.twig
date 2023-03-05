@@ -1,37 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Rental index{% endblock %}
+{% block title %}Nos locations {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Rental index</h1>
-
+    <h1>Nos locations</h1>
+<a href="{{ path('app_rental_new') }}">Créer une nouvelle location</a>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>DateStart</th>
-                <th>DateEnd</th>
+            <th>Locataire</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for rental in rentals %}
             <tr>
-                <td>{{ rental.id }}</td>
+                <td>{{ rental.tenant.name }}</td>
                 <td>{{ rental.dateStart ? rental.dateStart|date('Y-m-d') : '' }}</td>
                 <td>{{ rental.dateEnd ? rental.dateEnd|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_rental_show', {'id': rental.id}) }}">show</a>
-                    <a href="{{ path('app_rental_edit', {'id': rental.id}) }}">edit</a>
+                    <a href="{{ path('app_rental_show', {'id': rental.id}) }}">Afficher</a>
+                    <a href="{{ path('app_rental_edit', {'id': rental.id}) }}">Modifier</a>
+                {{ include('rental/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_rental_new') }}">Create new</a>
 {% endblock %}

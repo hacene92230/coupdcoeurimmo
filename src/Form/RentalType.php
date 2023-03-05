@@ -10,30 +10,32 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class RentalType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('dateStart', DateTimeType::class, [
+            ->add('dateStart', DateType::class, [
                 'label' => 'Date de début de location',
-                'widget' => 'single_text',
+                'widget' => 'choice',
+                'years' => range(date('Y'), date('Y') - 100),
                 'format' => 'dd/MM/yyyy',
-                'html5' => false,
-                'attr' => ['class' => 'datepicker'], // attributs html pour intégrer un datepicker
+                'data' => new \DateTime(),
+                'attr' => [
+                    'min' => (new \DateTime())->format('dd/MM/yyyy'),
+                ],
             ])
 
-            ->add('dateEnd', DateTimeType::class, [
+            ->add('dateEnd', DateType::class, [
                 'label' => 'Date de fin de location',
-                'widget' => 'single_text',
+                'widget' => 'choice',
+                'years' => range(date('Y'), date('Y') + 7),
                 'format' => 'dd/MM/yyyy',
-                'html5' => false,
-                'attr' => ['class' => 'datepicker'], // attributs html pour intégrer un datepicker
             ])
 
-->add('tenant', EntityType::class, [
+            ->add('tenant', EntityType::class, [
                 'class' => User::class,
                 'label' => "Qui souhaite louer?",
                 'query_builder' => function (EntityRepository $er) {
@@ -46,7 +48,7 @@ class RentalType extends AbstractType
                 'choice_label' => 'name',
                 'placeholder' => 'Choisissez un utilisateur',
             ])
-            
+
             ->add('property', EntityType::class, [
                 'class' => Properties::class,
                 "label" => "Quel propriété souhaitez-vous louer?",
