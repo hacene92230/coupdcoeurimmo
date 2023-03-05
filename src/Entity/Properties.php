@@ -78,6 +78,11 @@ class Properties
      */
     private $rental;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $harea;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -229,6 +234,18 @@ class Properties
         }
 
         $this->rental = $rental;
+
+        return $this;
+    }
+
+    public function getHarea(): ?int
+    {
+        return $this->harea;
+    }
+
+    public function setHarea(int $harea): self
+    {
+        $this->harea = $harea;
 
         return $this;
     }
