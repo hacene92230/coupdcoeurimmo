@@ -60,15 +60,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $properties;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $address;
 
     /**
      * @ORM\OneToOne(targetEntity=Rental::class, mappedBy="tenant", cascade={"persist", "remove"})
      */
     private $rental;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $address;
 
     public function __construct()
     {
@@ -230,17 +232,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(string $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
 
     public function getRental(): ?Rental
     {
@@ -255,6 +246,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->rental = $rental;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

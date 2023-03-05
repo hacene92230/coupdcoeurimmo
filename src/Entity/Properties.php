@@ -69,11 +69,6 @@ class Properties
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $address;
-
-    /**
      * @ORM\OneToOne(targetEntity=Rental::class, mappedBy="property", cascade={"persist", "remove"})
      */
     private $rental;
@@ -82,6 +77,12 @@ class Properties
      * @ORM\Column(type="integer")
      */
     private $harea;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="properties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $address;
 
     public function getId(): ?int
     {
@@ -209,18 +210,6 @@ class Properties
         return $this;
     }
 
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(string $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
     public function getRental(): ?Rental
     {
         return $this->rental;
@@ -246,6 +235,18 @@ class Properties
     public function setHarea(int $harea): self
     {
         $this->harea = $harea;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }
