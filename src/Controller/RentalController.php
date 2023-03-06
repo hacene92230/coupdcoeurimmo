@@ -12,10 +12,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-#[Route('/rental')]
+/**
+ * @Route("/rental")
+ */
 class RentalController extends AbstractController
 {
-    #[Route('/', name: 'app_rental_index', methods: ['GET'])]
+    /**
+     * @Route("/", name="app_rental_index", methods={"GET", "POST"})
+     */
     public function index(RentalRepository $rentalRepository): Response
     {
         return $this->render('rental/index.html.twig', [
@@ -25,8 +29,8 @@ class RentalController extends AbstractController
 
     /**
      * @IsGranted("ROLE_ADMIN")
+     * @Route("/new", name="app_rental_new", methods={"GET", "POST"})
      */
-    #[Route('/new', name: 'app_rental_new', methods: ['GET', 'POST'])]
     public function new(Request $request, RentalRepository $rentalRepository): Response
     {
         $rental = new Rental();
@@ -47,7 +51,9 @@ class RentalController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_rental_show', methods: ['GET'])]
+    /**
+     * @Route("/{id}", name="app_rental_show", methods={"GET"})
+     */
     public function show(Rental $rental): Response
     {
         return $this->render('rental/show.html.twig', [
@@ -57,8 +63,8 @@ class RentalController extends AbstractController
 
     /**
      * @IsGranted("ROLE_ADMIN")
+     * @Route("/{id}/edit", name="app_rental_edit", methods={"GET", "POST"})
      */
-    #[Route('/{id}/edit', name: 'app_rental_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Rental $rental, RentalRepository $rentalRepository): Response
     {
         $form = $this->createForm(RentalType::class, $rental);
@@ -76,10 +82,11 @@ class RentalController extends AbstractController
         ]);
     }
 
-            /**
+    /**
      * @IsGranted("ROLE_ADMIN")
+     * @Route("/{id}", name="app_rental_delete", methods={"POST"})
      */
-    #[Route('/{id}', name: 'app_rental_delete', methods: ['POST'])]
+
     public function delete(Request $request, Rental $rental, RentalRepository $rentalRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $rental->getId(), $request->request->get('_token'))) {
