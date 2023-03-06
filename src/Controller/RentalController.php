@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/rental')]
 class RentalController extends AbstractController
@@ -21,6 +23,9 @@ class RentalController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/new', name: 'app_rental_new', methods: ['GET', 'POST'])]
     public function new(Request $request, RentalRepository $rentalRepository): Response
     {
@@ -30,7 +35,7 @@ class RentalController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $rental->getTenant();
-$user->setRoles(["ROLE_TENANT"]);
+            $user->setRoles(["ROLE_TENANT"]);
             $rentalRepository->add($rental, true);
 
             return $this->redirectToRoute('app_rental_index', [], Response::HTTP_SEE_OTHER);
@@ -50,6 +55,9 @@ $user->setRoles(["ROLE_TENANT"]);
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/{id}/edit', name: 'app_rental_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Rental $rental, RentalRepository $rentalRepository): Response
     {
@@ -68,6 +76,9 @@ $user->setRoles(["ROLE_TENANT"]);
         ]);
     }
 
+            /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/{id}', name: 'app_rental_delete', methods: ['POST'])]
     public function delete(Request $request, Rental $rental, RentalRepository $rentalRepository): Response
     {
