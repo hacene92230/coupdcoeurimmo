@@ -60,14 +60,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $properties;
 
-
     /**
      * @ORM\OneToOne(targetEntity=Rental::class, mappedBy="tenant", cascade={"persist", "remove"})
      */
     private $rental;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="users", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $address;
@@ -75,6 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->properties = new ArrayCollection();
+        $this->address = new Address();
     }
 
     public function getId(): ?int

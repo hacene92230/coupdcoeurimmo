@@ -36,6 +36,15 @@ class UserType extends AbstractType
                 'placeholder' => 'Sélectionner un type de place',
             ])
 
+            ->add("placeNumber", IntegerType::class, [
+                "label" => "Numéro de rue, avenue ou autre",
+                'property_path' => 'address.placeNumber',
+                "attr" => [
+                    "min" => 1,
+                    "value" => 1,
+                ]
+            ])
+
             ->add('city', TextType::class, [
                 'label' => 'Ville',
                 'property_path' => 'address.city',
@@ -58,6 +67,8 @@ class UserType extends AbstractType
                 "label" => "saisir  votre adresse mail"
             ]);
 
+
+
         if (!$user->getId()) {
             $builder->add('plainPassword', RepeatedType::class, [
                 'mapped' => false,
@@ -67,7 +78,6 @@ class UserType extends AbstractType
             ]);;
         }
     }
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

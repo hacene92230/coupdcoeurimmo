@@ -84,6 +84,26 @@ class Properties
      */
     private $address;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $yearBuilt;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $busy;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $mandaType;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $heating;
+
     public function __construct()
     {
         $this->address = new Address();
@@ -252,6 +272,54 @@ class Properties
     public function setAddress(?Address $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getYearBuilt(): ?\DateTimeInterface
+    {
+        return $this->yearBuilt;
+    }
+
+    public function setYearBuilt(\DateTimeInterface $yearBuilt): self
+    {
+        $this->yearBuilt = $yearBuilt;
+
+        return $this;
+    }
+
+    public function isBusy(): ?bool
+    {
+        return $this->busy;
+    }
+
+    public function setBusy(bool $busy): self
+    {
+        $this->busy = $busy;
+
+        return $this;
+    }
+
+    public function isMandaType(): ?bool
+    {
+        return $this->mandaType;
+    }
+
+    public function setMandaType(bool $mandaType): self
+    {
+        $this->mandaType = $mandaType;
+
+        return $this;
+    }
+
+    public function getHeating(): ?string
+    {
+        return $this->heating;
+    }
+
+    public function setHeating(string $heating): self
+    {
+        $this->heating = $heating;
 
         return $this;
     }

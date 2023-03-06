@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}M'enregistrer {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>M'enregistrer</h1>
+
+    {{ include('user/_form.html.twig') }}
+{% endblock %}
