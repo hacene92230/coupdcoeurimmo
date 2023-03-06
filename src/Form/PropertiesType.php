@@ -109,7 +109,17 @@ class PropertiesType extends AbstractType
                     'Avenue' => 'Avenue',
                     'Place' => 'Place',
                 ],
-                'placeholder' => 'Sélectionner un type de place',
+                'placeholder' => 'Sélectionner un type de lieu',
+            ])
+
+            ->add("placeNumber", IntegerType::class, [
+                "label" => "Numéro de rue, avenue ou autre",
+                'property_path' => 'address.placeNumber',
+                "attr" => [
+                    "min" => 1,
+                    "value" => 1,
+
+                ]
             ])
 
             ->add('city', TextType::class, [

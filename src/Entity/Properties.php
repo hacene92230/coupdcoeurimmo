@@ -79,7 +79,7 @@ class Properties
     private $harea;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="properties")
+     * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="properties", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $address;
