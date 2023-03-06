@@ -100,9 +100,28 @@ class PropertiesType extends AbstractType
                 ]
             ])
 
-            ->add("address", TextType::class, [
-                "label" => "Adresse du bien"
+            ->add('placeType', ChoiceType::class, [
+                'label' => 'Sélectionner le type de place',
+                'property_path' => 'address.placeType',
+                'choices' => [
+                    'Boulevard' => 'Boulevard',
+                    'Rue' => 'Rue',
+                    'Avenue' => 'Avenue',
+                    'Place' => 'Place',
+                ],
+                'placeholder' => 'Sélectionner un type de place',
             ])
+
+            ->add('city', TextType::class, [
+                'label' => 'Ville',
+                'property_path' => 'address.city',
+            ])
+
+            ->add('zipCode', IntegerType::class, [
+                'label' => 'Code postal',
+                'property_path' => 'address.zipCode',
+            ])
+
             ->add('title', TextType::class, [
                 "label" => "Titre de l'annonce"
             ])

@@ -27,8 +27,9 @@ class Fixtures extends Fixture
         for ($a = 0; $a <= 20; $a++) {
             $address = new Address();
             $address->setCity("ville" . $a)
-                ->setPlaceType("lieu" . $a)
-                ->setZipCode(rand(1, 93000));
+                ->setPlaceType("avenue")
+                ->setZipCode(rand(1, 93000))
+                ->setPlaceNumber(rand(1, 90));
             $manager->persist($address);
             $adresses[] = $address;
         }

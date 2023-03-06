@@ -44,6 +44,11 @@ class Address
      */
     private $users;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $placeNumber;
+
     public function __construct()
     {
         $this->properties = new ArrayCollection();
@@ -147,6 +152,18 @@ class Address
                 $user->setAddress(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlaceNumber(): ?int
+    {
+        return $this->placeNumber;
+    }
+
+    public function setPlaceNumber(int $placeNumber): self
+    {
+        $this->placeNumber = $placeNumber;
 
         return $this;
     }
