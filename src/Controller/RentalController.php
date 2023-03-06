@@ -22,11 +22,10 @@ class RentalController extends AbstractController
      */
     public function index(RentalRepository $rentalRepository): Response
     {
-        if ($this->getUser()->getRoles()[0=="ROLE_ADMIN"]){
-            $rental=$rentalRepository->findAll();
-        }
-        else{
-            $rental=$rentalRepository->findBy(["tenant"->$this->getUser()]);
+        if ($this->getUser()->getRoles()[0] == "ROLE_ADMIN") {
+            $rental = $rentalRepository->findAll();
+        } else {
+            $rental = $rentalRepository->findBy(["tenant" => $this->getUser()]);
         }
         return $this->render('rental/index.html.twig', [
             'rentals' => $rental->findAll(),
