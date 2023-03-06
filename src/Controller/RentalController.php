@@ -28,7 +28,7 @@ class RentalController extends AbstractController
             $rental = $rentalRepository->findBy(["tenant" => $this->getUser()]);
         }
         return $this->render('rental/index.html.twig', [
-            'rentals' => $rental->findAll(),
+            'rentals' => $rental,
         ]);
     }
 
