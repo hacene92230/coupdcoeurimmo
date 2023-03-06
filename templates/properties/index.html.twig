@@ -29,9 +29,11 @@
                                 <td>{{ property.address.city }}</td>
                                 <td>{{ property.title }}</td>
                 <td>
-                    {{ include('properties/_delete_form.html.twig') }}
                     <a href="{{ path('app_properties_show', {'id': property.id}) }}">Afficher</a>
+{% if app.user.roles[0] == "ROLE_ADMIN" %}
                     <a href="{{ path('app_properties_edit', {'id': property.id}) }}">Modifier</a>
+                    {{ include('properties/_delete_form.html.twig') }}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

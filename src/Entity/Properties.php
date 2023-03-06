@@ -84,6 +84,11 @@ class Properties
      */
     private $address;
 
+    public function __construct()
+    {
+        $this->address = new Address();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
