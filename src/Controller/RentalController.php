@@ -9,11 +9,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-#[Route('/rental')]
+/**
+ * @Route("/rental")
+ */
 class RentalController extends AbstractController
 {
-    #[Route('/', name: 'app_rental_index', methods: ['GET'])]
+    /**
+     * @Route("/", name="app_rental_index", methods={"GET", "POST"})
+     */
     public function index(RentalRepository $rentalRepository): Response
     {
         if ($this->getUser()->getRoles()[0=="ROLE_ADMIN"]){
@@ -27,7 +33,10 @@ class RentalController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_rental_new', methods: ['GET', 'POST'])]
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/new", name="app_rental_new", methods={"GET", "POST"})
+     */
     public function new(Request $request, RentalRepository $rentalRepository): Response
     {
         $rental = new Rental();
@@ -36,7 +45,7 @@ class RentalController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $rental->getTenant();
-$user->setRoles(["ROLE_TENANT"]);
+            $user->setRoles(["ROLE_TENANT"]);
             $rentalRepository->add($rental, true);
 
             return $this->redirectToRoute('app_rental_index', [], Response::HTTP_SEE_OTHER);
@@ -48,7 +57,9 @@ $user->setRoles(["ROLE_TENANT"]);
         ]);
     }
 
-    #[Route('/{id}', name: 'app_rental_show', methods: ['GET'])]
+    /**
+     * @Route("/{id}", name="app_rental_show", methods={"GET"})
+     */
     public function show(Rental $rental): Response
     {
         return $this->render('rental/show.html.twig', [
@@ -56,7 +67,10 @@ $user->setRoles(["ROLE_TENANT"]);
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_rental_edit', methods: ['GET', 'POST'])]
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/{id}/edit", name="app_rental_edit", methods={"GET", "POST"})
+     */
     public function edit(Request $request, Rental $rental, RentalRepository $rentalRepository): Response
     {
         $form = $this->createForm(RentalType::class, $rental);
@@ -74,7 +88,11 @@ $user->setRoles(["ROLE_TENANT"]);
         ]);
     }
 
-    #[Route('/{id}', name: 'app_rental_delete', methods: ['POST'])]
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/{id}", name="app_rental_delete", methods={"POST"})
+     */
+
     public function delete(Request $request, Rental $rental, RentalRepository $rentalRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $rental->getId(), $request->request->get('_token'))) {

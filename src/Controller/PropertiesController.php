@@ -61,7 +61,7 @@ class PropertiesController extends AbstractController
      */
     public function show(Properties $property): Response
     {
-        if ($property->getUser() == $this->getUser() or $this->getUser()->getRoles()[0] == "ROLE_ADMIN" ) {
+        if ($property->getUser() == $this->getUser() or $this->getUser()->getRoles()[0] == "ROLE_ADMIN") {
             return $this->render('properties/show.html.twig', [
                 'property' => $property,
             ]);
@@ -69,7 +69,9 @@ class PropertiesController extends AbstractController
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
     }
+
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}/edit", name="app_properties_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Properties $property, PropertiesRepository $propertiesRepository): Response
@@ -90,6 +92,7 @@ class PropertiesController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}", name="app_properties_delete", methods={"POST"})
      */
     public function delete(Request $request, Properties $property, PropertiesRepository $propertiesRepository): Response
