@@ -16,8 +16,14 @@ class RentalController extends AbstractController
     #[Route('/', name: 'app_rental_index', methods: ['GET'])]
     public function index(RentalRepository $rentalRepository): Response
     {
+        if ($this->getUser()->getRoles()[0=="ROLE_ADMIN"]){
+            $rental=$rentalRepository->findAll();
+        }
+        else{
+            $rental=$rentalRepository->findBy(["tenant"->$this->getUser()]);
+        }
         return $this->render('rental/index.html.twig', [
-            'rentals' => $rentalRepository->findAll(),
+            'rentals' => $rental->findAll(),
         ]);
     }
 
