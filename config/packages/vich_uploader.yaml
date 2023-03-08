@@ -1,21 +1,7 @@
 vich_uploader:
     db_driver: orm
-
     mappings:
-<<<<<<< HEAD
-<<<<<<< HEAD
         properties_image:
             uri_prefix: /images/properties
             upload_destination: '%kernel.project_dir%/public/images/properties'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
-=======
-=======
->>>>>>> 4408fa88195cec2ca6783499d5e374d79e6495fb
-      products:
-           uri_prefix: /images/properties
-          upload_destination: '%kernel.project_dir%/public/images/properties'
-      namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
-<<<<<<< HEAD
->>>>>>> 4408fa88195cec2ca6783499d5e374d79e6495fb
-=======
->>>>>>> 4408fa88195cec2ca6783499d5e374d79e6495fb
