@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\PropertiesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
