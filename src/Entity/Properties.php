@@ -90,16 +90,6 @@ class Properties
     private $yearBuilt;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $busy;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $mandaType;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $heating;
@@ -284,30 +274,6 @@ class Properties
     public function setYearBuilt(\DateTimeInterface $yearBuilt): self
     {
         $this->yearBuilt = $yearBuilt;
-
-        return $this;
-    }
-
-    public function isBusy(): ?bool
-    {
-        return $this->busy;
-    }
-
-    public function setBusy(bool $busy): self
-    {
-        $this->busy = $busy;
-
-        return $this;
-    }
-
-    public function isMandaType(): ?bool
-    {
-        return $this->mandaType;
-    }
-
-    public function setMandaType(bool $mandaType): self
-    {
-        $this->mandaType = $mandaType;
 
         return $this;
     }

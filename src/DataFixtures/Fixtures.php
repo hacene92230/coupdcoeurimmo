@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use DateTime;
 use App\Entity\User;
 use DateTimeImmutable;
 use App\Entity\Address;
@@ -88,6 +89,8 @@ class Fixtures extends Fixture
                     ->setGarden(rand(0, 1))
                     ->setHarea(rand(10, 350))
                     ->setAddress($adresses[rand(0, 20)])
+                    ->setHeating("électrique")
+                    ->setYearBuilt(new DateTime())
                     ->setUser($owner);
                 $manager->persist($property);
                 $properties[] = $property;

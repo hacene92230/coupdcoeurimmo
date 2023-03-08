@@ -61,13 +61,9 @@ class PropertiesController extends AbstractController
      */
     public function show(Properties $property): Response
     {
-        if ($property->getUser() == $this->getUser() or $this->getUser()->getRoles()[0] == "ROLE_ADMIN") {
-            return $this->render('properties/show.html.twig', [
-                'property' => $property,
-            ]);
-        } else {
-            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-        }
+        return $this->render('properties/show.html.twig', [
+            'property' => $property,
+        ]);
     }
 
     /**

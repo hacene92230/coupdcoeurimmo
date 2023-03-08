@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\PropertiesRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,20 +11,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
+    const ITEMS_PER_PAGE = 6;
+
     /**
-     * @Route("/home", name="app_home")
+     * @Route("/home/page/{page}", name="app_home")
      */
-    public function index(Request $request, PropertiesRepository $propertiesRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, PropertiesRepository $pr, int $page = 1): Response
     {
-        $properties = $propertiesRepository->findAll();
-        $properties = $paginator->paginate(
-            $properties,
-            $request->query->getInt( 'page', 1),
-            2
-        );
-        return $this->render('home/index.html.twig',[
-            'properties'=> $properties
-        ] );
+        $totalItems = $pr->count([]);
+        $totalPages = ceil($totalItems / self::ITEMS_PER_PAGE);
+        $offset = ($page - 1) * self::ITEMS_PER_PAGE;
+        $properties = $pr->findBy([], [], self::ITEMS_PER_PAGE, $offset);
+
+        return $this->render('home/index.html.twig', [
+            'properties' => $properties,
+            'current_page' => $page,
+            'total_pages' => $totalPages,
+        ]);
     }
 
     /**

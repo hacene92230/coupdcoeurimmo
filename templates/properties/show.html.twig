@@ -50,6 +50,14 @@
 <td>{{ property.address.city }}</td>
                 </tr>
                 <tr>
+<th>Chauffage</th>
+<td>{{ property.heating }}</td>
+                </tr>
+<tr>
+<th>Année de construction</th>
+<td>{{ property. yearBuilt|date('d/m/Y') }}</td>
+</tr>
+                <tr>
 <th>Titre du bien</th>
 <td>{{ property.title }}</td>
 </tr>
