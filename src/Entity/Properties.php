@@ -4,13 +4,9 @@ namespace App\Entity;
 
 use App\Repository\PropertiesRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
 
 /**
  * @ORM\Entity(repositoryClass=PropertiesRepository::class)
- *  @Vich\Uploadable
  */
 class Properties
 {
@@ -97,20 +93,6 @@ class Properties
      * @ORM\Column(type="string", length=255)
      */
     private $heating;
-
-    /**
-     * @Vich\UploadableField(mapping="properties_image", fileNameProperty="imageName")
-     * 
-     * @var File|null
-     */
-    private $imageFile;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @var string|null
-     */
-    private $imageName;
 
     public function __construct()
     {
