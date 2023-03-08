@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use App\Repository\PropertiesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=PropertiesRepository::class)
+ *  @Vich\Uploadable
+
  */
 class Properties
 {
