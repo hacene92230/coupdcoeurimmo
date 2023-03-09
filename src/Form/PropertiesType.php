@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class PropertiesType extends AbstractType
 {
@@ -138,6 +139,12 @@ class PropertiesType extends AbstractType
 
             ->add('content', TextareaType::class, [
                 "label" => "Saisir le contenu de l'annonce"
+            ])
+
+            ->add('imageName', VichFileType::class, [
+                'required' => false,
+                'allow_delete' => true,
+                'download_label' => 'Download',
             ]);
     }
 
