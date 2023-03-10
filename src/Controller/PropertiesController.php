@@ -46,10 +46,11 @@ class PropertiesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $property->setCreatedAt(new DateTimeImmutable());
             $propertiesRepository->add($property, true);
+            $this ->addFlash('success', 'propriete ajouté!');
 
             return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
         }
-
+            
         return $this->renderForm('properties/new.html.twig', [
             'property' => $property,
             'form' => $form,
@@ -76,12 +77,9 @@ class PropertiesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $images = $property->getImages();
-            foreach ($images as $key => $image) {
-                $image->setProperty($property);
-                $images->set($key, $image);
-            }
+            
             $propertiesRepository->add($property, true);
+            $this ->addFlash('success', 'les informations de la proprieté ont bien été modifié!');
 
             return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -100,6 +98,7 @@ class PropertiesController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $property->getId(), $request->request->get('_token'))) {
             $propertiesRepository->remove($property, true);
         }
+        $this ->addFlash('warning', 'suppression de la proprieté!');
 
         return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
     }
