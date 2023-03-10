@@ -1,0 +1,45 @@
+{% block _properties_images_widget %}
+    <div class="form-group" id="properties-images-fields-list"
+        data-prototype="{{ form_widget(prototype)|e }}"
+        data-widget-tags="{{ '<div></div>'|e }}"
+        data-widget-counter="{{ value|length }}"
+    >
+        {% for imageForm in form %}
+            <div class="mb-3">
+                {{ form_widget(imageForm) }}
+                <button type="button" class="btn btn-danger remove-image-widget">Supprimer</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <button type="button"
+            class="btn btn-primary add-another-collection-widget"
+            data-list-selector="#properties-images-fields-list">Ajouter une image d'illustration</button>
+    <script>
+        $(document).ready(function () {
+            // ajouter un widget lors du clic sur le bouton "Ajouter une image d'illustration"
+            $('.add-another-collection-widget').click(function (e) {
+                var list = $($(this).attr('data-list-selector'));
+                var counter = list.data('widget-counter') | list.children().length;
+
+                var newWidget = list.attr('data-prototype');
+                newWidget = newWidget.replace(/__name__/g, counter);
+                counter++;
+                list.data('widget-counter', counter);
+
+                var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+                newElem.appendTo(list);
+
+                // attacher l'événement de suppression au nouveau bouton de suppression
+                newElem.find('.remove-image-widget').click(function (e) {
+                    $(this).parent().remove();
+                });
+            });
+
+            // attacher l'événement de suppression aux boutons de suppression existants
+            $('#properties-images-fields-list').on('click', '.remove-image-widget', function (e) {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+{% endblock %}

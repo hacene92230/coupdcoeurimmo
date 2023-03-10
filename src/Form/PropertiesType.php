@@ -3,21 +3,24 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Form\ImageType;
 use App\Entity\Properties;
 use Doctrine\ORM\EntityRepository;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Form\AbstractType;
+use phpDocumentor\Reflection\Types\Integer;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Vich\UploaderBundle\Form\Type\VichFileType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class PropertiesType extends AbstractType
 {
@@ -133,6 +136,21 @@ class PropertiesType extends AbstractType
                 'property_path' => 'address.zipCode',
             ])
 
+            ->add("yearBuilt", DateType::class, [
+                "label" => "Date de construction du dit logement"
+            ])
+
+            ->add('heating', ChoiceType::class, [
+                "label" => "Type du chauffage",
+                'choices' => [
+                    'Electrique' => 'electrique',
+                    'Pompe à chaleur' => 'pompe a chaleur',
+                    'A bois' => 'a bois',
+                    'Au gaz' => 'au gaz',
+                ],
+                'placeholder' => 'Choisir un type de chauffage',
+            ])
+
             ->add('title', TextType::class, [
                 "label" => "Titre de l'annonce"
             ])
@@ -141,10 +159,12 @@ class PropertiesType extends AbstractType
                 "label" => "Saisir le contenu de l'annonce"
             ])
 
-            ->add('imageName', VichFileType::class, [
-                'required' => false,
+            ->add('images', CollectionType::class, [
+                'entry_type' => ImageType::class,
+                "label" => "Importez les images représentant ce bien",
+                'allow_add' => true,
                 'allow_delete' => true,
-                'download_label' => 'Download',
+                'prototype' => true,
             ]);
     }
 

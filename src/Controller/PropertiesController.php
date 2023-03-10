@@ -76,11 +76,15 @@ class PropertiesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $images = $property->getImages();
+            foreach ($images as $key => $image) {
+                $image->setProperty($property);
+                $images->set($key, $image);
+            }
             $propertiesRepository->add($property, true);
 
             return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('properties/edit.html.twig', [
             'property' => $property,
             'form' => $form,

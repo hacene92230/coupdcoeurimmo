@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\PropertiesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=PropertiesRepository::class)
- * @Vich\Uploadable
  */
 class Properties
 {
@@ -97,18 +97,14 @@ class Properties
     private $heating;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="properties", cascade={"persist"})
      */
-    private $imageName;
-
-    /**
-     * @Vich\UploadableField(mapping="images", fileNameProperty="imageName") 
-     */
-    private $imageFile;
+    private $images;
 
     public function __construct()
     {
         $this->address = new Address();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -302,26 +298,32 @@ class Properties
         return $this;
     }
 
-    public function getImageName(): ?string
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
     {
-        return $this->imageName;
+        return $this->images;
     }
 
-    public function setImageName(string $imageName): self
+    public function addImage(Image $image): self
     {
-        $this->imageName = $imageName;
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setProperties($this);
+        }
 
         return $this;
     }
 
-    public function getImageFile(): ?string
+    public function removeImage(Image $image): self
     {
-        return $this->imageFile;
-    }
-
-    public function setImageFile(string $imageFile): self
-    {
-        $this->imageFile = $imageFile;
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getProperties() === $this) {
+                $image->setProperties(null);
+            }
+        }
 
         return $this;
     }
