@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Properties;
 use App\Form\PropertiesType;
+use App\Repository\ImageRepository;
 use App\Repository\PropertiesRepository;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,14 +43,17 @@ class PropertiesController extends AbstractController
         $property = new Properties();
         $form = $this->createForm(PropertiesType::class, $property);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $images = $property->getImages();
+            foreach ($images as $key => $image) {
+                $image->setProperties($property);
+                $images->set($key, $image);
+            }
             $property->setCreatedAt(new DateTimeImmutable());
             $propertiesRepository->add($property, true);
-
             return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('properties/new.html.twig', [
             'property' => $property,
             'form' => $form,
@@ -68,9 +72,9 @@ class PropertiesController extends AbstractController
 
     /**
      * @IsGranted("ROLE_ADMIN")
-     * @Route("/{id}/edit", name="app_properties_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="app_properties_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Properties $property, PropertiesRepository $propertiesRepository): Response
+    public function edit(Request $request, Properties $property, PropertiesRepository $propertiesRepository, ImageRepository $imageRepository): Response
     {
         $form = $this->createForm(PropertiesType::class, $property);
         $form->handleRequest($request);
@@ -78,11 +82,15 @@ class PropertiesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $property->getImages();
             foreach ($images as $key => $image) {
-                $image->setProperty($property);
-                $images->set($key, $image);
+                if ($image->getImageFile() == null) {
+                    $property->removeImage($image);
+                    $imageRepository->remove($image, true);
+                } else {
+                    $image->setProperties($property);
+                    $images->set($key, $image);
+                }
             }
             $propertiesRepository->add($property, true);
-
             return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('properties/edit.html.twig', [

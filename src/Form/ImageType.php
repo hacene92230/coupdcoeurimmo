@@ -4,9 +4,11 @@ namespace App\Form;
 
 use App\Entity\Image;
 use Symfony\Component\Form\AbstractType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ImageType extends AbstractType
 {
@@ -15,9 +17,8 @@ class ImageType extends AbstractType
         $builder
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
-                "label" => false,
                 'download_uri' => true,
-                'image_uri' => true,
+                'image_uri' => true
             ]);;
     }
 

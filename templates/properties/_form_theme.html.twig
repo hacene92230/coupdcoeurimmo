@@ -1,45 +1,38 @@
 {% block _properties_images_widget %}
-    <div class="form-group" id="properties-images-fields-list"
+    <ul id="properties-images-fields-list"
         data-prototype="{{ form_widget(prototype)|e }}"
-        data-widget-tags="{{ '<div></div>'|e }}"
+        data-widget-tags="{{ '<li></li>'|e }}"
         data-widget-counter="{{ value|length }}"
     >
-        {% for imageForm in form %}
-            <div class="mb-3">
-                {{ form_widget(imageForm) }}
-                <button type="button" class="btn btn-danger remove-image-widget">Supprimer</button>
-            </div>
+        {% for key,imageForm in form.children %}
+            {{ form_widget(imageForm) }}
+
         {% endfor %}
-    </div>
+    </ul>
 
     <button type="button"
-            class="btn btn-primary add-another-collection-widget"
-            data-list-selector="#properties-images-fields-list">Ajouter une image d'illustration</button>
-    <script>
-        $(document).ready(function () {
-            // ajouter un widget lors du clic sur le bouton "Ajouter une image d'illustration"
-            $('.add-another-collection-widget').click(function (e) {
-                var list = $($(this).attr('data-list-selector'));
-                var counter = list.data('widget-counter') | list.children().length;
+            class="add-another-collection-widget"
+            data-list-selector="#properties-images-fields-list">Ajouter une autre image de bien</button>
+<script>
+    $('.add-another-collection-widget').click(function (e) {
+        var list = $($(this).attr('data-list-selector'));
+        // Try to find the counter of the list or use the length of the list
+        var counter = list.data('widget-counter') | list.children().length;
 
-                var newWidget = list.attr('data-prototype');
-                newWidget = newWidget.replace(/__name__/g, counter);
-                counter++;
-                list.data('widget-counter', counter);
+        // grab the prototype template
+        var newWidget = list.attr('data-prototype');
+        // replace the "__name__" used in the id and name of the prototype
+        // with a number that's unique to your emails
+        // end name attribute looks like name="contact[emails][2]"
+        newWidget = newWidget.replace(/__name__/g, counter);
+        // Increase the counter
+        counter++;
+        // And store it, the length cannot be used if deleting widgets is allowed
+        list.data('widget-counter', counter);
 
-                var newElem = $(list.attr('data-widget-tags')).html(newWidget);
-                newElem.appendTo(list);
-
-                // attacher l'événement de suppression au nouveau bouton de suppression
-                newElem.find('.remove-image-widget').click(function (e) {
-                    $(this).parent().remove();
-                });
-            });
-
-            // attacher l'événement de suppression aux boutons de suppression existants
-            $('#properties-images-fields-list').on('click', '.remove-image-widget', function (e) {
-                $(this).parent().remove();
-            });
-        });
+        // create a new list element and add it to the list
+        var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+        newElem.appendTo(list);
+    });
     </script>
 {% endblock %}
