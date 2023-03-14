@@ -57,7 +57,6 @@ class PropertiesType extends AbstractType
                 "attr" => [
                     "min" => 1,
                     "max" => 30,
-                    "value" => 0
                 ]
             ])
 
@@ -67,7 +66,6 @@ class PropertiesType extends AbstractType
                 "attr" => [
                     "min" => 0,
                     "max" => 10000,
-                    "value" => 0
                 ]
             ])
 
@@ -76,7 +74,6 @@ class PropertiesType extends AbstractType
                 "required" => false,
                 "attr" => [
                     "min" => 0,
-                    "value" => 0
                 ]
             ])
 
@@ -100,7 +97,6 @@ class PropertiesType extends AbstractType
                 "attr" => [
                     "min" => 10,
                     "max" => 500,
-                    "value" => 10
                 ]
             ])
 
@@ -121,8 +117,6 @@ class PropertiesType extends AbstractType
                 'property_path' => 'address.placeNumber',
                 "attr" => [
                     "min" => 1,
-                    "value" => 1,
-
                 ]
             ])
 

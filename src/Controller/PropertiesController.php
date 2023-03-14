@@ -79,7 +79,6 @@ class PropertiesController extends AbstractController
     {
         $form = $this->createForm(PropertiesType::class, $property);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $property->getImages();
             foreach ($images as $key => $image) {
@@ -92,8 +91,7 @@ class PropertiesController extends AbstractController
                 }
             }
             $propertiesRepository->add($property, true);
-            $propertiesRepository->add($property, true);
-            $this->addFlash('success', 'les informations de la proprieté ont bien été modifié!');
+            $this->addFlash('success', 'les informations de la propriété ont bien été modifié!');
             return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('properties/edit.html.twig', [
@@ -111,7 +109,7 @@ class PropertiesController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $property->getId(), $request->request->get('_token'))) {
             $propertiesRepository->remove($property, true);
         }
-        $this->addFlash('warning', 'suppression de la proprieté!');
+        $this->addFlash('warning', 'suppression de la propriété!');
 
         return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
     }
