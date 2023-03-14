@@ -143,7 +143,7 @@ class Fixtures extends Fixture
             imagefilledpolygon($image, $points, 3, $gray);
 
             // Enregistrer l'image dans un fichier
-            $imagePath = "../public/images/properties/house.$i.jpg";
+            $imagePath = "../public/images/properties/house$i.jpg";
             imagejpeg($image, $imagePath);
 
             // Libérer la mémoire utilisée par l'image
