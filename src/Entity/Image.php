@@ -29,7 +29,7 @@ class Image
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
-     * @UploadableField(mapping="images", fileNameProperty="imageName", size="imageSize")
+     * @UploadableField(mapping="property_images", fileNameProperty="imageName", size="imageSize")
      */
     private ?File $imageFile = null;
 

@@ -35,6 +35,9 @@ class PropertiesType extends AbstractType
                     'Vente' => '0',
                     'Location' => '1'
                 ],
+                "attr" => [
+                    "id" => "form_transactionType"
+                ],
                 'expanded' => true,
                 'multiple' => false,
                 'required' => true,
@@ -66,6 +69,7 @@ class PropertiesType extends AbstractType
                 "attr" => [
                     "min" => 0,
                     "max" => 10000,
+                    "id" => "form_rent"
                 ]
             ])
 
@@ -74,6 +78,7 @@ class PropertiesType extends AbstractType
                 "required" => false,
                 "attr" => [
                     "min" => 0,
+                    "id" => "form_price"
                 ]
             ])
 
