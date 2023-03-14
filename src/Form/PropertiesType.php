@@ -28,20 +28,14 @@ class PropertiesType extends AbstractType
     {
 
         $builder
+            ->add('category', ChoiceType::class, [
+                'choices' => $options['categories'],
+                'choice_label' => 'name',
+                'required' => true,
+            ])
+
             ->add('garden', CheckboxType::class, [
                 "label" => "Ce bien dispose d'un jardin"
-            ])->add('transactionType', ChoiceType::class, [
-                'choices' => [
-                    'Vente' => '0',
-                    'Location' => '1'
-                ],
-                "attr" => [
-                    "id" => "form_transactionType"
-                ],
-                'expanded' => true,
-                'multiple' => false,
-                'required' => true,
-                'label' => 'Type de transaction'
             ])
 
             ->add('housingType', ChoiceType::class, [
@@ -78,7 +72,7 @@ class PropertiesType extends AbstractType
                 "required" => false,
                 "attr" => [
                     "min" => 0,
-                    "id" => "form_price"
+
                 ]
             ])
 
@@ -170,7 +164,7 @@ class PropertiesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Properties::class,
+            'data_class' => Properties::class
         ]);
     }
 }
