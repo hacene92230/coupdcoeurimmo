@@ -24,10 +24,6 @@ class Properties
      */
     private $roomNumber;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $transactionType;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -101,6 +97,12 @@ class Properties
      */
     private $images;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="properties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
     public function __construct()
     {
         $this->address = new Address();
@@ -124,17 +126,6 @@ class Properties
         return $this;
     }
 
-    public function isTransactionType(): ?bool
-    {
-        return $this->transactionType;
-    }
-
-    public function setTransactionType(bool $transactionType): self
-    {
-        $this->transactionType = $transactionType;
-
-        return $this;
-    }
 
     public function getRent(): ?int
     {
@@ -324,6 +315,18 @@ class Properties
                 $image->setProperties(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

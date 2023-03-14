@@ -6,6 +6,7 @@ use DateTime;
 use App\Entity\User;
 use DateTimeImmutable;
 use App\Entity\Address;
+use App\Entity\Category;
 use App\Entity\Contact;
 use App\Entity\Properties;
 use Doctrine\Persistence\ObjectManager;
@@ -73,6 +74,19 @@ class Fixtures extends Fixture
             $manager->persist($contact);
         }
 
+        //créations des catégories
+        $categories = [];
+        for ($k = 0; $k <= 1; $k++) {
+            $categorie = new Category();
+            if ($k == 0) {
+                $categorie->setName("location");
+            } else {
+                $categorie->setName("vente");
+            }
+            $categories[] = $categorie;
+            $manager->persist($categorie);
+        }
+
         //Création des biens avec des propriétaires ayant le rôle "ROLE_HOWNER"
         $properties = [];
         foreach ($owners as $key => $owner) {
@@ -82,9 +96,10 @@ class Fixtures extends Fixture
                     ->setContent("contenu" . $key)
                     ->setCreatedAt(new DateTimeImmutable())
                     ->setRoomNumber(rand(3, 10))
-                    ->setHousingType(rand(0, 1))
-                    ->setTransactionType(rand(0, 1))
-                    ->setRent(rand(550, 900))
+                    ->setHousingType(rand(0, 1));
+                $randomIndex = rand(0, count($categories) - 1);
+                $property->setCategory($categories[$randomIndex]);
+                $property->setRent(rand(550, 900))
                     ->setPrice(rand(100000, 900000))
                     ->setGarden(rand(0, 1))
                     ->setHarea(rand(10, 350))
