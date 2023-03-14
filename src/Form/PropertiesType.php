@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Form\ImageType;
+use App\Entity\Category;
 use App\Entity\Properties;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
@@ -28,11 +29,13 @@ class PropertiesType extends AbstractType
     {
 
         $builder
-            ->add('category', ChoiceType::class, [
-                'choices' => $options['categories'],
+
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
                 'choice_label' => 'name',
                 'required' => true,
             ])
+
 
             ->add('garden', CheckboxType::class, [
                 "label" => "Ce bien dispose d'un jardin"
