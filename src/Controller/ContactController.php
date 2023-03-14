@@ -39,6 +39,7 @@ class ContactController extends AbstractController
             $contact->setCreatedAt(new DateTimeImmutable());
             $contact->setResolved(false);
             $contactRepository->add($contact, true);
+            $this->addFlash('success', 'info contact bien prise en compte!');
 
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
@@ -69,6 +70,7 @@ class ContactController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contactRepository->add($contact, true);
+            $this->addFlash('success', 'modification info contact bien prise en compte!');
 
             return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -87,6 +89,7 @@ class ContactController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $contact->getId(), $request->request->get('_token'))) {
             $contactRepository->remove($contact, true);
         }
+        $this->addFlash('warning', 'info contact suppression bien prise en compte!');
 
         return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
     }

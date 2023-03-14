@@ -53,8 +53,16 @@ class PropertiesController extends AbstractController
             var_dump($property);
             die();
             $propertiesRepository->add($property, true);
+<<<<<<< HEAD
             return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
         }
+=======
+            $this ->addFlash('success', 'propriete ajouté!');
+
+            return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
+        }
+            
+>>>>>>> b0bef7c24e764ffcf90c3105b7ca2d8a5471ca8d
         return $this->renderForm('properties/new.html.twig', [
             'property' => $property,
             'form' => $form,
@@ -81,6 +89,7 @@ class PropertiesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+<<<<<<< HEAD
             $images = $property->getImages();
             foreach ($images as $key => $image) {
                 if ($image->getImageFile() == null) {
@@ -92,6 +101,12 @@ class PropertiesController extends AbstractController
                 }
             }
             $propertiesRepository->add($property, true);
+=======
+            
+            $propertiesRepository->add($property, true);
+            $this ->addFlash('success', 'les informations de la proprieté ont bien été modifié!');
+
+>>>>>>> b0bef7c24e764ffcf90c3105b7ca2d8a5471ca8d
             return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('properties/edit.html.twig', [
@@ -109,6 +124,7 @@ class PropertiesController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $property->getId(), $request->request->get('_token'))) {
             $propertiesRepository->remove($property, true);
         }
+        $this ->addFlash('warning', 'suppression de la proprieté!');
 
         return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
     }

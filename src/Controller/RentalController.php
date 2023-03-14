@@ -46,6 +46,7 @@ class RentalController extends AbstractController
             $user = $rental->getTenant();
             $user->setRoles(["ROLE_TENANT"]);
             $rentalRepository->add($rental, true);
+            $this->addFlash('success', '  enregiqtremet rental bien prise en compte!');
 
             return $this->redirectToRoute('app_rental_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -77,6 +78,7 @@ class RentalController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $rentalRepository->add($rental, true);
+            $this->addFlash('success', ' modification bien prise en compte!');
 
             return $this->redirectToRoute('app_rental_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -97,6 +99,7 @@ class RentalController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $rental->getId(), $request->request->get('_token'))) {
             $rentalRepository->remove($rental, true);
         }
+        $this->addFlash('warning', ' suppression bien prise en compte!');
 
         return $this->redirectToRoute('app_rental_index', [], Response::HTTP_SEE_OTHER);
     }
