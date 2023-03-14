@@ -44,13 +44,14 @@ class PropertiesController extends AbstractController
         $form = $this->createForm(PropertiesType::class, $property);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $images = $property->getImages();
             foreach ($images as $key => $image) {
                 $image->setProperties($property);
                 $images->set($key, $image);
             }
             $property->setCreatedAt(new DateTimeImmutable());
+            var_dump($property);
+            die();
             $propertiesRepository->add($property, true);
             return $this->redirectToRoute('app_properties_index', [], Response::HTTP_SEE_OTHER);
         }
