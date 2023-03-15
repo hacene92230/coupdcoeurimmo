@@ -31,11 +31,14 @@ class UserType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $userConnected = $this->tokenStorage->getToken()->getUser();
-        $roles = $userConnected->getRoles();
+        if (isset($this->tokenStorage)) {
+            $userConnected = $this->tokenStorage->getToken()->getUser();
+            $roles = $userConnected->getRoles();
+        }
+
         $user = $options['data'];
 
-        if ($roles[0] == "ROLE_ADMIN") {
+        if (!empty($roles) and $roles[0] == "ROLE_ADMIN") {
             $builder
                 ->add('roles', ChoiceType::class, [
                     'choices' => [
