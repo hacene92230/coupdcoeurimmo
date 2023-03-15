@@ -18,24 +18,44 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserType extends AbstractType
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $userConnected = $this->tokenStorage->getToken()->getUser();
+        $roles = $userConnected->getRoles();
         $user = $options['data'];
-        $builder
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'Administrateur' => 'ROLE_ADMIN',
-                    'Propriétaire' => 'ROLE_OWNER',
-                    'Simple utilisateur' => 'ROLE_USER',
-                    'Locataire' => 'ROLE_TENANT'
-                ],
-                "expanded" => false,
-                "multiple" => false,
-            ])
 
+        if ($roles[0] == "ROLE_ADMIN") {
+            $builder
+                ->add('roles', ChoiceType::class, [
+                    'choices' => [
+                        'Administrateur' => 'ROLE_ADMIN',
+                        'Propriétaire' => 'ROLE_OWNER',
+                        'Simple utilisateur' => 'ROLE_USER',
+                        'Locataire' => 'ROLE_TENANT'
+                    ],
+                    "expanded" => false,
+                    "multiple" => false,
+                ]);
+
+            $builder->get('roles')
+                ->addModelTransformer(new CallbackTransformer(
+                    fn ($rolesAsArray) => count($rolesAsArray) ? $rolesAsArray[0] : null,
+                    fn ($rolesAsString) => [$rolesAsString]
+                ));
+        }
+
+        $builder
             ->add('placeType', ChoiceType::class, [
                 'property_path' => 'address.placeType',
                 'choices' => [
@@ -79,12 +99,6 @@ class UserType extends AbstractType
                 'second_options' => ['label' => 'Confirmez le mot de passe'],
             ]);;
         }
-
-        $builder->get('roles')
-            ->addModelTransformer(new CallbackTransformer(
-                fn ($rolesAsArray) => count($rolesAsArray) ? $rolesAsArray[0] : null,
-                fn ($rolesAsString) => [$rolesAsString]
-            ));
     }
 
 

@@ -3,10 +3,14 @@
     <div class="col-md-6">
       <form method="POST">
         {{ form_start(form) }}
+			{% for role in app.user.roles %}
+				{% if role == "ROLE_ADMIN" %}
         <div class="form-group">
           {{ form_label(form.roles, 'Rôle de cet utilisateur', {'label_attr': {'class': 'col-form-label'}}) }}
           {{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }}
         </div>
+{% endif %}
+{% endfor %}
 
         <div class="form-group">
           {{ form_label(form.placeType, 'Type du lieu', {'label_attr': {'class': 'col-form-label'}}) }}
