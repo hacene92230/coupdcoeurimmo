@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\CallbackTransformer;
 
 class UserType extends AbstractType
 {
@@ -24,8 +25,18 @@ class UserType extends AbstractType
     {
         $user = $options['data'];
         $builder
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'Administrateur' => 'ROLE_ADMIN',
+                    'Propriétaire' => 'ROLE_OWNER',
+                    'Simple utilisateur' => 'ROLE_USER',
+                    'Locataire' => 'ROLE_TENANT'
+                ],
+                "expanded" => false,
+                "multiple" => false,
+            ])
+
             ->add('placeType', ChoiceType::class, [
-                'label' => 'Sélectionner le type de place',
                 'property_path' => 'address.placeType',
                 'choices' => [
                     'Boulevard' => 'Boulevard',
@@ -37,7 +48,6 @@ class UserType extends AbstractType
             ])
 
             ->add("placeNumber", IntegerType::class, [
-                "label" => "Numéro de rue, avenue ou autre",
                 'property_path' => 'address.placeNumber',
                 "attr" => [
                     "min" => 1,
@@ -46,26 +56,20 @@ class UserType extends AbstractType
             ])
 
             ->add('city', TextType::class, [
-                'label' => 'Ville',
                 'property_path' => 'address.city',
             ])
 
             ->add('zipCode', IntegerType::class, [
-                'label' => 'Code postal',
                 'property_path' => 'address.zipCode',
             ])
 
-            ->add("name", TextType::class, [
-                "label" => "Saisir votre prénom"
-            ])
+            ->add("name", TextType::class, [])
 
             ->add('phone', TelType::class, [
                 'label' => "Saisir votre numéro de téléphone"
             ])
 
-            ->add('email', EmailType::class, [
-                "label" => "saisir  votre adresse mail"
-            ]);
+            ->add('email', EmailType::class, []);
 
         if (!$user->getId()) {
             $builder->add('plainPassword', RepeatedType::class, [
@@ -75,7 +79,15 @@ class UserType extends AbstractType
                 'second_options' => ['label' => 'Confirmez le mot de passe'],
             ]);;
         }
+
+        $builder->get('roles')
+            ->addModelTransformer(new CallbackTransformer(
+                fn ($rolesAsArray) => count($rolesAsArray) ? $rolesAsArray[0] : null,
+                fn ($rolesAsString) => [$rolesAsString]
+            ));
     }
+
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
