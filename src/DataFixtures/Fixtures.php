@@ -120,7 +120,24 @@ class Fixtures extends Fixture
                 $properties[] = $property;
             }
         }
-        // ...
+
+
+        // Chemin absolu vers le dossier
+        $dir = "../public/images/properties";
+
+        // Vérifie que le dossier existe
+        if (!is_dir($dir)) {
+            die('Le dossier n\'existe pas');
+        }
+        // Supprime tous les fichiers dans le dossier
+        $files = glob("$dir/*");
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                if (!unlink($file)) {
+                    echo "Erreur lors de la suppression du fichier $file";
+                }
+            }
+        }
 
         // création des images
         $images = [];
@@ -162,10 +179,10 @@ class Fixtures extends Fixture
             $imageEntity->setImageFile(new File($imagePath));
             $imageEntity->setImageName(basename($fileName));
 
-for(            $init = 0; $init <= 4; $init ++){
-            $randomIndex = rand(0, count($properties) - 1);
-            $imageEntity->setProperties($properties[$randomIndex]);
-}
+            for ($init = 0; $init <= 4; $init++) {
+                $randomIndex = rand(0, count($properties) - 1);
+                $imageEntity->setProperties($properties[$randomIndex]);
+            }
 
             // Enregistrer l'image avec VichUploader
             $uploaderHelper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
