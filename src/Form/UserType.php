@@ -67,8 +67,6 @@ class UserType extends AbstractType
                 "label" => "saisir  votre adresse mail"
             ]);
 
-
-
         if (!$user->getId()) {
             $builder->add('plainPassword', RepeatedType::class, [
                 'mapped' => false,
