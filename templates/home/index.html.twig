@@ -24,6 +24,7 @@
 			</div>
 		</div>
 	</div>
+
 <div class="row">
   {% for property in properties %}
     <div class="col-md-4">
@@ -35,22 +36,14 @@
                 <li data-target="#carousel-{{ property.id }}" data-slide-to="{{ loop.index0 }}" {% if loop.first %} class="active" {% endif %}></li>
               {% endfor %}
             </ol>
-            <div class="carousel-inner">
+<div class="carousel-inner carousel-fade">
               {% for image in property.images %}
-                <div class="carousel-item {% if loop.first %}active{% endif %}" data-interval="2000">
-      	            <img src="{{ vich_uploader_asset(image, 'imageFile') }}" class="d-block w-100" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">
-                </div>
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+      <img src="{{ vich_uploader_asset(image, 'imageFile') }}" class="d-block w-100 animate__animated animate__fadeIn" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">
+    </div>
               {% endfor %}
             </div>
-            <a class="carousel-control-prev" href="#carousel-{{ property.id }}" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Précédent</span>
-            </a>
-            <a class="carousel-control-next" href="#carousel-{{ property.id }}" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Suivant</span>
-            </a>
-          </div>
+                    </div>
         {% endif %}
         <div class="card-body">
           <h5 class="card-title">{{ property.title }}</h5>
