@@ -6,6 +6,10 @@
 parameters:
 
 services:
+    vich_uploader.templating.helper.uploader_helper:
+        class: Vich\UploaderBundle\Templating\Helper\UploaderHelper
+        arguments: ['@vich_uploader.storage']
+        public: true
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

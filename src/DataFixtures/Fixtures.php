@@ -12,13 +12,22 @@ use App\Entity\Category;
 use App\Entity\Properties;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Vich\UploaderBundle\Naming\UniqidNamer;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\MappingFactory;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Fixtures extends Fixture
 {
     private $hash;
-    public function __construct(UserPasswordHasherInterface $userPasswordHasher)
+    private $container;
+    private $uploaderHelper;
+    public function __construct(ContainerInterface $container, UploaderHelper $uploaderHelper, UserPasswordHasherInterface $userPasswordHasher)
     {
+        $this->container = $container;
+        $this->uploaderHelper = $uploaderHelper;
         $this->hash = $userPasswordHasher;
     }
 
@@ -111,6 +120,7 @@ class Fixtures extends Fixture
                 $properties[] = $property;
             }
         }
+        // ...
 
         // création des images
         $images = [];
@@ -143,23 +153,30 @@ class Fixtures extends Fixture
             imagefilledpolygon($image, $points, 3, $gray);
 
             // Enregistrer l'image dans un fichier
-            $imagePath = "../public/images/properties/house$i.jpg";
+            $fileName = md5(uniqid()) . ".jpg";
+            $imagePath = "../public/images/properties/" . $fileName;
             imagejpeg($image, $imagePath);
+
+            // Créer une entité Image pour enregistrer l'image avec VichUploader
+            $imageEntity = new Image();
+            $imageEntity->setImageFile(new File($imagePath));
+            $imageEntity->setImageName(basename($fileName));
+
+for(            $init = 0; $init <= 4; $init ++){
+            $randomIndex = rand(0, count($properties) - 1);
+            $imageEntity->setProperties($properties[$randomIndex]);
+}
+
+            // Enregistrer l'image avec VichUploader
+            $uploaderHelper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
+            $uploaderHelper->asset($imageEntity, 'imageFile');
+
+            // Ajouter l'image à la liste
+            $manager->persist($imageEntity);
+            $images[] = $imageEntity;
 
             // Libérer la mémoire utilisée par l'image
             imagedestroy($image);
-
-            $image = new Image();
-            $image->setImageName($imagePath);
-            $image->setUpdatedAt(new DateTimeImmutable());
-            $image->setImageSize(rand(200, 400));
-
-            for ($init = 0; $init <= 4; $init++) {
-                $randomIndex = rand(0, count($properties) - 1);
-                $image->setProperties($properties[$randomIndex]);
-            }
-            $manager->persist($image);
-            $images[] = $image;
         }
         $manager->flush();
     }
