@@ -127,9 +127,11 @@ class Fixtures extends Fixture
 
         // Vérifie que le dossier existe
         if (!is_dir($dir)) {
-            die('Le dossier n\'existe pas');
-        }
-        // Supprime tous les fichiers dans le dossier
+            // Crée le dossier s'il n'existe pas
+            if (!mkdir($dir, 0755, true)) {
+                die('Impossible de créer le dossier');
+            }
+        }       // Supprime tous les fichiers dans le dossier
         $files = glob("$dir/*");
         foreach ($files as $file) {
             if (is_file($file)) {
