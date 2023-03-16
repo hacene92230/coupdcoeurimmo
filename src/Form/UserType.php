@@ -31,7 +31,7 @@ class UserType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        if (isset($this->tokenStorage)) {
+        if ($this->tokenStorage->getToken() != null) {
             $userConnected = $this->tokenStorage->getToken()->getUser();
             $roles = $userConnected->getRoles();
         }
