@@ -8,12 +8,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * @Route("/home")
+ */
 class HomeController extends AbstractController
 {
     const ITEMS_PER_PAGE = 6;
 
     /**
-     * @Route("/home/page/{page}", name="app_home")
+     * @Route("/page/{page}", name="app_home")
      */
     public function index(Request $request, PropertiesRepository $pr, int $page = 1): Response
     {
