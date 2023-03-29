@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use App\Repository\PropertiesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,10 +50,11 @@ class CategoryController extends AbstractController
     /**
      * @Route("/{name}", name="app_category_show", methods={"GET"})
      */
-    public function show(Category $category): Response
+    public function show(Category $category, PropertiesRepository $propertiesRepository): Response
     {
         return $this->render('category/show.html.twig', [
             'category' => $category,
+            'properties'=>$propertiesRepository->findBy([])
         ]);
     }
 
