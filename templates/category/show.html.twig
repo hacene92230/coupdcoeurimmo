@@ -1,26 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category{% endblock %}
+{% block title %} {{ properties[0].category.name }} {{ parent() }} {% endblock %}
 
 {% block body %}
-    <h1>Category</h1>
-
+    <h1>Nos biens</h1>
     <table class="table">
+        <thead>
+            <tr>
+            <th>Propriétaire</th>
+                <th>Nombre de pièces</th>              
+                <th>Type de la transaction</th>
+                <th>Type du logement</th>
+                <th>Ville</th>
+                <th>Titre</th>
+                                <th>actions</th>
+            </tr>
+        </thead>
         <tbody>
+        {% for property in properties %}
             <tr>
-                <th>Id</th>
-                <td>{{ category.id }}</td>
+            <td>{{ property.user.name }}</td>
+                 <td>{{ property.roomNumber }}</td>
+                <td>{{ property.category.name }}</td>
+                <td>{{ property.housingType ? "maison" : "appartement" }}</td>
+                                <td>{{ property.address.city }}</td>
+                                <td>{{ property.title }}</td>
+                <td>
+                    <a href="{{ path('app_properties_show', {'id': property.id}) }}">Afficher</a>
+                </td>
             </tr>
+        {% else %}
             <tr>
-                <th>Name</th>
-                <td>{{ category.name }}</td>
+                <td colspan="12">Aucun enregistrement trouvé</td>
             </tr>
+        {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_category_index') }}">back to list</a>
-
-    <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a>
-
-    {{ include('category/_delete_form.html.twig') }}
 {% endblock %}
