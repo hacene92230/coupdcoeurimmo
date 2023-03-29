@@ -47,7 +47,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_category_show", methods={"GET"})
+     * @Route("/{name}", name="app_category_show", methods={"GET"})
      */
     public function show(Category $category): Response
     {
