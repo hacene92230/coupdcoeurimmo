@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\PropertiesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/category")
@@ -49,10 +50,11 @@ class CategoryController extends AbstractController
     /**
      * @Route("/{name}", name="app_category_show", methods={"GET"})
      */
-    public function show(Category $category): Response
+    public function show(PropertiesRepository $propertyRepository, Category $category): Response
     {
+        $properties = $propertyRepository->findBy(["category" => $category]);
         return $this->render('category/show.html.twig', [
-            'category' => $category,
+            'properties' => $properties,
         ]);
     }
 
