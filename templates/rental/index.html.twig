@@ -14,6 +14,7 @@
                 <th>Date de début</th>
                 <th>Date de fin</th>
                 <th>actions</th>
+                <th>bien concerné</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,8 @@
                 <td>{{ rental.tenant.name }}</td>
                 <td>{{ rental.dateStart ? rental.dateStart|date('d/m/Y') : '' }}</td>
                 <td>{{ rental.dateEnd ? rental.dateEnd|date('d/m/Y') : '' }}</td>
+                <td> <a href="{{ path('app_properties_show', {'id': property.id}) }}">Afficher</a> </td>
+
                 <td>
                     <a href="{{ path('app_rental_show', {'id': rental.id}) }}">Afficher</a>
 {% if app.user.roles[0] == "ROLE_ADMIN" %}
