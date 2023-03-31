@@ -18,13 +18,13 @@ class Rental
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="rental", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="rental", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $tenant;
 
     /**
-     * @ORM\OneToOne(targetEntity=Properties::class, inversedBy="rental", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Properties::class, inversedBy="rental", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $property;
