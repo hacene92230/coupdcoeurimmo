@@ -4,13 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Rental;
 use App\Form\RentalType;
+use App\Repository\UserRepository;
 use App\Repository\RentalRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/rental")
@@ -94,10 +95,13 @@ class RentalController extends AbstractController
      * @Route("/{id}", name="app_rental_delete", methods={"POST"})
      */
 
-    public function delete(Request $request, Rental $rental, RentalRepository $rentalRepository): Response
+    public function delete(UserRepository $userRepository, Request $request, Rental $rental, RentalRepository $rentalRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $rental->getId(), $request->request->get('_token'))) {
-            $rentalRepository->remove($rental, true);
+            $rentalUser = $userRepository->findOneBy(["id" => $rental->getTenant()->getId()]);
+$rentalUser->setRoles(["ROLE_USER"]);
+
+                        $rentalRepository->remove($rental, true);
         }
         $this->addFlash('warning', ' suppression bien prise en compte!');
 
