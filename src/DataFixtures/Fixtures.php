@@ -100,8 +100,9 @@ class Fixtures extends Fixture
         $properties = [];
         foreach ($owners as $key => $owner) {
             for ($k = 0; $k < 2; $k++) { // Création de 2 biens pour chaque propriétaire
+                $index = $k + ($key * 2) + 1; // Calcul de l'index unique pour chaque bien
                 $property = new Properties();
-                $property->setTitle("bien" . $key)
+                $property->setTitle("bien" . $index) // Utilisation de l'index unique pour le titre
                     ->setContent("contenu" . $key)
                     ->setCreatedAt(new DateTimeImmutable())
                     ->setRoomNumber(rand(3, 10))
@@ -120,7 +121,6 @@ class Fixtures extends Fixture
                 $properties[] = $property;
             }
         }
-
 
         // Chemin absolu vers le dossier
         $dir = "../public/images/properties";

@@ -46,7 +46,7 @@ class RentalController extends AbstractController
             $user = $rental->getTenant();
             $user->setRoles(["ROLE_TENANT"]);
             $rentalRepository->add($rental, true);
-            $this->addFlash('success', '  enregiqtremet rental bien prise en compte!');
+            $this->addFlash('success', 'Cette location est désormais active');
 
             return $this->redirectToRoute('app_rental_index', [], Response::HTTP_SEE_OTHER);
         }
