@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nos locations {{ parent() }}{% endblock %}
+{% block title %}Gestion des locations {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Nos locations</h1>
+    <h1>Gestion des locations</h1>
 {% if app.user.roles[0] == "ROLE_ADMIN" %}
 <a href="{{ path('app_rental_new') }}">Créer une nouvelle location</a>
 {% endif %}
@@ -20,8 +20,8 @@
         {% for rental in rentals %}
             <tr>
                 <td>{{ rental.tenant.name }}</td>
-                <td>{{ rental.dateStart ? rental.dateStart|date('Y-m-d') : '' }}</td>
-                <td>{{ rental.dateEnd ? rental.dateEnd|date('Y-m-d') : '' }}</td>
+                <td>{{ rental.dateStart ? rental.dateStart|date('d/m/Y') : '' }}</td>
+                <td>{{ rental.dateEnd ? rental.dateEnd|date('d/m/Y') : '' }}</td>
                 <td>
                     <a href="{{ path('app_rental_show', {'id': rental.id}) }}">Afficher</a>
 {% if app.user.roles[0] == "ROLE_ADMIN" %}
