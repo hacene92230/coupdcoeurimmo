@@ -4,45 +4,40 @@ namespace App\Controller;
 
 use Knp\Snappy\Pdf;
 use App\Entity\Properties;
-use App\Repository\PropertiesRepository;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/pdf")
- */
 class PdfController extends AbstractController
 {
     /**
-     * @Route("/{id}", name="app_properties_pdf", methods={"GET"})
+     * @Route("/pdf/{id}", name="app_pdf_generate")
      */
-    public function generatePropertyPdf(Pdf $pdf, Properties $property, UrlGeneratorInterface $urlGenerator): Response
+    public function generatePdf(Pdf $pdf, $id): Response
     {
-        $baseUrl = $urlGenerator->generate('app_home', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $propertyUrl = $urlGenerator->generate('app_properties_show', ['id' => $property->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        // Récupérez vos données à partir de votre base de données ou d'autres sources
+        $property = $this->getDoctrine()->getRepository(Properties::class)->find($id);
 
-        $html = $this->renderView(
-            'properties/show.html.twig',
-            [
-                'property' => $property,
-                'base_url' => $baseUrl,
-                'property_url' => $propertyUrl
-            ]
-        );
+        // Créez le contenu HTML que vous souhaitez afficher dans votre PDF
+        $html = $this->renderView('pdf/property.html.twig', [
+            'property' => $property
+        ]);
 
-        $pdf->setOption('page-size', 'A5');
-        $pdf->setOption('orientation', 'Landscape');
+        // Configurez les options de votre PDF, tels que la taille de la page et l'orientation
+        $pdf->setOption('page-size', 'A4');
+        $pdf->setOption('orientation', 'Portrait');
+        $pdf->setOption('encoding', 'UTF-8');
+        // Générez votre PDF en utilisant le contenu HTML et les options configurées précédemment
+        $pdfContent = $pdf->getOutputFromHtml($html);
 
+        // Retournez une réponse qui affiche votre PDF dans le navigateur
         return new Response(
-            $pdf->getOutput($propertyUrl),
+            $pdfContent,
             200,
-            array(
-                'Content-Type'          => 'application/pdf',
-                'Content-Disposition'   => 'inline; filename="' . $property->getId() . '.pdf"'
-            )
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => sprintf('inline; filename="property_%s.pdf"', $id)
+            ]
         );
     }
 }
