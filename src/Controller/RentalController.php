@@ -99,9 +99,9 @@ class RentalController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $rental->getId(), $request->request->get('_token'))) {
             $rentalUser = $userRepository->findOneBy(["id" => $rental->getTenant()->getId()]);
-$rentalUser->setRoles(["ROLE_USER"]);
+            $rentalUser->setRoles(["ROLE_USER"]);
 
-                        $rentalRepository->remove($rental, true);
+            $rentalRepository->remove($rental, true);
         }
         $this->addFlash('warning', ' suppression bien prise en compte!');
 
