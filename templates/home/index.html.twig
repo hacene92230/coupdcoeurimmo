@@ -29,6 +29,8 @@
 {% for property in properties %}
     <div class="card bordered">
         <h2>{{ property.title }}</h2>
+<button onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1/coupdcoeurimmo/public/properties/{{ property.id }}', 'facebook-share-dialog', 'width=626,height=436'); return false;"><i class="fa fa-facebook"></i> Partager sur Facebook</button>
+<button onclick="window.open('https://twitter.com/share?url=http://127.0.0.1/coupdcoeurimmo/public/properties/{{ property.id }}', 'twitter-share-dialog', 'width=626,height=436'); return false;"><i class="fa fa-twitter"></i> Partager sur Twitter</button>
 {% if property.images|length > 0 %}
   <div id="carousel-{{ property.id }}" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -128,7 +130,11 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                    				<div class="modal-footer">
+                            <a href="{{ path('app_pdf_generate', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Généré une fiche au format pdf</a>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                     </div>
+                                            </div>
             </div>
             </div>
                     </div>
