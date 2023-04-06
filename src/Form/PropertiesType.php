@@ -7,6 +7,7 @@ use App\Form\ImageType;
 use App\Entity\Category;
 use App\Entity\Properties;
 use Doctrine\ORM\EntityRepository;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use phpDocumentor\Reflection\Types\Integer;
 use Vich\UploaderBundle\Form\Type\VichFileType;
@@ -151,8 +152,10 @@ class PropertiesType extends AbstractType
                 "label" => "Titre de l'annonce"
             ])
 
-            ->add('content', TextareaType::class, [
-                "label" => "Saisir le contenu de l'annonce"
+            ->add('content', CKEditorType::class, [
+                'config' => [
+                    'toolbar' => 'full',
+                ],
             ])
 
             ->add('images', CollectionType::class, [

@@ -67,14 +67,14 @@
                     <div class="modal-body">
                         <div class="border p-3">
                             <h2 class="font-weight-bold">Description</h2>
-                            <p>{{ property.content }}</p>
+<p class="card-text">{{ property.content|raw }}</p>
                         </div>
                         <div class="border p-3">
                             <h2 class="font-weight-bold">Category</h2>
                             <p>{{ property.category.name }}</p>
                         </div>
                         <div class="border p-3">
-                            <h2 class="font-weight-bold">Date added</h2>
+                            <h2 class="font-weight-bold">Date d'ajout</h2>
                             <p>{{ property.createdAt|date("d/m/Y") }}</p>
                         </div>
 
@@ -84,22 +84,21 @@
                     <div class="card-body">
                         <h4 class="card-title mb-4">Caractéristiques</h4>
                         <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Propriétaire :
-                                <span class="badge bg-secondary rounded-pill"> {{ property.user.name }}</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Nombre de pièces : 
                                 <span class="badge bg-secondary rounded-pill">{{ property.roomNumber }}</span>
                             </li>
+                            {% if property.category.name == "location" %}
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Loyer : 
                                 <span class="badge bg-secondary rounded-pill">{{ property.rent }}</span>
                             </li>
+                            {% else %}
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Prix : 
-                                <span class="badge bg-secondary rounded-pill">{{ property.price ? "aucun" }}</span>
+                                <span class="badge bg-secondary rounded-pill">{{ property.price }}</span>
                             </li>
+                            {% endif %}
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Ce bien dispose d'un jardin : 
                                 <span class="badge bg-secondary rounded-pill">{{ property.garden ? 'Oui' : 'Non' }}</span>
@@ -109,12 +108,12 @@
                                 <span class="badge bg-secondary rounded-pill">{{ property.housingType == 'house' ? "Maison" : "Appartement" }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Surface : 
+                                <span class="badge bg-secondary rounded-pill">{{ property.harea }}m^²</span>
+                            </li>                            
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Type de transaction : 
                                 <span class="badge bg-secondary rounded-pill">{{ property.category.name }}</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Date de création : 
-                                <span class="badge bg-secondary rounded-pill">{{ property.createdAt|date('d/m/Y') }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Ville : 
