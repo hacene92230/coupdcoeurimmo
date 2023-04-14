@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
       <img src="logo.png" alt="Logo de l'entreprise" width="20" height="20" class="d-inline-block align-text-top me-2">
@@ -10,34 +10,34 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href={{ path("app_home") }}>
-            <i class="fas fa-home fa-fw me-1"></i> 
-            Accueil
+          <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">
+            <i class="fas fa-home fa-fw me-1" aria-hidden="true"></i> 
+            <span class="nav-link-text">Accueil</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ path('app_about') }}">
-            <i class="fas fa-info-circle fa-fw me-1"></i> 
-            À propos
+            <i class="fas fa-info-circle fa-fw me-1" aria-hidden="true"></i> 
+            <span class="nav-link-text">À propos</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{path('app_contact_new')}}">
-            <i class="fas fa-envelope fa-fw me-1"></i> 
-            Contact
+          <a class="nav-link" href="{{ path('app_contact_new') }}">
+            <i class="fas fa-envelope fa-fw me-1" aria-hidden="true"></i> 
+            <span class="nav-link-text">Contact</span>
           </a>
         </li>
-        {% if app.user is empty%}
+        {% if app.user is empty %}
         <li class="nav-item">
           <a class="nav-link" href="{{ path('app_login') }}">
-            <i class="fas fa-sign-in-alt fa-fw me-1"></i> 
-            Connexion
+            <i class="fas fa-sign-in-alt fa-fw me-1" aria-hidden="true"></i> 
+            <span class="nav-link-text">Connexion</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ path('app_user_register') }}">
-            <i class="fas fa-user-plus fa-fw me-1"></i> 
-            Inscription
+            <i class="fas fa-user-plus fa-fw me-1" aria-hidden="true"></i> 
+            <span class="nav-link-text">Inscription</span>
           </a>
         </li>
         {% endif %}
@@ -46,5 +46,5 @@
     </div>
   </div>
 {{ render(controller('App\\Controller\\CategoryController::index')) }}
-{{ render(controller('App\\Controller\\SearchController::search')) }}
+        </nav>
         </nav>

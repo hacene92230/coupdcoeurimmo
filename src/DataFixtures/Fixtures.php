@@ -5,30 +5,34 @@ namespace App\DataFixtures;
 use DateTime;
 use App\Entity\User;
 use App\Entity\Image;
+use App\Entity\Rental;
 use DateTimeImmutable;
 use App\Entity\Address;
 use App\Entity\Contact;
 use App\Entity\Category;
 use App\Entity\Properties;
+use App\Repository\UserRepository;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Vich\UploaderBundle\Naming\UniqidNamer;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\MappingFactory;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class Fixtures extends Fixture
 {
     private $hash;
     private $container;
     private $uploaderHelper;
-    public function __construct(ContainerInterface $container, UploaderHelper $uploaderHelper, UserPasswordHasherInterface $userPasswordHasher)
+    private $userRepository;
+    public function __construct(ContainerInterface $container, UploaderHelper $uploaderHelper, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository)
     {
         $this->container = $container;
         $this->uploaderHelper = $uploaderHelper;
         $this->hash = $userPasswordHasher;
+        $this->userRepository = $userRepository;
     }
 
     public function load(ObjectManager $manager): void
@@ -196,6 +200,32 @@ class Fixtures extends Fixture
 
             // Libérer la mémoire utilisée par l'image
             imagedestroy($image);
+        }
+
+        foreach ($users as $roleUser) {
+            if ($roleUser->getRoles()[0] == "ROLE_USER") {
+                $location = new Rental();
+                $location->setDateStart(new DateTime())
+                    ->setDateEnd(new DateTime())
+                    ->setTenant($roleUser);
+                $indexUtilises = array();
+                foreach ($properties as $propertyLouer) {
+                    // Générer un index aléatoire
+                    $index = mt_rand(0, count($properties) - 1);
+
+                    // Vérifier si l'index est déjà utilisé, si oui, générer un nouvel index jusqu'à en trouver un non utilisé
+                    while (in_array($index, $indexUtilises)) {
+                        $index = mt_rand(0, count($properties) - 1);
+                    }
+
+                    // Attribuer la propriété correspondant à l'index non utilisé à la location
+                    $location->setProperty($properties[$index]);
+
+                    // Ajouter l'index utilisé au tableau des index utilisés
+                    $indexUtilises[] = $index;
+                }
+                $manager->persist($location);
+            }
         }
         $manager->flush();
     }
