@@ -1,0 +1,100 @@
+{{ form_start(form) }}
+<h2>Document d'identité</h2>
+    {{ form_row(form.idCardRecto, {
+        'label': 'Justificatif d\'identité Recto',
+        'row_attr': {'class': 'form-row'}
+    }) }}
+
+        {{ form_row(form.idCardVerso, {
+        'label': "Justificatif d'identité  verso",
+        'row_attr': {'class': 'form-row'}
+    }) }}
+
+    <h2>Revenus sur l'année passée</h2>
+    {{ form_row(form.taxForm, {
+        'label': 'Avis d\'imposition sur les revenus de l\'année passée',
+        'row_attr': {'class': 'form-row'}
+    }) }}
+
+<h2>Justificatif de revenu</h2>
+<p class="text-center text-info">Vous devez fournir vos trois dernières fiche de paye, peut importe l'orde d'importation.</p>
+    {{ form_row(form.payStub1, {
+        'label': 'Première fiche de paye',
+        'row_attr': {'class': 'form-row'}
+    }) }}
+
+    {{ form_row(form.payStub2, {
+        'label': 'Seconde fiche de paye',
+        'row_attr': {'class': 'form-row'}
+    }) }}
+
+    {{ form_row(form.payStub3, {
+        'label': 'Troisième fiche de paye',
+        'row_attr': {'class': 'form-row'}
+    }) }}
+
+    <h2>Votre domicil actuel</h2>
+    <p class="text-center text-info">Le justificatif de domicil permet de justifier votre lieu de domiciliation actuel, il peut comprendre un loyer, une facture d'énergie ou de téléphonie.</p>
+    {{ form_row(form.proofResidence, {
+        'label': 'Justificatif de domicile actuel (Si aucun, fournir une attestation d\'hébergement)',
+        'row_attr': {'class': 'form-row'}
+    }) }}
+<h2>Votre garant</h2>
+{{ form_row(form.guarantor, {
+    'label': 'J\'ai un garant',
+    'row_attr': {'class': 'form-row'}
+}) }}
+
+{{ form_row(form.guarantorPayStub1, {
+    'label': 'Première fiche de paye de votre garant',
+    'row_attr': {'class': 'form-row'},
+    'attr': {'class': 'guarantor-paystub', 'style': form.guarantor.vars.value ? 'display:block' : 'display:none'}
+}) }}
+
+{{ form_row(form.guarantorPayStub2, {
+    'label': 'Seconde fiche de paye de votre garant',
+    'row_attr': {'class': 'form-row'},
+    'attr': {'class': 'guarantor-paystub', 'style': form.guarantor.vars.value ? 'display:block' : 'display:none'}
+}) }}
+
+{{ form_row(form.guarantorPayStub3, {
+    'label': 'Troisième fiche de paye de votre garant',
+    'row_attr': {'class': 'form-row'},
+    'attr': {'class': 'guarantor-paystub', 'style': form.guarantor.vars.value ? 'display:block' : 'display:none'}
+}) }}
+<button class="btn">{{ button_label|default('Soumettre mon dossier') }}</button>
+{{ form_end(form) }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var guarantorCheckbox = document.getElementById('{{ form.guarantor.vars.id }}');
+        var guarantorPaystubs = document.getElementsByClassName('guarantor-paystub');
+
+        // Masquer les labels et les champs de fiches de paie lors du chargement de la page
+        for (var i = 0; i < guarantorPaystubs.length; i++) {
+            guarantorPaystubs[i].style.display = 'none';
+        }
+
+        guarantorCheckbox.addEventListener('change', function() {
+            for (var i = 0; i < guarantorPaystubs.length; i++) {
+                if (guarantorCheckbox.checked) {
+                    guarantorPaystubs[i].style.display = 'block';
+                } else {
+                    guarantorPaystubs[i].style.display = 'none';
+                }
+            }
+        });
+
+        // Afficher ou masquer les labels en fonction de la valeur cochée de la case à cocher
+        guarantorCheckbox.addEventListener('change', function() {
+            var labels = document.querySelectorAll('label[for="{{ form.guarantorPayStub1.vars.id }}"], label[for="{{ form.guarantorPayStub2.vars.id }}"], label[for="{{ form.guarantorPayStub3.vars.id }}"]');
+
+            for (var i = 0; i < labels.length; i++) {
+                if (guarantorCheckbox.checked) {
+                    labels[i].style.display = 'block';
+                } else {
+                    labels[i].style.display = 'none';
+                }
+            }
+        });
+    });
+</script>

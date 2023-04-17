@@ -6,11 +6,11 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       {% if app.user %}
       <!-- Menu utilisateur -->
+      <h2>{{ app.user.roles|normalizeRole }}</h2>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user"></i> Mon compte
-          </a>
+            <i class="fas fa-user"></i> Mon compte</a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ path('app_user_edit', {'id': app.user.id}) }}"><i class="fas fa-user-edit"></i> Modifier mon profil</a>
             <div class="dropdown-divider"></div>

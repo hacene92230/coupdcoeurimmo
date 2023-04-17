@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RentalApplication index{% endblock %}
+
+{% block body %}
+    <h1>RentalApplication index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>IdCard</th>
+                <th>TaxForm</th>
+                <th>PayStub</th>
+                <th>ProofResidence</th>
+                <th>GuarantorPayStub</th>
+                <th>Guarantor</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rental_application in rental_applications %}
+            <tr>
+                <td>{{ rental_application.id }}</td>
+                <td>{{ rental_application.idCard }}</td>
+                <td>{{ rental_application.taxForm }}</td>
+                <td>{{ rental_application.payStub }}</td>
+                <td>{{ rental_application.proofResidence }}</td>
+                <td>{{ rental_application.guarantorPayStub }}</td>
+                <td>{{ rental_application.guarantor ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_rental_application_show', {'id': rental_application.id}) }}">show</a>
+                    <a href="{{ path('app_rental_application_edit', {'id': rental_application.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_rental_application_new') }}">Create new</a>
+{% endblock %}

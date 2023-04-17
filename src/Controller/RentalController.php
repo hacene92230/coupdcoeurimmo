@@ -94,7 +94,6 @@ class RentalController extends AbstractController
      * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}", name="app_rental_delete", methods={"POST"})
      */
-
     public function delete(UserRepository $userRepository, Request $request, Rental $rental, RentalRepository $rentalRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $rental->getId(), $request->request->get('_token'))) {
@@ -106,5 +105,12 @@ class RentalController extends AbstractController
         $this->addFlash('warning', ' suppression bien prise en compte!');
 
         return $this->redirectToRoute('app_rental_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/file", name="app_rental_file", methods={"GET", "POST"})
+     */
+    public function  test()
+    {
     }
 }
