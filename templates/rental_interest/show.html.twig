@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RentalInterest{% endblock %}
+
+{% block body %}
+    <h1>RentalInterest</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ rental_interest.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_rental_interest_index') }}">back to list</a>
+
+    <a href="{{ path('app_rental_interest_edit', {'id': rental_interest.id}) }}">edit</a>
+
+    {{ include('rental_interest/_delete_form.html.twig') }}
+{% endblock %}

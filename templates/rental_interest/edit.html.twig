@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit RentalInterest{% endblock %}
+
+{% block body %}
+    <h1>Edit RentalInterest</h1>
+
+    {{ include('rental_interest/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_rental_interest_index') }}">back to list</a>
+
+    {{ include('rental_interest/_delete_form.html.twig') }}
+{% endblock %}

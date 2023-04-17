@@ -139,7 +139,7 @@
 											{% if property.category.name == "location" %}
 												<a href="{{ path('app_rental_application_new', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Créer un dossier de location</a>
 											{% else %}
-												<a href="{{ path('app_rental_application_new', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Remplir la fiche d'intérêt</a>
+												<a href="{{ path('app_rental_interest_new', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Remplir la fiche d'intérêt</a>
                                                 {% endif %}
 												<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
 											</div>

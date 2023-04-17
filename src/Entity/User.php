@@ -71,10 +71,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $address;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RentalInterest::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $rentalInterests;
+
     public function __construct()
     {
         $this->properties = new ArrayCollection();
         $this->address = new Address();
+        $this->rentalInterests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,6 +264,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAddress(?Address $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RentalInterest>
+     */
+    public function getRentalInterests(): Collection
+    {
+        return $this->rentalInterests;
+    }
+
+    public function addRentalInterest(RentalInterest $rentalInterest): self
+    {
+        if (!$this->rentalInterests->contains($rentalInterest)) {
+            $this->rentalInterests[] = $rentalInterest;
+            $rentalInterest->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRentalInterest(RentalInterest $rentalInterest): self
+    {
+        if ($this->rentalInterests->removeElement($rentalInterest)) {
+            // set the owning side to null (unless already changed)
+            if ($rentalInterest->getUser() === $this) {
+                $rentalInterest->setUser(null);
+            }
+        }
 
         return $this;
     }

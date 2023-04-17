@@ -103,10 +103,16 @@ class Properties
      */
     private $category;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=RentalInterest::class, mappedBy="properties")
+     */
+    private $rentalInterests;
+
     public function __construct()
     {
         $this->address = new Address();
         $this->images = new ArrayCollection();
+        $this->rentalInterests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -327,6 +333,33 @@ class Properties
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RentalInterest>
+     */
+    public function getRentalInterests(): Collection
+    {
+        return $this->rentalInterests;
+    }
+
+    public function addRentalInterest(RentalInterest $rentalInterest): self
+    {
+        if (!$this->rentalInterests->contains($rentalInterest)) {
+            $this->rentalInterests[] = $rentalInterest;
+            $rentalInterest->addProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRentalInterest(RentalInterest $rentalInterest): self
+    {
+        if ($this->rentalInterests->removeElement($rentalInterest)) {
+            $rentalInterest->removeProperty($this);
+        }
 
         return $this;
     }
