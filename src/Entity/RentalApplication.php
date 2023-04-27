@@ -22,101 +22,219 @@ class RentalApplication
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Vich\UploadableField(mapping="id_card", fileNameProperty="idCard")
+     * @Vich\UploadableField(mapping="id_card_recto", fileNameProperty="idCardRecto")
      */
-    private $idCard;
+    private ?File $idCardRecto = null;
+
+    /**
+     * @Vich\UploadableField(mapping="id_card_verso", fileNameProperty="idCardVerso")
+     */
+    private ?File $idCardVerso = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Vich\UploadableField(mapping="tax_form", fileNameProperty="taxForm")
      */
-    private $taxForm;
+    private ?File $taxForm = null;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Vich\UploadableField(mapping="pay_stub", fileNameProperty="payStub")
+     * @Vich\UploadableField(mapping="pay_stub_1", fileNameProperty="payStub1")
      */
-    private $payStub;
+    private ?File $payStub1 = null;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Vich\UploadableField(mapping="pay_stub_2", fileNameProperty="payStub2")
+     */
+    private ?File $payStub2 = null;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Vich\UploadableField(mapping="pay_stub_3", fileNameProperty="payStub3")
+     */
+    private ?File $payStub3 = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Vich\UploadableField(mapping="proof_residence", fileNameProperty="proofResidence")
      */
-    private $proofResidence;
+    private ?File $proofResidence = null;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Vich\UploadableField(mapping="guarantor_pay_stub", fileNameProperty="guarantorPayStub")
+     * @Vich\UploadableField(mapping="guarantor_pay_stub_1", fileNameProperty="guarantorPayStub1")
      */
-    private $guarantorPayStub;
+    private ?File $guarantorPayStub1 = null;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Vich\UploadableField(mapping="guarantor_pay_stub_2", fileNameProperty="guarantorPayStub2")
+     */
+    private ?File $guarantorPayStub2 = null;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Vich\UploadableField(mapping="guarantor_pay_stub_3", fileNameProperty="guarantorPayStub3")
+     */
+    private ?File $guarantorPayStub3 = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $guarantor;
+    private ?String $guarantor = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdCard(): ?string
+    public function getIdCardRecto(): ?File
     {
-        return $this->idCard;
+        return $this->idCardRecto;
     }
 
-    public function setIdCard(string $idCard): self
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $idCardRecto
+     */
+    public function setIdCardRecto(?File $idCardRecto): self
     {
-        $this->idCard = $idCard;
+        $this->idCardRecto = $idCardRecto;
 
         return $this;
     }
 
-    public function getTaxForm(): ?string
+    public function getIdCardVerso(): ?File
+    {
+        return $this->idCardVerso;
+    }
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $idCardVerso
+     */
+    public function setIdCardVerso(?File $idCardVerso = null): self
+    {
+        $this->idCardVerso = $idCardVerso;
+
+        return $this;
+    }
+
+    public function getTaxForm(): ?File
     {
         return $this->taxForm;
     }
 
-    public function setTaxForm(string $taxForm): self
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $taxForm
+     */
+    public function setTaxForm(?File $taxForm = null): self
     {
         $this->taxForm = $taxForm;
 
         return $this;
     }
 
-    public function getPayStub(): ?string
+    public function getPayStub1(): ?File
     {
-        return $this->payStub;
+        return $this->payStub1;
     }
 
-    public function setPayStub(string $payStub): self
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $payStub1
+     */
+    public function setPayStub1(?File $payStub1 = null): self
     {
-        $this->payStub = $payStub;
+        $this->payStub1 = $payStub1;
 
         return $this;
     }
 
-    public function getProofResidence(): ?string
+    public function getPayStub2(): ?File
+    {
+        return $this->payStub2;
+    }
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $payStub2
+     */
+    public function setPayStub2(?File $payStub2 = null): self
+    {
+        $this->payStub2 = $payStub2;
+
+        return $this;
+    }
+
+    public function getPayStub3(): ?File
+    {
+        return $this->payStub3;
+    }
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $payStub3
+     */
+    public function setPayStub3(?File $payStub3 = null): self
+    {
+        $this->payStub3 = $payStub3;
+
+        return $this;
+    }
+
+    public function getProofResidence(): ?File
     {
         return $this->proofResidence;
     }
 
-    public function setProofResidence(string $proofResidence): self
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $proofResidence
+     */
+    public function setProofResidence(?File $proofResidence = null): self
     {
         $this->proofResidence = $proofResidence;
 
         return $this;
     }
 
-    public function getGuarantorPayStub(): ?string
+    public function getGuarantorPayStub1(): ?File
     {
-        return $this->guarantorPayStub;
+        return $this->guarantorPayStub1;
     }
 
-    public function setGuarantorPayStub(string $guarantorPayStub): self
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $guarantorPayStub1
+     */
+    public function setGuarantorPayStub1(?File $guarantorPayStub1 = null): self
     {
-        $this->guarantorPayStub = $guarantorPayStub;
+        $this->guarantorPayStub1 = $guarantorPayStub1;
+
+        return $this;
+    }
+
+    public function getGuarantorPayStub2(): ?File
+    {
+        return $this->guarantorPayStub2;
+    }
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $guarantorPayStub2
+     */
+    public function setGuarantorPayStub2(?File $guarantorPayStub2 = null): self
+    {
+        $this->guarantorPayStub2 = $guarantorPayStub2;
+
+        return $this;
+    }
+
+    public function getGuarantorPayStub3(): ?File
+    {
+        return $this->guarantorPayStub3;
+    }
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $guarantorPayStub3
+     */
+    public function setGuarantorPayStub3(?File $guarantorPayStub3 = null): self
+    {
+        $this->guarantorPayStub3 = $guarantorPayStub3;
 
         return $this;
     }
