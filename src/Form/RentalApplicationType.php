@@ -7,7 +7,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
@@ -16,12 +15,14 @@ class RentalApplicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('idCardRecto', FileType::class, [
-                "mapped" => false
+            ->add('idCardRecto', VichImageType::class, [
+                'download_uri' => true,
+                'image_uri' => true
             ])
 
-            ->add('idCardVerso', FileType::class, [
-                "mapped" => false,
+            ->add('idCardVerso', VichImageType::class, [
+                'download_uri' => true,
+                'image_uri' => true
             ])
 
             ->add('taxForm', VichImageType::class, [
@@ -31,16 +32,19 @@ class RentalApplicationType extends AbstractType
                 "label" => "Avis d'impôt sur les revenus de l'année passée"
             ])
 
-            ->add('payStub1', FileType::class, [
-                "mapped" => false,
+            ->add('payStub1', VichImageType::class, [
+                'download_uri' => true,
+                'image_uri' => true
             ])
 
-            ->add('payStub2', FileType::class, [
-                "mapped" => false,
+            ->add('payStub2', VichImageType::class, [
+                'download_uri' => true,
+                'image_uri' => true
             ])
 
-            ->add('payStub3', FileType::class, [
-                "mapped" => false,
+            ->add('payStub3', VichImageType::class, [
+                'download_uri' => true,
+                'image_uri' => true
             ])
 
             ->add('proofResidence', VichImageType::class, [
@@ -50,23 +54,25 @@ class RentalApplicationType extends AbstractType
                 "label" => "justificatif de domicil actuel (Si pas votre nom attestation d'hébergement)",
             ])
 
-            ->add('guarantorPayStub1', FileType::class, [
-                "mapped" => false
+            ->add('guarantorPayStub1', VichImageType::class, [
+                "required" => false,                'download_uri' => true,
+                'image_uri' => true
             ])
 
-            ->add('guarantorPayStub2', FileType::class, [
-                "mapped" => false
+            ->add('guarantorPayStub2', VichImageType::class, [
+                "required" => false,                 'download_uri' => true,
+                'image_uri' => true
             ])
 
-            ->add('guarantorPayStub3', FileType::class, [
-                "mapped" => false
+            ->add('guarantorPayStub3', VichImageType::class, [
+                "required" => false,                 'download_uri' => true,
+                'image_uri' => true
             ])
 
             ->add(
                 'guarantor',
                 CheckboxType::class,
                 [
-                    "label" => "J'ai un garant",
                     "required" => false
                 ]
             );

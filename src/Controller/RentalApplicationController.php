@@ -2,16 +2,18 @@
 
 namespace App\Controller;
 
+use Knp\Snappy\Pdf;
 use App\Entity\RentalApplication;
 use App\Form\RentalApplicationType;
-use App\Repository\RentalApplicationRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Vich\UploaderBundle\Handler\UploadHandler;
+use App\Repository\RentalApplicationRepository;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/rental/application")
+ * @Route("/application")
  */
 class RentalApplicationController extends AbstractController
 {
@@ -28,7 +30,7 @@ class RentalApplicationController extends AbstractController
     /**
      * @Route("/{id}/new", name="app_rental_application_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, RentalApplicationRepository $rentalApplicationRepository): Response
+    public function new(UploadHandler $uploader, Request $request, RentalApplicationRepository $rentalApplicationRepository): Response
     {
         $rentalApplication = new RentalApplication();
         $form = $this->createForm(RentalApplicationType::class, $rentalApplication);
@@ -36,7 +38,6 @@ class RentalApplicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $rentalApplicationRepository->add($rentalApplication, true);
-
             return $this->redirectToRoute('app_rental_application_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -81,7 +82,7 @@ class RentalApplicationController extends AbstractController
      */
     public function delete(Request $request, RentalApplication $rentalApplication, RentalApplicationRepository $rentalApplicationRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$rentalApplication->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $rentalApplication->getId(), $request->request->get('_token'))) {
             $rentalApplicationRepository->remove($rentalApplication, true);
         }
 

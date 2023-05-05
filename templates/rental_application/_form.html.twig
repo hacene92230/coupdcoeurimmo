@@ -1,3 +1,4 @@
+<p class="text-center text-warning">Si le dossier est incomplèt votre candidature ne sera pas analyser.</p>
 {{ form_start(form) }}
 <h2>Document d'identité</h2>
     {{ form_row(form.idCardRecto, {
@@ -39,61 +40,39 @@
         'label': 'Justificatif de domicile actuel (Si aucun, fournir une attestation d\'hébergement)',
         'row_attr': {'class': 'form-row'}
     }) }}
+
 <h2>Votre garant</h2>
-{{ form_row(form.guarantor, {
-    'label': 'J\'ai un garant',
-    'row_attr': {'class': 'form-row'}
-}) }}
+<p class="text-center text-info">Si vous n'avez pas de garant ne pas cocher la case</p>
 
-{{ form_row(form.guarantorPayStub1, {
-    'label': 'Première fiche de paye de votre garant',
-    'row_attr': {'class': 'form-row'},
-    'attr': {'class': 'guarantor-paystub', 'style': form.guarantor.vars.value ? 'display:block' : 'display:none'}
-}) }}
+{{ form_label(form.guarantor, 'J\'ai un garant') }}
+{{ form_widget(form.guarantor, {'attr': {'class': 'form-control'}}) }}
 
-{{ form_row(form.guarantorPayStub2, {
-    'label': 'Seconde fiche de paye de votre garant',
-    'row_attr': {'class': 'form-row'},
-    'attr': {'class': 'guarantor-paystub', 'style': form.guarantor.vars.value ? 'display:block' : 'display:none'}
-}) }}
+<div class="guarantor-paystub-container">
+    {{ form_label(form.guarantorPayStub1, 'Première fiche de paye de votre garant') }}
+    {{ form_widget(form.guarantorPayStub1, {'attr': {'class': 'form-control guarantor-paystub'}}) }}
 
-{{ form_row(form.guarantorPayStub3, {
-    'label': 'Troisième fiche de paye de votre garant',
-    'row_attr': {'class': 'form-row'},
-    'attr': {'class': 'guarantor-paystub', 'style': form.guarantor.vars.value ? 'display:block' : 'display:none'}
-}) }}
+    {{ form_label(form.guarantorPayStub2, 'Seconde fiche de paye de votre garant') }}
+    {{ form_widget(form.guarantorPayStub2, {'attr': {'class': 'form-control guarantor-paystub'}}) }}
+
+    {{ form_label(form.guarantorPayStub3, 'Troisième fiche de paye de votre garant') }}
+    {{ form_widget(form.guarantorPayStub3, {'attr': {'class': 'form-control guarantor-paystub'}}) }}
+</div>
 <button class="btn">{{ button_label|default('Soumettre mon dossier') }}</button>
 {{ form_end(form) }}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var guarantorCheckbox = document.getElementById('{{ form.guarantor.vars.id }}');
-        var guarantorPaystubs = document.getElementsByClassName('guarantor-paystub');
+        var guarantorPaystubsContainer = document.querySelector('.guarantor-paystub-container');
+        var guarantorPaystubs = document.querySelectorAll('.guarantor-paystub');
 
         // Masquer les labels et les champs de fiches de paie lors du chargement de la page
-        for (var i = 0; i < guarantorPaystubs.length; i++) {
-            guarantorPaystubs[i].style.display = 'none';
-        }
+        guarantorPaystubsContainer.style.display = 'none';
 
         guarantorCheckbox.addEventListener('change', function() {
-            for (var i = 0; i < guarantorPaystubs.length; i++) {
-                if (guarantorCheckbox.checked) {
-                    guarantorPaystubs[i].style.display = 'block';
-                } else {
-                    guarantorPaystubs[i].style.display = 'none';
-                }
-            }
-        });
-
-        // Afficher ou masquer les labels en fonction de la valeur cochée de la case à cocher
-        guarantorCheckbox.addEventListener('change', function() {
-            var labels = document.querySelectorAll('label[for="{{ form.guarantorPayStub1.vars.id }}"], label[for="{{ form.guarantorPayStub2.vars.id }}"], label[for="{{ form.guarantorPayStub3.vars.id }}"]');
-
-            for (var i = 0; i < labels.length; i++) {
-                if (guarantorCheckbox.checked) {
-                    labels[i].style.display = 'block';
-                } else {
-                    labels[i].style.display = 'none';
-                }
+            if (guarantorCheckbox.checked) {
+                guarantorPaystubsContainer.style.display = 'block';
+            } else {
+                guarantorPaystubsContainer.style.display = 'none';
             }
         });
     });
