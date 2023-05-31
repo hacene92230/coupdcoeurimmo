@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/rental/interest")
+ * @Route("/interest")
  */
 class RentalInterestController extends AbstractController
 {
