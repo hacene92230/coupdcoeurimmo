@@ -37,7 +37,7 @@ class RentalInterestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $rentalInterest->setUser($this->getUser());
             $rentalInterestRepository->add($rentalInterest, true);
-
+            $this->addFlash('success', 'votre intéret à bien été pris en compte!');
             return $this->redirectToRoute('app_rental_interest_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -67,7 +67,7 @@ class RentalInterestController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $rentalInterestRepository->add($rentalInterest, true);
-
+            $this->addFlash('suucess', 'votre intéret à bien été modifié!');
             return $this->redirectToRoute('app_rental_interest_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -85,7 +85,9 @@ class RentalInterestController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $rentalInterest->getId(), $request->request->get('_token'))) {
             $rentalInterestRepository->remove($rentalInterest, true);
         }
+        $this->addFlash('warning', 'votre intéret a été supprimé!');
 
         return $this->redirectToRoute('app_rental_interest_index', [], Response::HTTP_SEE_OTHER);
+
     }
 }
