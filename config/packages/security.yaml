@@ -38,6 +38,7 @@ security:
          - { path: ^/rental, roles: [ROLE_ADMIN, ROLE_TENANT] }
          - { path: ^/user/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/user, roles: ROLE_USER }
+         - { path: ^/interest, roles: ROLE_USER }
          - { path: ^/owner, roles: ROLE_OWNER }
 
     role_hierarchy:

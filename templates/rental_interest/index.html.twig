@@ -19,7 +19,6 @@
             <tr>
                 <td>{{ rental_interest.id }}</td>
                 <td>{{ rental_interest.user.name }}</td>
-                <td>{{rental_interest.properties.nmae}}</td>
                 <td>
                     <a href="{{ path('app_rental_interest_show', {'id': rental_interest.id}) }}">show</a>
                     <a href="{{ path('app_rental_interest_edit', {'id': rental_interest.id}) }}">edit</a>

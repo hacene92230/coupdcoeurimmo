@@ -35,6 +35,7 @@ class RentalInterestController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $rentalInterest->setUser($this->getUser());
             $rentalInterestRepository->add($rentalInterest, true);
 
             return $this->redirectToRoute('app_rental_interest_index', [], Response::HTTP_SEE_OTHER);
@@ -81,7 +82,7 @@ class RentalInterestController extends AbstractController
      */
     public function delete(Request $request, RentalInterest $rentalInterest, RentalInterestRepository $rentalInterestRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$rentalInterest->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $rentalInterest->getId(), $request->request->get('_token'))) {
             $rentalInterestRepository->remove($rentalInterest, true);
         }
 
