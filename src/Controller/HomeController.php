@@ -42,4 +42,13 @@ class HomeController extends AbstractController
             []
         );
     }
+     /*
+     *@route("/favoris", name="app_favoris)
+     */
+    public function favoris():Response
+    {
+        return $this->render(
+            'home/favoris.html.twig',[]
+        );
+    }
 }
