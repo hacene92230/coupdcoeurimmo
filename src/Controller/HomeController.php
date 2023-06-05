@@ -42,13 +42,16 @@ class HomeController extends AbstractController
             []
         );
     }
-     /*
-     *@route("/favoris", name="app_favoris)
+
+    /**
+     * @Route("/favoris", name="app_favoris")
      */
-    public function favoris():Response
+    public function favoris(Request $request): Response
     {
+        var_dump($request->cookies->has('favoris'));
         return $this->render(
-            'home/favoris.html.twig',[]
+            'home/favoris.html.twig',
+            []
         );
     }
 }
