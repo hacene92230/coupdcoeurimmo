@@ -14,10 +14,10 @@ class RentalInterestType extends AbstractType
     {
         $builder
             ->add('financing', CheckboxType::class,[
-                'label'=> 'i have a bank aport?'
+                'label'=> 'j ai un apport financier?'
             ]) 
-            ->add('financialContribution',CheckboxType::class,[
-                'label'=> ' i have a personal aport?'
+            ->add('financialContribution', CheckboxType::class,[
+                'label'=> ' j ai un apport personnel?'
             ])
             
         ;
