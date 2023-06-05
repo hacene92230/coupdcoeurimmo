@@ -35,7 +35,7 @@
 			<button onclick="window.open('https://twitter.com/share?url=http://127.0.0.1/coupdcoeurimmo/public/properties/{{ property.id }}', 'twitter-share-dialog', 'width=626,height=436'); return false;">
 				<i class="fa fa-twitter"></i>
 				Partager sur Twitter</button>
-				<button onclick="toggleFavori({{ property.id }})" id="favori-button">
+				<button class="favori-button" onclick="toggleFavori({{ property.id }})" data-property-id="{{ property.id }}">
 					<i class="fa fa-heart"></i>
 					Ajouter aux favoris
 				  </button>
@@ -155,7 +155,93 @@
 					</div>
 				</div>
 			</div>
-		{% endfor %}
+
+			<script>
+				function toggleFavori(propertyId) {
+				  if (isPropertyInFavoris(propertyId)) {
+					retirerFavori(propertyId);
+				  } else {
+					ajouterFavori(propertyId);
+				  }
+				}
+			  
+				function isPropertyInFavoris(propertyId) {
+				  var favoris = getFavorisFromCookie();
+				  return favoris.includes(propertyId.toString());
+				}
+			  
+				function ajouterFavori(propertyId) {
+				  var favoris = getFavorisFromCookie();
+				  favoris.push(propertyId.toString());
+				  updateFavorisCookie(favoris);
+				  alert('La propriété a été ajoutée aux favoris avec succès.');
+			  
+				  updateButtonState(propertyId, true);
+				}
+			  
+				function retirerFavori(propertyId) {
+				  var favoris = getFavorisFromCookie();
+				  var index = favoris.indexOf(propertyId.toString());
+				  if (index > -1) {
+					favoris.splice(index, 1);
+				  }
+				  updateFavorisCookie(favoris);
+				  alert('La propriété a été retirée des favoris avec succès.');
+			  
+				  updateButtonState(propertyId, false);
+				}
+			  
+				function getFavorisFromCookie() {
+				  var favorisCookie = document.cookie
+					.split(';')
+					.map(cookie => cookie.trim())
+					.find(cookie => cookie.startsWith('favoris='));
+			  
+				  if (favorisCookie) {
+					var favorisString = favorisCookie.split('=')[1];
+					return JSON.parse(favorisString);
+				  }
+			  
+				  return [];
+				}
+			  
+				function updateFavorisCookie(favoris) {
+				  var favorisString = JSON.stringify(favoris);
+				  document.cookie = 'favoris=' + favorisString + '; path=/';
+				}
+			  
+				function updateButtonState(propertyId, isFavori) {
+				  var buttons = document.querySelectorAll('.favori-button');
+			  
+				  buttons.forEach(function(button) {
+					var id = button.dataset.propertyId;
+			  
+					if (id === propertyId.toString()) {
+					  if (isFavori) {
+						button.innerHTML = '<i class="fa fa-heart"></i> Retirer des favoris';
+					  } else {
+						button.innerHTML = '<i class="fa fa-heart"></i> Ajouter aux favoris';
+					  }
+					}
+				  });
+				}
+			  
+				// Mettre à jour l'état des boutons lors du chargement de la page
+				window.addEventListener('load', function() {
+				  var buttons = document.querySelectorAll('.favori-button');
+				  var favoris = getFavorisFromCookie();
+			  
+				  buttons.forEach(function(button) {
+					var id = button.dataset.propertyId;
+			  
+					if (favoris.includes(id)) {
+					  button.innerHTML = '<i class="fa fa-heart"></i> Retirer des favoris';
+					}
+				  });
+				});
+			  </script>
+
+			{% endfor %}
 
 		<nav aria-label="Page">
 			<ul class="pagination pagination-lg justify-content-center shadow">
@@ -184,78 +270,4 @@
 				{% endif %}
 			</ul>
 		</nav>
-		
-		<script>
-			function toggleFavori(propertyId) {
-			  // Vérifiez si la propriété est déjà en favori
-			  if (isPropertyInFavoris(propertyId)) {
-				retirerFavori(propertyId); // Appel à une fonction pour retirer le favori
-			  } else {
-				ajouterFavori(propertyId); // Appel à une fonction pour ajouter le favori
-			  }
-			}
-			
-			function isPropertyInFavoris(propertyId) {
-			  // Vérifiez si la propriété est présente dans les favoris
-			  var favoris = getFavorisFromCookie(); // Appel à une fonction pour obtenir les favoris du cookie
-			
-			  return favoris.includes(propertyId);
-			}
-			
-			function ajouterFavori(propertyId) {
-			  // Faites une requête AJAX pour ajouter la propriété aux favoris côté serveur
-			  var url = '/favori/ajouter/' + propertyId;
-			
-			  // Exemple avec jQuery
-			  $.ajax({
-				url: url,
-				method: 'POST',
-				success: function(response) {
-				  // Mettez à jour le bouton et affichez un message de succès
-				  var button = document.getElementById('favori-button');
-				  button.innerHTML = '<i class="fa fa-heart"></i> Retirer des favoris';
-				  alert('La propriété a été ajoutée aux favoris avec succès.');
-				},
-				error: function() {
-				  // Gérez les erreurs
-				  alert('Une erreur s\'est produite lors de l\'ajout de la propriété aux favoris.');
-				}
-			  });
-			}
-			
-			function retirerFavori(propertyId) {
-			  // Faites une requête AJAX pour retirer la propriété des favoris côté serveur
-			  var url = '/favori/retirer/' + propertyId;
-			
-			  // Exemple avec jQuery
-			  $.ajax({
-				url: url,
-				method: 'POST',
-				success: function(response) {
-				  // Mettez à jour le bouton et affichez un message de succès
-				  var button = document.getElementById('favori-button');
-				  button.innerHTML = '<i class="fa fa-heart"></i> Ajouter aux favoris';
-				  alert('La propriété a été retirée des favoris avec succès.');
-				},
-				error: function() {
-				  // Gérez les erreurs
-				  alert('Une erreur s\'est produite lors du retrait de la propriété des favoris.');
-				}
-			  });
-			}
-			
-			function getFavorisFromCookie() {
-			  // Obtenez les favoris à partir du cookie
-			  var favorisCookie = document.cookie
-				.split('; ')
-				.find(row => row.startsWith('favoris='));
-			
-			  if (favorisCookie) {
-				var favorisString = favorisCookie.split('=')[1];
-				return JSON.parse(favorisString);
-			  }
-			
-			  return [];
-			}
-			</script>
-			{% endblock %}
+		{% endblock %}
