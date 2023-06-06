@@ -28,7 +28,8 @@
             <div class="carousel-inner carousel-fade">
                 {% for image in property.images %}
                     <div class="carousel-item {% if loop.first %}active{% endif %}">
-                        <img src="{{ vich_uploader_asset(image, 'imageFile') }}" class="d-block w-100 animate__animated animate__fadeIn" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">
+                        <img src="{{ asset('images/properties/' ~ image.imagename) }}" class="d-block w-100 animate__animated animate__fadeIn" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">
+
                     </div>
                 {% endfor %}
             </div>
