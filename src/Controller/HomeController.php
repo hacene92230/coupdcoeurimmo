@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Properties;
 use App\Repository\PropertiesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,12 +48,20 @@ class HomeController extends AbstractController
     /**
      * @Route("/favoris", name="app_favoris")
      */
-    public function favoris(Request $request): Response
+    public function favoris(Request $request, EntityManagerInterface $entityManager): Response
     {
-        var_dump($request->cookies->has('favoris'));
+        $cookieValue = $request->cookies->get('favoris');
+        $identifiants = json_decode($cookieValue, true);
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder
+            ->select('p')
+            ->from(Properties::class, 'p')
+            ->where($queryBuilder->expr()->in('p.id', ':identifiants'))
+            ->setParameter('identifiants', $identifiants);
+        $properties = $queryBuilder->getQuery()->getResult();
         return $this->render(
             'home/favoris.html.twig',
-            []
+            ["properties" => $properties]
         );
     }
 }
