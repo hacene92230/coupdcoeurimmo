@@ -202,28 +202,31 @@ class Fixtures extends Fixture
             imagedestroy($image);
         }
 
+        // Mélanger la liste des propriétés
+        shuffle($properties);
+
+        // Utiliser un compteur pour itérer à travers la liste des propriétés
+        $propertyCounter = 0;
+
         foreach ($users as $roleUser) {
             if ($roleUser->getRoles()[0] == "ROLE_USER") {
                 $location = new Rental();
                 $location->setDateStart(new DateTime())
                     ->setDateEnd(new DateTime())
                     ->setTenant($roleUser);
-                $indexUtilises = array();
-                foreach ($properties as $propertyLouer) {
-                    // Générer un index aléatoire
-                    $index = mt_rand(0, count($properties) - 1);
 
-                    // Vérifier si l'index est déjà utilisé, si oui, générer un nouvel index jusqu'à en trouver un non utilisé
-                    while (in_array($index, $indexUtilises)) {
-                        $index = mt_rand(0, count($properties) - 1);
-                    }
-
-                    // Attribuer la propriété correspondant à l'index non utilisé à la location
-                    $location->setProperty($properties[$index]);
-
-                    // Ajouter l'index utilisé au tableau des index utilisés
-                    $indexUtilises[] = $index;
+                // Vérifier si toutes les propriétés ont été utilisées
+                if ($propertyCounter >= count($properties)) {
+                    break;
                 }
+
+                // Sélectionner la prochaine propriété
+                $property = $properties[$propertyCounter];
+                $location->setProperty($property);
+
+                // Incrémenter le compteur
+                $propertyCounter++;
+
                 $manager->persist($location);
             }
         }
