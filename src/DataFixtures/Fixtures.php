@@ -17,6 +17,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Vich\UploaderBundle\Naming\UniqidNamer;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\MappingFactory;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -126,10 +127,11 @@ class Fixtures extends Fixture
             }
         }
 
-        // Chemin absolu vers le dossier
-        $dir = "../public/images/properties";
+        // Chemin relatif vers le dossier
+        $dir = '../public/images/properties';
 
         // Vérifie que le dossier existe
+        
         if (!is_dir($dir)) {
             // Crée le dossier s'il n'existe pas
             if (!mkdir($dir, 7777, true)) {

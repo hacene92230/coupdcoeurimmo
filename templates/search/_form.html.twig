@@ -1,7 +1,0 @@
-{{ form_start(form, { 'attr': {'action': path('app_search'), 'method': 'GET'} }) }}
-        <div class="form-group">
-          {{ form_label(form.termes) }}
-{{ form_widget(form.termes, {'attr': {'class': 'form-control'}}) }}
-</div>
-<button type="submit" class="btn">{{ button_label|default('Rechercher') }}</button>
-{{ form_end(form) }}

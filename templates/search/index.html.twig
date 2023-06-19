@@ -1,35 +1,133 @@
-{% extends 'base.html.twig' %}
+<div class="container">
+    {{ form_start(form, {'attr': {'id': 'search-form', 'action': '/search', 'aria-label': 'Formulaire de recherche'}}) }}
+    
+    <div class="form-row align-items-end">
+        <div class="col-md-6 mb-3">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                </div>
+                {{ form_row(form.keyword, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Entrez votre terme de recherche'}}) }}
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <button id="toggle-search-form" type="button" class="btn btn-secondary btn-block">Ouvrir la recherche avancée</button>
+        </div>
+        <div class="col-md-3 mb-3">
+            <button type="submit" class="btn btn-primary btn-block">Rechercher</button>
+        </div>
+    </div>
 
-{% block title %}Search index{% endblock %}
+    <div id="advanced-fields" class="mt-3 d-none">
+        <div class="form-row advanced-fields">
+            <div class="col-md-3 mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-list-ul"></i></span>
+                    </div>
+                    {{ form_row(form.category, {'attr': {'class': 'form-control', 'onchange': 'toggleFields(this)'}}) }}
+                </div>
+            </div>
 
-{% block body %}
-    <h1>Search index</h1>
+            <div class="col-md-3 mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-home"></i></span>
+                    </div>
+                    {{ form_row(form.type, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>CreatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for search in searches %}
-            <tr>
-                <td>{{ search.id }}</td>
-                <td>{{ search.createdAt ? search.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_search_show', {'id': search.id}) }}">show</a>
-                    <a href="{{ path('app_search_edit', {'id': search.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <div class="col-md-3 mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                    </div>
+                    {{ form_row(form.localisation, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
 
-    <a href="{{ path('app_search_new') }}">Create new</a>
-{% endblock %}
+            <div id="rent-field" class="col-md-3 mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
+                    </div>
+                    {{ form_row(form.rent, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div id="price-fields-min" class="col-md-3 mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-money-bill"></i></span>
+                    </div>
+                    {{ form_row(form.priceMin, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div id="price-fields-max" class="col-md-3 mb-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-money-bill"></i></span>
+                    </div>
+                    {{ form_row(form.priceMax, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    {{ form_end(form) }}
+</div>
+
+<script>
+    function initializeForm() {
+        var toggleSearchForm = document.getElementById('toggle-search-form');
+        var advancedFields = document.getElementById('advanced-fields');
+        var categoryField = document.getElementById('{{ form.category.vars.id }}');
+        var rentField = document.getElementById('rent-field');
+        var priceFieldsMin = document.getElementById('price-fields-min');
+        var priceFieldsMax = document.getElementById('price-fields-max');
+
+        toggleSearchForm.addEventListener('click', function() {
+            advancedFields.classList.toggle('d-none');
+            if (advancedFields.classList.contains('d-none')) {
+                toggleSearchForm.textContent = 'Ouvrir la recherche avancée';
+            } else {
+                toggleSearchForm.textContent = 'Fermer la recherche avancée';
+            }
+            toggleFields(); // Appeler la fonction pour masquer les labels lors du basculement
+        });
+
+        function toggleFields() {
+            var selectedCategory = categoryField.options[categoryField.selectedIndex].text;
+
+            if (selectedCategory === 'location') {
+                rentField.style.display = 'block';
+                priceFieldsMin.style.display = 'none';
+                priceFieldsMax.style.display = 'none';
+                document.querySelector('label[for="{{ form.rent.vars.id }}"]').style.display = 'block';
+                document.querySelector('label[for="{{ form.priceMin.vars.id }}"]').style.display = 'none';
+                document.querySelector('label[for="{{ form.priceMax.vars.id }}"]').style.display = 'none';
+            } else if (selectedCategory === 'vente') {
+                rentField.style.display = 'none';
+                priceFieldsMin.style.display = 'block';
+                priceFieldsMax.style.display = 'block';
+                document.querySelector('label[for="{{ form.rent.vars.id }}"]').style.display = 'none';
+                document.querySelector('label[for="{{ form.priceMin.vars.id }}"]').style.display = 'block';
+                document.querySelector('label[for="{{ form.priceMax.vars.id }}"]').style.display = 'block';
+            } else {
+                rentField.style.display = 'none';
+                priceFieldsMin.style.display = 'none';
+                priceFieldsMax.style.display = 'none';
+                document.querySelector('label[for="{{ form.rent.vars.id }}"]').style.display = 'none';
+                document.querySelector('label[for="{{ form.priceMin.vars.id }}"]').style.display = 'none';
+                document.querySelector('label[for="{{ form.priceMax.vars.id }}"]').style.display = 'none';
+            }
+        }
+
+        toggleFields();
+        categoryField.addEventListener('change', toggleFields);
+    }
+
+    document.addEventListener('DOMContentLoaded', initializeForm);
+</script>

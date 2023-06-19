@@ -24,7 +24,6 @@ class Properties
      */
     private $roomNumber;
 
-
     /**
      * @ORM\Column(type="integer", nullable=true)
      */

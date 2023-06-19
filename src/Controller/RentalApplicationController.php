@@ -3,17 +3,18 @@
 namespace App\Controller;
 
 use Knp\Snappy\Pdf;
+use DateTimeImmutable;
 use App\Entity\RentalApplication;
 use App\Form\RentalApplicationType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Vich\UploaderBundle\Handler\UploadHandler;
 use App\Repository\RentalApplicationRepository;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/application")
+ * @Route("/location")
  */
 class RentalApplicationController extends AbstractController
 {
@@ -28,9 +29,9 @@ class RentalApplicationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/new", name="app_rental_application_new", methods={"GET", "POST"})
+     * @Route("/asked/{id}", name="app_rental_application_new", methods={"GET", "POST"})
      */
-    public function new(UploadHandler $uploader, Request $request, RentalApplicationRepository $rentalApplicationRepository): Response
+    public function new(Request $request, RentalApplicationRepository $rentalApplicationRepository): Response
     {
         $rentalApplication = new RentalApplication();
         $form = $this->createForm(RentalApplicationType::class, $rentalApplication);
@@ -38,7 +39,7 @@ class RentalApplicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $rentalApplicationRepository->add($rentalApplication, true);
-            return $this->redirectToRoute('app_rental_application_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('rental_application/new.html.twig', [

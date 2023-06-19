@@ -1,0 +1,239 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultat de votre recherche
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2 class="text-center">Résultat de la recherche</h2>
+        <p class="text-center">{{ results|length }} résultats trouvés.</p>
+                <div class="row">
+	{% for property in results %}
+		<div class="card bordered">
+			<h2>{{ property.title }}</h2>
+			{% if property.images|length > 0 %}
+				<div id="carousel-{{ property.id }}" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						{% for image in property.images %}
+							<li data-target="#carousel-{{ property.id }}" data-slide-to="{{ loop.index0 }}" {% if loop.first %} class="active" {% endif %}></li>
+						{% endfor %}
+					</ol>
+					<div class="carousel-inner carousel-fade">
+						{% for image in property.images %}
+							<div class="carousel-item {% if loop.first %}active{% endif %}">
+								<img src="{{ asset('images/properties/' ~ image.imagename) }}" class="d-block w-100 animate__animated animate__fadeIn" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			{% endif %}
+<div class="btn-toolbar" role="toolbar">
+  <div class="btn-group btn-group-horizontal" role="group">
+    <button class="btn btn-primary" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://coupdcoeurimmo.fr/properties/{{ property.id }}', 'facebook-share-dialog', 'width=626,height=436'); return false;">
+      <i class="fa fa-facebook"></i> Partager sur Facebook
+    </button>
+    <button class="btn btn-primary" onclick="window.open('https://twitter.com/share?url=https://coupdcoeurimmo.fr/properties/{{ property.id }}', 'twitter-share-dialog', 'width=626,height=436'); return false;">
+      <i class="fa fa-twitter"></i> Partager sur Twitter
+    </button>
+  </div>
+  <div class="btn-group btn-group-horizontal" role="group">
+    <button class="btn btn-primary" onclick="toggleFavori({{ property.id }})" data-property-id="{{ property.id }}">
+      <i class="fa fa-heart"></i> Ajouter aux favoris
+    </button>
+    <div class="col-md-12 text-center mt-3">
+      <!-- Button that triggers the modal -->
+      <button type="button" id="btnModal{{ loop.index }}" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ loop.index }}" aria-label="Voir {{ property.title }}">
+        Voir
+      </button>
+    </div>
+  </div>
+</div>
+
+
+			<!-- Modal -->
+			<div class="modal fade" id="myModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel{{ loop.index }}" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-scrollable" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h5 class="modal-title" id="myModalLabel{{ loop.index }}">{{ property.title }}</h5>
+						</div>
+						<div class="modal-body">
+							<div class="border p-3">
+								<h2 class="font-weight-bold">Description</h2>
+								<p class="card-text">{{ property.content|raw }}</p>
+							</div>
+							<div class="border p-3">
+								<h2 class="font-weight-bold">Category</h2>
+								<p>{{ property.category.name }}</p>
+							</div>
+							<div class="border p-3">
+								<h2 class="font-weight-bold">Date d'ajout</h2>
+								<p>{{ property.createdAt|date("d/m/Y") }}</p>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 mb-4">
+									<div class="card">
+										<div class="card-body">
+											<h4 class="card-title mb-4">Caractéristiques</h4>
+											<ul class="list-group">
+												<li class="list-group-item d-flex justify-content-between align-items-center">
+													Nombre de pièces :
+													<span class="badge bg-secondary rounded-pill">{{ property.roomNumber }}</span>
+												</li>
+												{% if property.category.name == "location" %}
+													<li class="list-group-item d-flex justify-content-between align-items-center">
+														Loyer :
+														<span class="badge bg-secondary rounded-pill">{{ property.rent }}</span>
+													</li>
+												{% else %}
+													<li class="list-group-item d-flex justify-content-between align-items-center">
+														Prix :
+														<span class="badge bg-secondary rounded-pill">{{ property.price }}</span>
+													</li>
+												{% endif %}
+												<li class="list-group-item d-flex justify-content-between align-items-center">
+													Ce bien dispose d'un jardin :
+													<span class="badge bg-secondary rounded-pill">{{ property.garden ? 'Oui' : 'Non' }}</span>
+												</li>
+												<li class="list-group-item d-flex justify-content-between align-items-center">
+													Type du logement :
+													<span class="badge bg-secondary rounded-pill">{{ property.housingType == 'house' ? "Maison" : "Appartement" }}</span>
+												</li>
+												<li class="list-group-item d-flex justify-content-between align-items-center">
+													Surface :
+													<span class="badge bg-secondary rounded-pill">{{ property.harea }}m^²</span>
+												</li>
+												<li class="list-group-item d-flex justify-content-between align-items-center">
+													Type de transaction :
+													<span class="badge bg-secondary rounded-pill">{{ property.category.name }}</span>
+												</li>
+												<li class="list-group-item d-flex justify-content-between align-items-center">
+													Ville :
+													<span class="badge bg-secondary rounded-pill">{{ property.address.city }}</span>
+												</li>
+												<li class="list-group-item d-flex justify-content-between align-items-center">
+													Chauffage :
+													<span class="badge bg-secondary rounded-pill">{{ property.heating }}</span>
+												</li>
+												<li class="list-group-item d-flex justify-content-between align-items-center">
+													Année de construction :
+													<span class="badge bg-secondary rounded-pill">{{ property. yearBuilt|date('d/m/Y') }}</span>
+												</li>
+											</ul>
+										</div>
+										<div class="modal-footer">
+											<a href="{{ path('app_pdf_generate', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Généré une fiche au format pdf</a>
+											{% if property.category.name == "location" %}
+												<a href="{{ path('app_rental_application_new', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Créer un dossier de location</a>
+											{% else %}
+												<a href="{{ path('app_rental_interest_new', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Remplir la fiche d'intérêt</a>
+                                                {% endif %}
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<script>
+				function toggleFavori(propertyId) {
+				  if (isPropertyInFavoris(propertyId)) {
+					retirerFavori(propertyId);
+				  } else {
+					ajouterFavori(propertyId);
+				  }
+				}
+			  
+				function isPropertyInFavoris(propertyId) {
+				  var favoris = getFavorisFromCookie();
+				  return favoris.includes(propertyId.toString());
+				}
+			  
+				function ajouterFavori(propertyId) {
+				  var favoris = getFavorisFromCookie();
+				  favoris.push(propertyId.toString());
+				  updateFavorisCookie(favoris);
+				  alert('La propriété a été ajoutée aux favoris avec succès.');
+			  
+				  updateButtonState(propertyId, true);
+				}
+			  
+				function retirerFavori(propertyId) {
+				  var favoris = getFavorisFromCookie();
+				  var index = favoris.indexOf(propertyId.toString());
+				  if (index > -1) {
+					favoris.splice(index, 1);
+				  }
+				  updateFavorisCookie(favoris);
+				  alert('La propriété a été retirée des favoris avec succès.');
+			  
+				  updateButtonState(propertyId, false);
+				}
+			  
+				function getFavorisFromCookie() {
+				  var favorisCookie = document.cookie
+					.split(';')
+					.map(cookie => cookie.trim())
+					.find(cookie => cookie.startsWith('favoris='));
+			  
+				  if (favorisCookie) {
+					var favorisString = favorisCookie.split('=')[1];
+					return JSON.parse(favorisString);
+				  }
+			  
+				  return [];
+				}
+  
+				function updateFavorisCookie(favoris) {
+					var favorisString = JSON.stringify(favoris);
+					var expirationDate = new Date();
+					expirationDate.setDate(expirationDate.getDate() + 14); // Définir une durée de validité de 14 jours
+				  
+					document.cookie = 'favoris=' + favorisString + '; expires=' + expirationDate.toUTCString() + '; path=/';
+				  }
+
+				  
+
+				function updateButtonState(propertyId, isFavori) {
+				  var buttons = document.querySelectorAll('.favori-button');
+			  
+				  buttons.forEach(function(button) {
+					var id = button.dataset.propertyId;
+			  
+					if (id === propertyId.toString()) {
+					  if (isFavori) {
+						button.innerHTML = '<i class="fa fa-heart"></i> Retirer des favoris';
+					  } else {
+						button.innerHTML = '<i class="fa fa-heart"></i> Ajouter aux favoris';
+					  }
+					}
+				  });
+				}
+			  
+				// Mettre à jour l'état des boutons lors du chargement de la page
+				window.addEventListener('load', function() {
+				  var buttons = document.querySelectorAll('.favori-button');
+				  var favoris = getFavorisFromCookie();
+			  
+				  buttons.forEach(function(button) {
+					var id = button.dataset.propertyId;
+			  
+					if (favoris.includes(id)) {
+					  button.innerHTML = '<i class="fa fa-heart"></i> Retirer des favoris';
+					}
+				  });
+				});
+			  </script>
+</div>
+</div>
+			{% endfor %}
+{% endblock %}
