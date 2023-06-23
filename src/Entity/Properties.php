@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PropertiesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -107,11 +108,17 @@ class Properties
      */
     private $rentalInterests;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RentalApplication::class, mappedBy="property")
+     */
+    private $rentalApplications;
+
     public function __construct()
     {
         $this->address = new Address();
         $this->images = new ArrayCollection();
         $this->rentalInterests = new ArrayCollection();
+        $this->rentalApplications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -358,6 +365,36 @@ class Properties
     {
         if ($this->rentalInterests->removeElement($rentalInterest)) {
             $rentalInterest->removeProperty($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RentalApplication>
+     */
+    public function getRentalApplications(): Collection
+    {
+        return $this->rentalApplications;
+    }
+
+    public function addRentalApplication(RentalApplication $rentalApplication): self
+    {
+        if (!$this->rentalApplications->contains($rentalApplication)) {
+            $this->rentalApplications[] = $rentalApplication;
+            $rentalApplication->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRentalApplication(RentalApplication $rentalApplication): self
+    {
+        if ($this->rentalApplications->removeElement($rentalApplication)) {
+            // set the owning side to null (unless already changed)
+            if ($rentalApplication->getProperty() === $this) {
+                $rentalApplication->setProperty(null);
+            }
         }
 
         return $this;

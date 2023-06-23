@@ -29,6 +29,11 @@ class Category
      */
     private $properties;
 
+    /**
+     * @ORM\Column(type="string", length=1255)
+     */
+    private $describ;
+
     public function __construct()
     {
         $this->properties = new ArrayCollection();
@@ -77,6 +82,18 @@ class Category
                 $property->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescrib(): ?string
+    {
+        return $this->describ;
+    }
+
+    public function setDescrib(string $describ): self
+    {
+        $this->describ = $describ;
 
         return $this;
     }

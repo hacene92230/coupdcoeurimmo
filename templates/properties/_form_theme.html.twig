@@ -1,5 +1,5 @@
-{% block _properties_images_widget %}
-    <ul id="properties-images-fields-list"
+{% block _properties_images_widget %}   
+<ul id="properties-images-fields-list"
         data-prototype="{{ form_widget(prototype)|e }}"
         data-widget-tags="{{ '<li></li>'|e }}"
         data-widget-counter="{{ value|length }}"
@@ -14,8 +14,8 @@
             class="add-another-collection-widget"
             data-list-selector="#properties-images-fields-list">Ajouter une autre image de bien</button>
 <script>
-    $('.add-another-collection-widget').click(function (e) {
-        var list = $($(this).attr('data-list-selector'));
+    jQuery('.add-another-collection-widget').click(function (e) {
+        var list = jQuery(jQuery(this).attr('data-list-selector'));
         // Try to find the counter of the list or use the length of the list
         var counter = list.data('widget-counter') | list.children().length;
 
@@ -31,7 +31,7 @@
         list.data('widget-counter', counter);
 
         // create a new list element and add it to the list
-        var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+        var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
         newElem.appendTo(list);
     });
             </script>

@@ -17,7 +17,7 @@ use DateTimeImmutable;
 class ContactController extends AbstractController
 {
     /**
-     * @Route("/", name="app_contact_index", methods={"GET"})
+     * @Route("/index", name="app_contact_index", methods={"GET"})
      */
     public function index(ContactRepository $contactRepository): Response
     {
@@ -27,7 +27,7 @@ class ContactController extends AbstractController
     }
 
     /**
-     * @Route("/contact", name="app_contact_new", methods={"GET", "POST"})
+     * @Route("/", name="app_contact_new", methods={"GET", "POST"})
      */
     public function new(Request $request, ContactRepository $contactRepository): Response
     {

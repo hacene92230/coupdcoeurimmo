@@ -48,6 +48,28 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/cgu", name="app_cgu")
+     */
+    public function cgu(): Response
+    {
+        return $this->render(
+            'home/cgu.html.twig',
+            []
+        );
+    }
+
+    /**
+     * @Route("/cgv", name="app_cgv")
+     */
+    public function cgv(): Response
+    {
+        return $this->render(
+            'home/cgv.html.twig',
+            []
+        );
+    }
+
+    /**
      * @Route("/favoris", name="app_favoris")
      */
     public function favoris(Request $request, EntityManagerInterface $entityManager): Response

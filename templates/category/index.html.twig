@@ -1,6 +1,6 @@
 <div class="list-group d-flex flex-row">
   {% for category in categories %}
-    <a class="nav-link d-inline-block" href="{{ path('app_category_show', {'name': category.name}) }}">
+  <a class="nav-link d-inline-block" href="{{ path('app_category_show', {'name': category.name}) }}">
       {% if category.name == 'vente' %}
         <i class="fas fa-home fa-fw me-1" aria-hidden="true"></i>
       {% elseif category.name == 'location' %}

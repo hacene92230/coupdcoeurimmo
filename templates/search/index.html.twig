@@ -29,23 +29,27 @@
                 </div>
             </div>
 
-            <div class="col-md-3 mb-3">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-home"></i></span>
-                    </div>
-                    {{ form_row(form.type, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
+<div class="col-md-3 mb-3">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text">
+                <i class="fas fa-home" style="font-size: smaller;"></i>
+            </span>
+        </div>
+        {{ form_row(form.type, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
 
-            <div class="col-md-3 mb-3">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                    </div>
-                    {{ form_row(form.localisation, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
+<div class="col-md-3 mb-3">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text">
+                <i class="fas fa-map-marker-alt" style="font-size: smaller;"></i>
+</span>
+</div>
+{{ form_row(form.localisation, {'attr': {'class': 'form-control'}}) }}
+</div>
+</div>
 
             <div id="rent-field" class="col-md-3 mb-3">
                 <div class="input-group">

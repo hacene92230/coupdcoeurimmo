@@ -67,7 +67,7 @@ class UserType extends AbstractType
                     'Avenue' => 'Avenue',
                     'Place' => 'Place',
                 ],
-                'placeholder' => 'Sélectionner un type de place',
+                'placeholder' => 'Sélectionner un type de lieu',
             ])
 
             ->add("placeNumber", IntegerType::class, [

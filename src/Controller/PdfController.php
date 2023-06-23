@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use Knp\Snappy\Pdf;
+use Dompdf\Dompdf;
 use App\Entity\Properties;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +13,7 @@ class PdfController extends AbstractController
     /**
      * @Route("/pdf/{id}", name="app_pdf_generate")
      */
-    public function generatePdf(Pdf $pdf, $id): Response
+    public function generatePdf($id): Response
     {
         // Récupérez vos données à partir de votre base de données ou d'autres sources
         $property = $this->getDoctrine()->getRepository(Properties::class)->find($id);
@@ -23,16 +23,15 @@ class PdfController extends AbstractController
             'property' => $property
         ]);
 
-        // Configurez les options de votre PDF, tels que la taille de la page et l'orientation
-        $pdf->setOption('page-size', 'A4');
-        $pdf->setOption('orientation', 'Portrait');
-        $pdf->setOption('encoding', 'UTF-8');
-        // Générez votre PDF en utilisant le contenu HTML et les options configurées précédemment
-        $pdfContent = $pdf->getOutputFromHtml($html);
+        // Instanciez Dompdf et générez le PDF
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
 
         // Retournez une réponse qui affiche votre PDF dans le navigateur
         return new Response(
-            $pdfContent,
+            $dompdf->output(),
             200,
             [
                 'Content-Type' => 'application/pdf',

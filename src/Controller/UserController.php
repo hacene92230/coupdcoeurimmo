@@ -54,7 +54,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
-            $this->addFlash('success', 'inscription bien prise en compte!');
+            $this->addFlash('success', 'Votre inscription à bien été prise en compte!');
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
@@ -85,9 +85,9 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->add($user, true);
-            $this->addFlash('success', 'La modification bien prise en compte!');
+            $this->addFlash('success', 'La modification à bien été prise en compte!');
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/edit.html.twig', [
@@ -105,7 +105,7 @@ class UserController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $userRepository->remove($user, true);
         }
-        $this->addFlash('warning', 'suppression bien prise en compte!');
+        $this->addFlash('warning', 'La suppression bien prise en compte!');
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }

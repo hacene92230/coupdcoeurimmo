@@ -32,49 +32,41 @@ class RentalApplication
     private ?File $idCardVerso = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @UploadableField(mapping="tax_form", fileNameProperty="taxFormName", size="taxFormSize")
+     * @UploadableField(mapping="taxForm", fileNameProperty="taxFormName", size="taxFormSize")
      */
     private ?File $taxForm = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @UploadableField(mapping="pay_stub_1", fileNameProperty="payStub1Name", size="payStub1Size")
      */
     private ?File $payStub1 = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @UploadableField(mapping="pay_stub_2", fileNameProperty="payStub2Name", size="payStub2Size")
      */
     private ?File $payStub2 = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @UploadableField(mapping="pay_stub_3", fileNameProperty="payStub3Name", size="payStub3Size")
      */
     private ?File $payStub3 = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @UploadableField(mapping="proof_residence", fileNameProperty="proofResidenceName", size="proofResidenceSize")
      */
     private ?File $proofResidence = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @UploadableField(mapping="guarantor_pay_stub_1", fileNameProperty="guarantorPayStub1Name", size="guarantorPayStub1Size")
      */
     private ?File $guarantorPayStub1 = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @UploadableField(mapping="guarantor_pay_stub_2", fileNameProperty="guarantorPayStub2Name", size="guarantorPayStub2Size")
      */
     private ?File $guarantorPayStub2 = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @UploadableField(mapping="guarantor_pay_stub_3", fileNameProperty="guarantorPayStub3Name", size="guarantorPayStub3Size")
      */
     private ?File $guarantorPayStub3 = null;
@@ -188,6 +180,18 @@ class RentalApplication
      * @ORM\Column(nullable=true)
      */
     private ?int $guarantorPayStub3Size = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="rentalApplications")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=properties::class, inversedBy="rentalApplications")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $property;
 
     public function getId(): ?int
     {
@@ -609,6 +613,30 @@ class RentalApplication
     public function setGuarantorPayStub3Size(?int $guarantorPayStub3Size): self
     {
         $this->guarantorPayStub3Size = $guarantorPayStub3Size;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getProperty(): ?properties
+    {
+        return $this->property;
+    }
+
+    public function setProperty(?properties $property): self
+    {
+        $this->property = $property;
 
         return $this;
     }

@@ -17,6 +17,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CategoryController extends AbstractController
 {
     /**
+     * @Route("/", name="app_category_admin", methods={"GET"})
+     */
+    public function showAdmin(CategoryRepository $categoryRepository): Response
+    {
+        return $this->render('category/admin.html.twig', [
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
+    /**
      * @Route("/", name="app_category_index", methods={"GET"})
      */
     public function index(CategoryRepository $categoryRepository): Response
@@ -83,7 +93,7 @@ class CategoryController extends AbstractController
      */
     public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $category->getId(), $request->request->get('_token'))) {
             $categoryRepository->remove($category, true);
         }
 

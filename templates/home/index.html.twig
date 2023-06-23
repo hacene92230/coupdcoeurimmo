@@ -73,7 +73,7 @@
 				<div class="modal-dialog modal-dialog-scrollable" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
 								<span aria-hidden="true">&times;</span>
 							</button>
 							<h5 class="modal-title" id="myModalLabel{{ loop.index }}">{{ property.title }}</h5>
@@ -144,9 +144,9 @@
 											</ul>
 										</div>
 										<div class="modal-footer">
-											<a href="{{ path('app_pdf_generate', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Généré une fiche au format pdf</a>
+											<a href="{{ path('app_pdf_generate', {'id': property.id}) }}" target="_blank" class="btn btn-sm btn-outline-secondary">Généré une fiche au format pdf</a>
 											{% if property.category.name == "location" %}
-												<a href="{{ path('app_rental_application_new', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Créer un dossier de location</a>
+												<a href="{{ path('app_rental_application_new', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Soumettre un dossier pour cette location</a>
 											{% else %}
 												<a href="{{ path('app_rental_interest_new', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Remplir la fiche d'intérêt</a>
                                                 {% endif %}

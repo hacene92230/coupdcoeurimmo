@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Gestion des catégories {{ parent() }} {% endblock %}
+
+{% block body %}
+<h2>gestion des catégories</h2>
+<p>Géré de façon très simple vos catégories</p>
+<div class="list-group d-flex flex-row">
+  {% for category in categories %}
+  <a class="nav-link d-inline-block" href="{{ path('app_category_show', {'name': category.name}) }}">
+      <h3>{{ category.name }}</h3>
+      {% if category.name == 'vente' %}
+        <i class="fas fa-home fa-fw me-1" aria-hidden="true"></i>
+      {% elseif category.name == 'location' %}
+        <i class="fas fa-building fa-fw me-1" aria-hidden="true"></i>
+      {% endif %}
+  </a>
+  <p>{{ category.describ }}</p>
+  {{ include('category/_delete_form.html.twig') }}
+      <a href="{{ path('app_category_edit', {'id': category.id}) }}">Modifier</a>
+      {% endfor %}
+</div>
+{% endblock %}
