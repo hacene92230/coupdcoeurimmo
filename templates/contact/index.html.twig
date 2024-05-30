@@ -1,36 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact {{ parent() }} {% endblock %}
+{% block title %}Demande de contact {{ parent() }} {% endblock %}
 
 {% block body %}
-    <h1>Contact index</h1>
+    <h1 class="mb-4 text-center my-5">Demandes de contact </h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Sujet</th>
-                <th>Créé le</th>
-                <th>Résolu</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for contact in contacts %}
-            <tr>
-                <td>{{ contact.subject }}</td>
-                <td>{{ contact.createdAt ? contact.createdAt|date('d/m/Y') : '' }}</td>
-                <td>{{ contact.resolved ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_contact_show', {'id': contact.id}) }}">Consulter la demande</a>
-                </td>
-            </tr>
+    <div class="container mx-auto my-4"> <!-- Ajout de la classe "container" pour le centrage et de la classe "my-4" pour la marge -->
+        {% if contacts is not empty %}
+            <div class="list-group w-100">
+                {% for contact in contacts %}
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ contact.subject }}</h5>
+                            <small>{{ contact.createdAt ? contact.createdAt|date('d/m/Y') : '' }}</small>
+                        </div>
+                        <p class="mb-1">Résolu : <strong>{{ contact.resolved ? 'Oui' : 'Non' }}</strong></p>
+                        <div class="btn-group" role="group" aria-label="Actions">
+                            <a href="{{ path('app_contact_edit', {'id': contact.id}) }}" class="btn btn-primary btn-sm m-1">
+                                <i class="fas fa-edit"></i> Modifier
+                            </a>
+                            <form action="{{ path('app_contact_delete', {'id': contact.id}) }}" method="post" class="d-inline">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contact.id) }}">
+                                <button type="submit" class="btn btn-danger btn-sm m-1" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette demande de contact ?')">
+                                    <i class="fas fa-trash-alt"></i> Supprimer
+                                </button>
+                            </form>
+                        </div>
+                        <a href="{{ path('app_contact_show', {'id': contact.id}) }}" class="btn btn-info btn-sm m-1">
+                            <i class="fas fa-eye"></i> Consulter la demande
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         {% else %}
-            <tr>
-                <td colspan="9">Aucun enregistrement trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_contact_new') }}">Create new</a>
+            <div class="alert alert-warning" role="alert">
+                Aucun enregistrement trouvé
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

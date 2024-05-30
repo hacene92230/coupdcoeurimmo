@@ -98,7 +98,7 @@ class UserType extends AbstractType
             $builder->add('plainPassword', RepeatedType::class, [
                 'mapped' => false,
                 'type' => PasswordType::class,
-                'first_options' => ['label' => 'Mot de passe'],
+                'first_options' => ['label' => false],
                 'second_options' => ['label' => 'Confirmez le mot de passe'],
             ]);;
         }

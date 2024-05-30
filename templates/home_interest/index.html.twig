@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos intérêts d'achat{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Liste des Intérêts de Location</h1>
+
+        {% if home_interests is not empty %}
+            <div class="list-group">
+                {% for rental_interest in home_interests %}
+                    <div class="list-group-item">
+                        <h5 class="mb-1">Utilisateur: {{ rental_interest.user.name }}</h5>
+                        <p class="mb-1">Propriété: {{ rental_interest.property.name }}</p>
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ path('app_rental_interest_show', {'id': rental_interest.id}) }}" class="btn btn-info btn-sm">Afficher</a>
+                            <a href="{{ path('app_rental_interest_edit', {'id': rental_interest.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                Aucun enregistrement trouvé
+            </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="{{ path('app_home_interest_new') }}" class="btn btn-primary">Créer un nouvel intérêt</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,45 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}RentalApplication index{% endblock %}
+{% block title %}Les demandes de Location {{ parent() }} {% endblock %}
 
 {% block body %}
-    <h1>RentalApplication index</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4">Liste des Demandes de Location</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>IdCard</th>
-                <th>TaxForm</th>
-                <th>PayStub</th>
-                <th>ProofResidence</th>
-                <th>GuarantorPayStub</th>
-                <th>Guarantor</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for rental_application in rental_applications %}
-            <tr>
-                <td>{{ rental_application.id }}</td>
-                <td>{{ rental_application.idCard }}</td>
-                <td>{{ rental_application.taxForm }}</td>
-                <td>{{ rental_application.payStub }}</td>
-                <td>{{ rental_application.proofResidence }}</td>
-                <td>{{ rental_application.guarantorPayStub }}</td>
-                <td>{{ rental_application.guarantor ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_rental_application_show', {'id': rental_application.id}) }}">show</a>
-                    <a href="{{ path('app_rental_application_edit', {'id': rental_application.id}) }}">edit</a>
-                </td>
-            </tr>
+        {% if rental_applications is not empty %}
+            <div class="list-group">
+                {% for rental_application in rental_applications %}
+                    <div class="list-group-item">
+                        <h5 class="mb-1">Demande de Location #{{ rental_application.id }}</h5>
+                        <ul class="list-unstyled mb-1">
+                            <li><strong>Carte d'Identité :</strong> {{ rental_application.idCard }}</li>
+                            <li><strong>Formulaire Fiscal :</strong> {{ rental_application.taxForm }}</li>
+                            <li><strong>Bulletin de Paie :</strong> {{ rental_application.payStub }}</li>
+                            <li><strong>Preuve de Résidence :</strong> {{ rental_application.proofResidence }}</li>
+                            <li><strong>Bulletin de Paie du Garant :</strong> {{ rental_application.guarantorPayStub }}</li>
+                            <li><strong>Garant :</strong> {{ rental_application.guarantor ? 'Oui' : 'Non' }}</li>
+                        </ul>
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ path('app_rental_application_show', {'id': rental_application.id}) }}" class="btn btn-info btn-sm">Afficher</a>
+                            <a href="{{ path('app_rental_application_edit', {'id': rental_application.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_rental_application_new') }}">Create new</a>
+            <div class="alert alert-warning" role="alert">
+                Aucun enregistrement trouvé
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

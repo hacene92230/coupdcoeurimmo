@@ -1,137 +1,96 @@
-<div class="container">
-    {{ form_start(form, {'attr': {'id': 'search-form', 'action': '/search', 'aria-label': 'Formulaire de recherche'}}) }}
-    
-    <div class="form-row align-items-end">
-        <div class="col-md-6 mb-3">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-search"></i></span>
-                </div>
-                {{ form_row(form.keyword, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Entrez votre terme de recherche'}}) }}
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <button id="toggle-search-form" type="button" class="btn btn-secondary btn-block">Ouvrir la recherche avancée</button>
-        </div>
-        <div class="col-md-3 mb-3">
-            <button type="submit" class="btn btn-primary btn-block">Rechercher</button>
-        </div>
-    </div>
-
-    <div id="advanced-fields" class="mt-3 d-none">
-        <div class="form-row advanced-fields">
-            <div class="col-md-3 mb-3">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-list-ul"></i></span>
-                    </div>
-                    {{ form_row(form.category, {'attr': {'class': 'form-control', 'onchange': 'toggleFields(this)'}}) }}
-                </div>
-            </div>
-
-<div class="col-md-3 mb-3">
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text">
-                <i class="fas fa-home" style="font-size: smaller;"></i>
-            </span>
-        </div>
-        {{ form_row(form.type, {'attr': {'class': 'form-control'}}) }}
-    </div>
-</div>
-
-<div class="col-md-3 mb-3">
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text">
-                <i class="fas fa-map-marker-alt" style="font-size: smaller;"></i>
-</span>
-</div>
-{{ form_row(form.localisation, {'attr': {'class': 'form-control'}}) }}
-</div>
-</div>
-
-            <div id="rent-field" class="col-md-3 mb-3">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
-                    </div>
-                    {{ form_row(form.rent, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-
-            <div id="price-fields-min" class="col-md-3 mb-3">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-money-bill"></i></span>
-                    </div>
-                    {{ form_row(form.priceMin, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-
-            <div id="price-fields-max" class="col-md-3 mb-3">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-money-bill"></i></span>
-                    </div>
-                    {{ form_row(form.priceMax, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-        </div>
-    </div>
-     
-    {{ form_end(form) }}
-</div>
-
-<script>
-    function initializeForm() {
-        var toggleSearchForm = document.getElementById('toggle-search-form');
-        var advancedFields = document.getElementById('advanced-fields');
-        var categoryField = document.getElementById('{{ form.category.vars.id }}');
-        var rentField = document.getElementById('rent-field');
-        var priceFieldsMin = document.getElementById('price-fields-min');
-        var priceFieldsMax = document.getElementById('price-fields-max');
-
-        toggleSearchForm.addEventListener('click', function() {
-            advancedFields.classList.toggle('d-none');
-            if (advancedFields.classList.contains('d-none')) {
-                toggleSearchForm.textContent = 'Ouvrir la recherche avancée';
-            } else {
-                toggleSearchForm.textContent = 'Fermer la recherche avancée';
-            }
-            toggleFields(); // Appeler la fonction pour masquer les labels lors du basculement
-        });
-
-        function toggleFields() {
-            var selectedCategory = categoryField.options[categoryField.selectedIndex].text;
-
-            if (selectedCategory === 'location') {
-                rentField.style.display = 'block';
-                priceFieldsMin.style.display = 'none';
-                priceFieldsMax.style.display = 'none';
-                document.querySelector('label[for="{{ form.rent.vars.id }}"]').style.display = 'block';
-                document.querySelector('label[for="{{ form.priceMin.vars.id }}"]').style.display = 'none';
-                document.querySelector('label[for="{{ form.priceMax.vars.id }}"]').style.display = 'none';
-            } else if (selectedCategory === 'vente') {
-                rentField.style.display = 'none';
-                priceFieldsMin.style.display = 'block';
-                priceFieldsMax.style.display = 'block';
-                document.querySelector('label[for="{{ form.rent.vars.id }}"]').style.display = 'none';
-                document.querySelector('label[for="{{ form.priceMin.vars.id }}"]').style.display = 'block';
-                document.querySelector('label[for="{{ form.priceMax.vars.id }}"]').style.display = 'block';
-            } else {
-                rentField.style.display = 'none';
-                priceFieldsMin.style.display = 'none';
-                priceFieldsMax.style.display = 'none';
-                document.querySelector('label[for="{{ form.rent.vars.id }}"]').style.display = 'none';
-                document.querySelector('label[for="{{ form.priceMin.vars.id }}"]').style.display = 'none';
-                document.querySelector('label[for="{{ form.priceMax.vars.id }}"]').style.display = 'none';
-            }
-        }
-
-        toggleFields();
-        categoryField.addEventListener('change', toggleFields);
+  <style>
+    #search-container {
+      position: relative;
+      width: 100%;
+      height: 38em;
+      background-image: url('{{ asset('images/maison.png') }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
-    document.addEventListener('DOMContentLoaded', initializeForm);
-</script>
+    #search-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.5); /* Opacité de 50% */
+    }
+	@media (min-width: 1200px) {
+  .container {
+    max-width: 81em;
+  }
+    #form_search {
+      color: white;
+      position: relative;
+      z-index: 1;
+      padding: 20px; /* Ajout de rembourrage pour espacer le contenu du formulaire */
+      top:5rem;
+    }
+
+    /* Ajout de styles pour les champs de formulaire */
+    #form_search input[type="text"],
+    #form_search input[type="number"],
+    #form_search select {
+      background-color: rgb(255, 255, 255);/* Fond semi-transparent blanc */
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px; /* Espacement entre les champs */
+    }
+
+    #form_search button {
+      background-color: #cd2147; /* Rouge de l'agence */
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      color: white;
+      cursor: pointer;
+    }
+	#titre1{
+	font-size: 3.5rem !important;
+	}
+    #form_search button:hover {
+      background-color: #941d37; /* rouge foncé au survol */
+    }
+  </style>
+
+<div id="search-container">
+  <div class="container" id="form_search">
+    <h1 id="titre1">Vous souhaitez acheter des biens immobiliers ?</h1>
+    <h2 class="mb-4"> Coup d'coeur immo est ici pour vous aider ;) </h2>
+    {{ form_start(form) }}
+    <div class="form-row" style="padding-top: 3em;">
+      <div class="form-group col-md-4">
+        {{ form_label(form.inputVille, 'Ville') }}
+        {{ form_widget(form.inputVille, {'attr': {'class': 'form-control', 'placeholder': 'Entrez une ville'}}) }}
+      </div>
+      <div class="form-group col-md-4">
+        {{ form_label(form.selectTypeBien, 'Type de bien') }}
+        {{ form_widget(form.selectTypeBien, {'attr': {'class': 'form-control'}}) }}
+      </div>
+      <div class="form-group col-md-4">
+        {{ form_label(form.selectTransaction, 'Type de transaction') }}
+        {{ form_widget(form.selectTransaction, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        {{ form_label(form.inputPrixMin, 'Prix minimum') }}
+        {{ form_widget(form.inputPrixMin, {'attr': {'class': 'form-control', 'placeholder': 'Prix minimum'}}) }}
+      </div>
+      <div class="form-group col-md-4">
+        {{ form_label(form.inputPrixMax, 'Prix maximum') }}
+        {{ form_widget(form.inputPrixMax, {'attr': {'class': 'form-control', 'placeholder': 'Prix maximum'}}) }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+      </div>
+    </div>
+    {{ form_end(form) }}
+  </div>
+</div>

@@ -3,46 +3,65 @@
 {% block title %}Vos favoris {{ parent() }} {% endblock %}
 
 {% block body %}
+
+<style>
+        .carousel-indicators {
+            right: auto; /* ou la valeur que vous souhaitez d�finir */
+        }
+    </style> 
+
 <h2>Vos favoris</h2>
 <div id="favoris-container">
-{% for property in properties %}
-<div class="card bordered">
-    <h2>{{ property.title }}</h2>
-    <button onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1/coupdcoeurimmo/public/properties/{{ property.id }}', 'facebook-share-dialog', 'width=626,height=436'); return false;">
-        <i class="fa fa-facebook"></i>
-        Partager sur Facebook</button>
-    <button onclick="window.open('https://twitter.com/share?url=http://127.0.0.1/coupdcoeurimmo/public/properties/{{ property.id }}', 'twitter-share-dialog', 'width=626,height=436'); return false;">
-        <i class="fa fa-twitter"></i>
-        Partager sur Twitter</button>
-        <button class="favori-button" onclick="toggleFavori({{ property.id }})" data-property-id="{{ property.id }}">
-            <i class="fa fa-heart"></i>
-            Ajouter aux favoris
-          </button>
-    {% if property.images|length > 0 %}
-        <div id="carousel-{{ property.id }}" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                {% for image in property.images %}
+    {% for property in properties %}
+    <div class="bordered row mb-4"> <!-- Ajout de la classe mb-4 pour l'espace entre chaque bien -->
+        <!-- Images dans les favoris -->
+        <div class="col-md-6 bg-light">
+            {% if property.images|length > 0 %}
+            <div id="carousel-{{ property.id }}" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for image in property.images %}
                     <li data-target="#carousel-{{ property.id }}" data-slide-to="{{ loop.index0 }}" {% if loop.first %} class="active" {% endif %}></li>
-                {% endfor %}
-            </ol>
-            <div class="carousel-inner carousel-fade">
-                {% for image in property.images %}
-                    <div class="carousel-item {% if loop.first %}active{% endif %}">
-                        <img src="{{ asset('images/properties/' ~ image.imagename) }}" class="d-block w-100 animate__animated animate__fadeIn" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">
+                    {% endfor %}
+                </ol>
 
+                <div class="carousel-inner carousel-fade pl-3 py-3">
+                    {% for image in property.images %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <!-- <img src="{{ asset('images/properties/' ~ image.imagename) }}" class="d-block w-100 animate__animated animate__fadeIn" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}"> -->
+                        <img src="{{ asset('images/properties/appartement.jpg') }}" class="d-block w-100 animate__animated animate__fadeIn" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">
                     </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6 bg-light">
+            <h2>{{ property.title }}</h2>
+
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                    <button class="btn btn-danger mb-2 rounded" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1/coupdcoeurimmo/public/properties/{{ property.id }}', 'facebook-share-dialog'); return false;">
+                        <i class="fa fa-facebook"></i> Partager sur Facebook
+                    </button>
+
+                    <button class="btn btn-danger mb-2 rounded" onclick="window.open('https://twitter.com/share?url=http://127.0.0.1/coupdcoeurimmo/public/properties/{{ property.id }}', 'twitter-share-dialog', 'width=626,height=436'); return false;">
+                        <i class="fa fa-twitter"></i> Partager sur Twitter
+                    </button>
+
+                    <button class="btn btn-danger mb-2 favori-button rounded" onclick="toggleFavori({{ property.id }})" data-property-id="{{ property.id }}">
+                        <i class="fa fa-heart"></i> Ajouter aux favoris
+                    </button>
+                    
+                    <!-- Bouton "Voir" -->
+                    <button type="button" class="btn btn-primary mb-2 rounded" data-toggle="modal" data-target="#myModal{{ loop.index }}" aria-label="Voir {{ property.title }}">
+                        Voir
+                    </button>
+                </div>
             </div>
         </div>
-    {% endif %}
-
-    <div
-        class="col-md-12 text-center mt-3">
-        <!-- Button that triggers the modal -->
-        <button type="button" id="btnModal{{ loop.index }}" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ loop.index }}" aria-label="Voir {{ property.title }}">
-            Voir
-        </button>
     </div>
+</div>
     <!-- Modal -->
     <div class="modal fade" id="myModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel{{ loop.index }}" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -123,7 +142,7 @@
                                     {% if property.category.name == "location" %}
                                         <a href="{{ path('app_rental_application_new', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Créer un dossier de location</a>
                                     {% else %}
-                                        <a href="{{ path('app_rental_interest_new', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Remplir la fiche d'intérêt</a>
+                                        <a href="{{ path('app_home_interest_new', {'id': property.id}) }}" class="btn btn-sm btn-outline-secondary">Remplir la fiche d'intérêt</a>
                                         {% endif %}
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                                     </div>
@@ -174,7 +193,6 @@
             // Mettre à jour le contenu de la div "favoris-container"
             var favorisContainer = document.getElementById('favoris-container');
             favorisContainer.innerHTML = ''; // Effacer le contenu actuel (facultatif)
-            favorisContainer.innerHTML = 'Nouveau contenu des favoris'; // Mettre à jour le contenu avec les nouvelles données
           }
       
         function getFavorisFromCookie() {

@@ -1,6 +1,19 @@
+{{ form_start(form, {'attr': {'class': 'container mt-5 mb-5 '}}) }}
+    <div class="row justify-content-center">
+        <div class="col-md-8"> <!-- Utilisation de col-md-8 pour occuper 8 colonnes sur les dispositifs de taille moyenne et supérieure -->
+            <div class="p-4 shadow-sm rounded bg-light">
 
-{% form_theme form 'bootstrap_5_layout.html.twig' %}
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Envoyer') }}</button>
+                {{ form_row(form.name, {'label': 'Votre prénom', 'attr': {'class': 'form-control form-control-lg mb-3', 'placeholder': 'Votre prénom'}}) }}
+                {{ form_row(form.email, {'label': 'Votre adresse email', 'attr': {'class': 'form-control form-control-lg mb-3', 'placeholder': 'Votre adresse email'}}) }}
+                {{ form_row(form.phone, {'label': 'Saisir votre numéro de téléphone', 'attr': {'class': 'form-control form-control-lg mb-3', 'placeholder': 'Saisir votre numéro de téléphone'}}) }}
+                {{ form_row(form.subject, {'label': 'Sujet de votre contact', 'attr': {'class': 'form-control form-control-lg mb-3', 'placeholder': 'Sujet de votre contact'}}) }}
+                {{ form_row(form.content, {'label': 'Contenu de votre message', 'attr': {'class': 'form-control form-control-lg mb-3', 'placeholder': 'Contenu de votre message', 'rows': '5'}}) }}
+
+                <button class="btn btn-lg btn-danger btn-block" type="submit">
+                    <i class="fas fa-paper-plane"></i> Envoyer
+                </button>
+
+            </div>
+        </div>
+    </div>
 {{ form_end(form) }}

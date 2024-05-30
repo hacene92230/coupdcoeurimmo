@@ -1,5 +1,118 @@
 {% form_theme form 'properties/_form_theme.html.twig' %}
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<button class="btn">{{ button_label|default('Créer') }}</button>
-{{ form_end(form) }}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="bg-light shadow p-4 rounded">
+                {{ form_start(form) }}
+                <div class="form-group row">
+                    <label for="category" class="col-md-4 col-form-label">Choix de la catégorie de ce bien</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.category, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="garden" class="col-md-4 col-form-label">Ce bien dispose d'un jardin</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.garden, {'attr': {'class': ' rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="housingType" class="col-md-4 col-form-label">Type du logement</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.housingType, {'attr': {'class': 'rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="roomNumber" class="col-md-4 col-form-label">Nombre de pièces de ce bien</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.roomNumber, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="rent" class="col-md-4 col-form-label">Loyer du bien, si c'est une vente laissez comme cela</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.rent, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="price" class="col-md-4 col-form-label">Saisir le prix de vente de ce bien, si c'est une location laissez comme tel</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.price, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="user" class="col-md-4 col-form-label">Propriétaire</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.user, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="harea" class="col-md-4 col-form-label">Superficie de ce bien</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.harea, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="placeType" class="col-md-4 col-form-label">Sélectionner le type de place</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.placeType, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="placeNumber" class="col-md-4 col-form-label">Numéro de rue, avenue ou autre</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.placeNumber, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="city" class="col-md-4 col-form-label">Ville</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.city, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="zipCode" class="col-md-4 col-form-label">Code postal</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.zipCode, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="yearBuilt" class="col-md-4 col-form-label">Date de construction du dit logement</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.yearBuilt, {'attr': {'class': ' rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="heating" class="col-md-4 col-form-label">Type du chauffage</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.heating, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="title" class="col-md-4 col-form-label">Titre de l'annonce</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.title, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="content" class="col-md-4 col-form-label">Contenu de l'annonce</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.content, {'attr': {'class': 'form-control rounded-pill'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="images" class="col-md-4 col-form-label">Importez les images représentant ce bien</label>
+                    <div class="col-md-8">
+                        {{ form_row(form.images, {'attr': {'class': 'form-control-file'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary rounded-pill">Soumettre</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>

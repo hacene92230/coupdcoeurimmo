@@ -94,8 +94,10 @@ class Fixtures extends Fixture
             $categorie = new Category();
             if ($k == 0) {
                 $categorie->setName("location");
+                $categorie->setDescrib("Nos Locations");
             } else {
                 $categorie->setName("vente");
+                $categorie->setDescrib("Nos Ventes");
             }
             $categories[] = $categorie;
             $manager->persist($categorie);

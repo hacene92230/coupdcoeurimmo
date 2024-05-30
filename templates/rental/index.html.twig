@@ -1,43 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des locations {{ parent() }}{% endblock %}
+{% block title %}Gestion des locations en cours {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Gestion des locations</h1>
-{% if app.user.roles[0] == "ROLE_ADMIN" %}
-<a href="{{ path('app_rental_new') }}">Créer une nouvelle location</a>
-{% endif %}
-    <table class="table">
-        <thead>
-            <tr>
-            <th>Locataire</th>
-                <th>Date de début</th>
-                <th>Date de fin</th>
-                <th>Bien concerné</th>
-            <th>Location</th>
-            <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for rental in rentals %}
-            <tr>
-                <td>{{ rental.tenant.name }}</td>
-                <td>{{ rental.dateStart ? rental.dateStart|date('d/m/Y') : '' }}</td>
-                <td>{{ rental.dateEnd ? rental.dateEnd|date('d/m/Y') : '' }}</td>
-                <td><a href="{{ path('app_properties_show', {'id': rental.property.id}) }}">{{ rental.property.title }}</a></td>
-<td><a href="{{ path('app_rental_show', {'id': rental.id}) }}">Consulter la location</a></td>
-<td>
-{% if app.user.roles[0] == "ROLE_ADMIN" %}
-                    <a href="{{ path('app_rental_edit', {'id': rental.id}) }}">Modifier</a>
-                {{ include('rental/_delete_form.html.twig') }}
-                {% endif%}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">Aucun enregistrement trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <h1 class="text-center mt-5">Gestion des locations en cours </h1>
+
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <table class="table table-bordered table-striped text-center">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Locataire</th>
+                            <th>Date de début</th>
+                            <th>Date de fin</th>
+                            <th>Bien concerné</th>
+                            <th>Location</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rental in rentals %}
+                            <tr>
+                                <td>{{ rental.tenant.name }}</td>
+                                <td>{{ rental.dateStart ? rental.dateStart|date('d/m/Y') : '' }}</td>
+                                <td>{{ rental.dateEnd ? rental.dateEnd|date('d/m/Y') : '' }}</td>
+                                <td><a href="{{ path('app_properties_show', {'id': rental.property.id}) }}">{{ rental.property.title }}</a></td>
+                                <td><a href="{{ path('app_rental_show', {'id': rental.id}) }}">Consulter la location</a></td>
+                                <td>
+                                    {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                                        <div class="btn-group">
+                                            <button class="btn btn-warning my-1 mx-3 rounded">
+                                                <a href="{{ path('app_rental_edit', {'id': rental.id}) }}">Modifier</a>
+                                            </button>
+                                            {{ include('rental/_delete_form.html.twig') }}
+                                        </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">Aucun enregistrement trouvé</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

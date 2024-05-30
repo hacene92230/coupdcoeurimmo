@@ -188,7 +188,7 @@ class RentalApplication
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=properties::class, inversedBy="rentalApplications")
+     * @ORM\ManyToOne(targetEntity=Properties::class, inversedBy="rentalApplications")
      * @ORM\JoinColumn(nullable=false)
      */
     private $property;

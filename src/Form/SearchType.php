@@ -4,7 +4,6 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,42 +15,34 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('keyword', TextType::class, [
-                'label' => 'Mot clé',
+            ->add('inputVille', TextType::class, [
+                'label' => false,
                 'required' => false,
             ])
-            ->add('rent', TextType::class, [
-                'label' => 'Loyer',
-                'required' => false,
-            ])
-            ->add('category', EntityType::class, [
-                'class' => Category::class,
-                'choice_label' => 'name',
-                'placeholder' => 'Sélectionner votre catégorie',
-                'required' => false,
-                'empty_data' => null,
-            ])
-            ->add('type', ChoiceType::class, [
-                'label' => 'Type de bien',
+            ->add('selectTypeBien', ChoiceType::class, [
+                'label' => false,
                 'choices' => [
-                    'Appartement' => 0,
-                    'Maison' => 1,
-                    'Terrain' => 3,
+                    'Appartement' => 'Appartement',
+                    'Maison' => 'Maison',
                 ],
-                'placeholder' => 'Sélectionnez un type de bien',
-                'required' => false,
-                'empty_data' => null,
-            ])
-            ->add('localisation', TextType::class, [
-                'label' => 'Localisation',
+                'placeholder' => 'Choisissez...',
                 'required' => false,
             ])
-            ->add('priceMin', IntegerType::class, [
-                'label' => 'Prix minimum',
+            ->add('selectTransaction', ChoiceType::class, [
+                'label' => false,
+                'choices' => [
+                    'Vente' => 'Vente',
+                    'Location' => 'Location',
+                ],
+                'placeholder' => 'Choisissez...',
                 'required' => false,
             ])
-            ->add('priceMax', IntegerType::class, [
-                'label' => 'Prix maximum',
+            ->add('inputPrixMin', IntegerType::class, [
+                'label' => false,
+                'required' => false,
+            ])
+            ->add('inputPrixMax', IntegerType::class, [
+                'label' => false,
                 'required' => false,
             ]);
     }
@@ -63,4 +54,3 @@ class SearchType extends AbstractType
         ]);
     }
 }
-?>

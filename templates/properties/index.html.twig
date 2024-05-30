@@ -3,44 +3,37 @@
 {% block title %}Gestion des biens{% endblock %}
 
 {% block body %}
-    <h1>Nos biens</h1>
-        {% if app.user.roles[0] == "ROLE_ADMIN" %}
-                    <a href="{{ path('app_properties_new') }}">Créer un nouveau bien</a>
-                    {% endif %}
-    <table class="table">
-        <thead>
-            <tr>
-            <th>Propriétaire</th>
-                <th>Nombre de pièces</th>              
-                <th>Type de la transaction</th>
-                <th>Type du logement</th>
-                <th>Ville</th>
-                <th>Titre</th>
-                                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for property in properties %}
-            <tr>
-            <td>{{ property.user.name }}</td>
-                 <td>{{ property.roomNumber }}</td>
-                <td>{{ property.category.name }}</td>
-                <td>{{ property.housingType ? "maison" : "appartement" }}</td>
-                                <td>{{ property.address.city }}</td>
-                                <td>{{ property.title }}</td>
-                <td>
-                    <a href="{{ path('app_properties_show', {'id': property.id}) }}">Afficher</a>
-{% if app.user.roles[0] == "ROLE_ADMIN" %}
-                    <a href="{{ path('app_properties_edit', {'id': property.id}) }}">Modifier</a>
-                    {{ include('properties/_delete_form.html.twig') }}
-                    {% endif %}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="12">Aucun enregistrement trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <h1 class="mb-4 text-center my-5">Nos biens</h1>
+
+    {% if properties is not empty %}
+        <div class="row px-4">
+            {% for property in properties %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ property.title }}</h5>
+                            <p class="card-text">Propriétaire : {{ property.user.name }}</p>
+                            <p class="card-text">Nombre de pièces : {{ property.roomNumber }}</p>
+                            <p class="card-text">Type de transaction : {{ property.category.name }}</p>
+                            <p class="card-text">Type du logement : {{ property.housingType ? "Maison" : "Appartement" }}</p>
+                            <p class="card-text">Ville : {{ property.address.city }}</p>
+                            <a href="{{ path('app_properties_show', {'id': property.id}) }}" class="btn btn-info">
+                                <i class="fas fa-eye"></i> Afficher
+                            </a>
+                            {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                                <a href="{{ path('app_properties_edit', {'id': property.id}) }}" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                                {{ include('properties/_delete_form.html.twig') }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            Aucun enregistrement trouvé
+        </div>
+    {% endif %}
 {% endblock %}

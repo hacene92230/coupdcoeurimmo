@@ -72,7 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity=RentalInterest::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=HomeInterest::class, mappedBy="user", orphanRemoval=true)
      */
     private $rentalInterests;
 
@@ -275,14 +275,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, RentalInterest>
+     * @return Collection<int, HomeInterest>
      */
-    public function getRentalInterests(): Collection
+    public function getHomeInterests(): Collection
     {
         return $this->rentalInterests;
     }
 
-    public function addRentalInterest(RentalInterest $rentalInterest): self
+    public function addHomeInterest(HomeInterest $rentalInterest): self
     {
         if (!$this->rentalInterests->contains($rentalInterest)) {
             $this->rentalInterests[] = $rentalInterest;
@@ -292,7 +292,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeRentalInterest(RentalInterest $rentalInterest): self
+    public function removeHomeInterest(HomeInterest $rentalInterest): self
     {
         if ($this->rentalInterests->removeElement($rentalInterest)) {
             // set the owning side to null (unless already changed)
@@ -328,6 +328,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($rentalApplication->getUser() === $this) {
                 $rentalApplication->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HomeInterest>
+     */
+    public function getRentalInterests(): Collection
+    {
+        return $this->rentalInterests;
+    }
+
+    public function addRentalInterest(HomeInterest $rentalInterest): static
+    {
+        if (!$this->rentalInterests->contains($rentalInterest)) {
+            $this->rentalInterests->add($rentalInterest);
+            $rentalInterest->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRentalInterest(HomeInterest $rentalInterest): static
+    {
+        if ($this->rentalInterests->removeElement($rentalInterest)) {
+            // set the owning side to null (unless already changed)
+            if ($rentalInterest->getUser() === $this) {
+                $rentalInterest->setUser(null);
             }
         }
 

@@ -61,8 +61,9 @@ class CategoryController extends AbstractController
      * @Route("/{name}", name="app_category_show", methods={"GET"})
      */
     public function show(PropertiesRepository $propertyRepository, Category $category): Response
-    {
+    {  
         $properties = $propertyRepository->findBy(["category" => $category]);
+       
         return $this->render('category/show.html.twig', [
             'properties' => $properties,
         ]);

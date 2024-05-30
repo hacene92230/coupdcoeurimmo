@@ -104,7 +104,7 @@ class Properties
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity=RentalInterest::class, mappedBy="properties")
+     * @ORM\ManyToMany(targetEntity=HomeInterest::class, mappedBy="properties")
      */
     private $rentalInterests;
 
@@ -344,14 +344,14 @@ class Properties
     }
 
     /**
-     * @return Collection<int, RentalInterest>
+     * @return Collection<int, HomeInterest>
      */
-    public function getRentalInterests(): Collection
+    public function getHomeInterests(): Collection
     {
         return $this->rentalInterests;
     }
 
-    public function addRentalInterest(RentalInterest $rentalInterest): self
+    public function addHomeInterest(HomeInterest $rentalInterest): self
     {
         if (!$this->rentalInterests->contains($rentalInterest)) {
             $this->rentalInterests[] = $rentalInterest;
@@ -361,7 +361,7 @@ class Properties
         return $this;
     }
 
-    public function removeRentalInterest(RentalInterest $rentalInterest): self
+    public function removeHomeInterest(HomeInterest $rentalInterest): self
     {
         if ($this->rentalInterests->removeElement($rentalInterest)) {
             $rentalInterest->removeProperty($this);
@@ -395,6 +395,33 @@ class Properties
             if ($rentalApplication->getProperty() === $this) {
                 $rentalApplication->setProperty(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HomeInterest>
+     */
+    public function getRentalInterests(): Collection
+    {
+        return $this->rentalInterests;
+    }
+
+    public function addRentalInterest(HomeInterest $rentalInterest): static
+    {
+        if (!$this->rentalInterests->contains($rentalInterest)) {
+            $this->rentalInterests->add($rentalInterest);
+            $rentalInterest->addProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRentalInterest(HomeInterest $rentalInterest): static
+    {
+        if ($this->rentalInterests->removeElement($rentalInterest)) {
+            $rentalInterest->removeProperty($this);
         }
 
         return $this;

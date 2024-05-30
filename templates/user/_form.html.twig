@@ -1,65 +1,68 @@
-<div class="container">
+<div class="container mt-5 mb-5">
   <div class="row justify-content-center">
-    <div class="col-md-6">
+<div class="col-md-6 border rounded pb-4 pt-4">
       <form method="POST">
         {{ form_start(form) }}
+        
         {% if app.user is not empty %}
-			{% for role in app.user.roles %}
-				{% if role == "ROLE_ADMIN" %}
+          {% for role in app.user.roles %}
+            {% if role == "ROLE_ADMIN" %}
+              <div class="form-group">
+                {{ form_label(form.roles, 'Rôle de cet utilisateur', {'label_attr': {'class': 'col-form-label'}}) }}
+                {{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        
         <div class="form-group">
-          {{ form_label(form.roles, 'Rôle de cet utilisateur', {'label_attr': {'class': 'col-form-label'}}) }}
-          {{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }}
-        </div>
-{% endif %}
-{% endfor %}
-{% endif %}
-        <div class="form-group">
-          {{ form_label(form.placeType, 'Type du lieu de résidence', {'label_attr': {'class': 'col-form-label'}}) }}
-          {{ form_widget(form.placeType, {'attr': {'class': 'form-control'}}) }}
-        </div>
-
-        <div class="form-group">
-          {{ form_label(form.placeNumber, 'Numéro du lieu précédemment choisis', {'label_attr': {'class': 'col-form-label'}}) }}
-          {{ form_widget(form.placeNumber, {'attr': {'class': 'form-control'}}) }}
+          {{ form_row(form.name, {'label': 'Votre prénom', 'attr': {'class': 'form-control'}}) }}
         </div>
 
         <div class="form-group">
-          {{ form_label(form.city, 'Votre ville', {'label_attr': {'class': 'col-form-label'}}) }}
-          {{ form_widget(form.city, {'attr': {'class': 'form-control'}}) }}
+          {{ form_row(form.email, {'label': 'Adresse email', 'attr': {'class': 'form-control'}}) }}
         </div>
-
+        
         <div class="form-group">
-          {{ form_label(form.zipCode, 'Code postal', {'label_attr': {'class': 'col-form-label'}}) }}
-          {{ form_widget(form.zipCode, {'attr': {'class': 'form-control'}}) }}
+          {{ form_row(form.phone, {'label': 'Numéro de téléphone', 'attr': {'class': 'form-control'}}) }}
         </div>
 
-        <div class="form-group">
-          {{ form_label(form.name, 'Votre prénom', {'label_attr': {'class': 'col-form-label'}}) }}
-          {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-row">
+          <div class="form-group col">
+            {{ form_row(form.placeType, {'label': 'Type du lieu de résidence', 'attr': {'class': 'form-control'}}) }}
+          </div>
+          
+          <div class="form-group col">
+            {{ form_row(form.placeNumber, {'label': 'Numéro du lieu', 'attr': {'class': 'form-control'}}) }}
+          </div>
         </div>
 
-        <div class="form-group">
-          {{ form_label(form.email, 'Adresse email', {'label_attr': {'class': 'col-form-label'}}) }}
-          {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-row">
+          <div class="form-group col">
+            {{ form_row(form.zipCode, {'label': 'Code postal', 'attr': {'class': 'form-control'}}) }}
+          </div>
+
+          <div class="form-group col">
+            {{ form_row(form.city, {'label': 'Votre ville', 'attr': {'class': 'form-control'}}) }}
+          </div>
         </div>
 
-        <div class="form-group">
-          {{ form_label(form.phone, 'Numéro de téléphone', {'label_attr': {'class': 'col-form-label'}}) }}
-          {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
-        </div>
+        {% if app.user is null %}
+          <div class="form-group">
+            {{ form_row(form.plainPassword.first, {'label': 'Mot de passe', 'attr': {'class': 'form-control'}}) }}
+          </div>
+          
+          <div class="form-group">
+            {{ form_row(form.plainPassword.second, {'label': 'Confirmation du mot de passe', 'attr': {'class': 'form-control'}}) }}
+          </div>
+        {% endif %}
 
-{% if app.user is null %}
-        <div class="form-group">
-          {{ form_label(form.plainPassword, 'Mot de passe', {'label_attr': {'class': 'col-form-label'}}) }}
-          {{ form_widget(form.plainPassword, {'attr': {'class': 'form-control'}}) }}
+        <div class=" mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="acceptCGUandCGV" name="acceptCGUandCGV" required>
+          <label class="form-check-label for="acceptCGUandCGV">En m'inscrivant, je reconnais avoir lu et accepté l'intégralité des <a href="{{ path('app_cgu') }}">CGU</a> et des <a href="{{ path('app_cgv') }}">CGV</a></label>
         </div>
-{% endif %}
-
-<div class="form-group">
-    <input type="checkbox" id="acceptCGUandCGV" name="acceptCGUandCGV" required>
-    <label for="acceptCGUandCGV">En m'inscrivant, je reconnais avoir lu et accepté l'intégralité des <a href="{{ path('app_cgu') }}">CGU</a> et des <a href="{{ path('app_cgv') }}">CGV</a></label>
-  </div>
-        <button class="btn btn-primary btn-block">{{ button_label|default('Créer un compte') }}</button>
+        
+        <button class="btn bg-danger text-white btn-block">{{ button_label|default('Créer un compte') }}</button>
         
         {{ form_end(form) }}
       </form>

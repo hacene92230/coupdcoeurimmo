@@ -1,0 +1,73 @@
+<div class="container justify-content-center align-items-center d-flex mx-3 my-3">
+    {{ form_start(form) }}
+
+    <div class="border px-3 py-3 w-100">
+        <div class="form-group">
+            <label>J'ai déjà obtenu un crédit auprès d'une banque?</label>
+            <div>
+                <div class="form-check form-check-inline">
+                    {{ form_widget(form.financing[0], {'attr': {'class': 'form-check-input'}}) }}
+                    <label class="form-check-label" for="{{ form.financing[0].vars.id }}">
+                        Oui
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    {{ form_widget(form.financing[1], {'attr': {'class': 'form-check-input'}}) }}
+                    <label class="form-check-label" for="{{ form.financing[1].vars.id }}">
+                        Non
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>J'ai un apport personnel?</label>
+            <div class="mb-3">
+                <div class="form-check form-check-inline">
+                    {{ form_widget(form.financialContribution[0], {'attr': {'class': 'form-check-input', 'id': form.financialContribution[0].vars.id}}) }}
+                    <label class="form-check-label" for="{{ form.financialContribution[0].vars.id }}">
+                        Oui
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    {{ form_widget(form.financialContribution[1], {'attr': {'class': 'form-check-input', 'id': form.financialContribution[1].vars.id}}) }}
+                    <label class="form-check-label" for="{{ form.financialContribution[1].vars.id }}">
+                        Non
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="price-contribution-group" style="display: none;">
+            <label for="price-contribution">Quel est la valeur de votre apport?</label>
+            <div class="mb-3">
+                {{ form_row(form.priceContribution, {'attr': {'id': 'price-contribution'}}) }}
+            </div>
+        </div>
+        <button class="btn btn-primary">{{ button_label|default('Soumettre') }}</button>
+    </div>
+
+    {{ form_end(form) }}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const financialContributionYes = document.querySelector('#{{ form.financialContribution[0].vars.id }}');
+    const financialContributionNo = document.querySelector('#{{ form.financialContribution[1].vars.id }}');
+    const priceContributionGroup = document.getElementById('price-contribution-group');
+
+    function togglePriceContribution() {
+        if (financialContributionYes.checked) {
+            priceContributionGroup.style.display = 'block';
+        } else {
+            priceContributionGroup.style.display = 'none';
+        }
+    }
+
+    if (financialContributionYes) {
+        financialContributionYes.addEventListener('change', togglePriceContribution);
+        financialContributionNo.addEventListener('change', togglePriceContribution);
+
+        // Initial check on page load
+        togglePriceContribution();
+    }
+});
+</script>

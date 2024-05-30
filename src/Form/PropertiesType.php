@@ -33,15 +33,21 @@ class PropertiesType extends AbstractType
 
             ->add('category', EntityType::class, [
                 'class' => Category::class,
+                "label" => false,
                 'choice_label' => 'name',
                 'required' => true,
             ])
 
-
-            ->add('garden', CheckboxType::class, [
-                "label" => "Ce bien dispose d'un jardin"
+            ->add('garden', ChoiceType::class, [
+                'label' => false,
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+                'expanded' => true, // Affiche les boutons radio au lieu d'une liste déroulante
+                'multiple' => false, // Autorise la sélection d'une seule option
             ])
-
+            
             ->add('housingType', ChoiceType::class, [
                 'choices' => [
                     'Appartement' => '0',
@@ -50,11 +56,11 @@ class PropertiesType extends AbstractType
                 'expanded' => true,
                 'multiple' => false,
                 'required' => true,
-                'label' => 'Type du logement'
+                'label' => false
             ])
 
             ->add('roomNumber', IntegerType::class, [
-                "label" => "Nombre de pièce de ce bien",
+                "label" => false,
                 "attr" => [
                     "min" => 1,
                     "max" => 30,
@@ -62,7 +68,7 @@ class PropertiesType extends AbstractType
             ])
 
             ->add('rent', IntegerType::class, [
-                "label" => "Loyer du bien, si c'est une vente laissez comme cela",
+                "label" => false,
                 "required" => false,
                 "attr" => [
                     "min" => 0,
@@ -72,7 +78,7 @@ class PropertiesType extends AbstractType
             ])
 
             ->add('price', IntegerType::class, [
-                "label" => "Saisir le prix de vente de ce bien, si c'est une location laissez comme tel",
+                "label" => false,
                 "required" => false,
                 "attr" => [
                     "min" => 0,
@@ -81,7 +87,7 @@ class PropertiesType extends AbstractType
             ])
 
             ->add('user', EntityType::class, [
-                "label" => "Propriétaire",
+                "label" => false,
                 'class' => 'App\Entity\User',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
@@ -96,7 +102,7 @@ class PropertiesType extends AbstractType
             ])
 
             ->add("harea", IntegerType::class, [
-                "label" => "Superficie de ce bien",
+                "label" => false,
                 "attr" => [
                     "min" => 10,
                     "max" => 500,
@@ -104,7 +110,7 @@ class PropertiesType extends AbstractType
             ])
 
             ->add('placeType', ChoiceType::class, [
-                'label' => 'Sélectionner le type de place',
+                'label' => false,
                 'property_path' => 'address.placeType',
                 'choices' => [
                     'Boulevard' => 'Boulevard',
@@ -116,7 +122,7 @@ class PropertiesType extends AbstractType
             ])
 
             ->add("placeNumber", IntegerType::class, [
-                "label" => "Numéro de rue, avenue ou autre",
+                "label" => false,
                 'property_path' => 'address.placeNumber',
                 "attr" => [
                     "min" => 1,
@@ -124,21 +130,21 @@ class PropertiesType extends AbstractType
             ])
 
             ->add('city', TextType::class, [
-                'label' => 'Ville',
+                'label' => false,
                 'property_path' => 'address.city',
             ])
 
             ->add('zipCode', IntegerType::class, [
-                'label' => 'Code postal',
+                'label' => false,
                 'property_path' => 'address.zipCode',
             ])
 
             ->add("yearBuilt", DateType::class, [
-                "label" => "Date de construction du dit logement"
+                "label" => false,
             ])
 
             ->add('heating', ChoiceType::class, [
-                "label" => "Type du chauffage",
+                "label" => false,
                 'choices' => [
                     'Electrique' => 'electrique',
                     'Pompe à chaleur' => 'pompe a chaleur',
@@ -149,10 +155,11 @@ class PropertiesType extends AbstractType
             ])
 
             ->add('title', TextType::class, [
-                "label" => "Titre de l'annonce"
+                "label" => false,
             ])
 
             ->add('content', CKEditorType::class, [
+                "label" => false,
                 'config' => [
                     'toolbar' => 'full',
                 ],
@@ -160,7 +167,7 @@ class PropertiesType extends AbstractType
 
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
-                "label" => "Importez les images représentant ce bien",
+                "label" => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
