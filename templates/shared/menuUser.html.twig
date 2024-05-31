@@ -1,0 +1,155 @@
+
+
+
+<div class="dropdown mt-2 mx-1">
+  <button class="btn btn-danger dropdown-toggle   " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   Catégories
+  </button>
+  <div class="dropdown-menu text-left" aria-labelledby="dropdownMenuButton" style=".dropdown-menu.show : display: block;
+    left: -10em;">
+{# Lien vers la page d'index des catégories #}
+    	<a class="dropdown-item" href="{{ path('app_category_admin') }}"> <i class="fas fa-address-book"></i> Gestion des catégories   </a>
+{# Lien vers la page de création d'une nouvelle catégorie #}
+    	<a class="dropdown-item" href="{{ path('app_category_new') }}"> <i class="fas fa-plus"></i> Créer une nouvelle catégorie </a>
+  </div>
+</div>
+
+
+
+
+
+<div class="dropdown mt-2 mx-1">
+  <button class="btn btn-primary dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   Achat
+  </button>
+  <div class="dropdown-menu text-left" aria-labelledby="dropdownMenuButton" style=".dropdown-menu.show : display: block;
+    left: -15em;">
+{# Lien vers la page des demandes d'achats #}
+	<a class="dropdown-item" href="{{ path('app_home_interest_index') }}" class="nav-link"><i class="fas fa-list"></i> Les Demandes d'achat </a>
+{# Lien vers la page pour cr�er une demande d'achat #}
+	<a class="dropdown-item" href="{{ path('app_home_interest_new') }}" class="nav-link"><i class="fas fa-plus"></i> Créer une nouvelle demande d'achat</a>
+
+  </div>
+</div>
+
+
+
+<div class="dropdown mt-2 mx-1">
+  <button class="btn btn-primary dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  Location
+  </button>
+  <div class="dropdown-menu text-left" aria-labelledby="dropdownMenuButton" style=".dropdown-menu.show : display: block;
+    left: -10em;">
+{# Lien vers la page des locations en cours #}
+	<a class="dropdown-item" href="{{ path('app_rental_index') }}" class="nav-link"><i class="fas fa-list"></i> Les locations en cours </a>
+
+{# Lien vers la page pour cr�er une nouvelle location #}
+	<a class="dropdown-item" href="{{ path('app_rental_new') }}" class="nav-link"><i class="fas fa-plus"></i> Créer une nouvelle location </a>
+{# Lien vers la page liste des propriétés #}
+
+
+
+  </div>
+</div>
+
+
+
+<div class="dropdown mt-2 mx-1">
+  <button class="btn btn-primary dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  Nos biens
+  </button>
+  <div class="dropdown-menu text-left" aria-labelledby="dropdownMenuButton" style=".dropdown-menu.show : display: block;
+    left: -7em;">
+{# Lien vers la page liste des propriétés #}
+	<a class="dropdown-item" href="{{ path('app_properties_index') }}">  <i class="fas fa-list"></i> Liste des propriétés </a>
+{# Lien vers la page d'ajout de propriétés #}
+	<a class="dropdown-item" href="{{ path('app_properties_new') }}">  <i class="fas fa-plus"></i> Ajouter une propriété </a>
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+<div class="dropdown mt-2 mx-1">
+  <button class="btn btn-primary dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   Contacts
+  </button>
+  <div class="dropdown-menu text-left" aria-labelledby="dropdownMenuButton" style=".dropdown-menu.show : display: block;
+    left: -7em;">
+{# Lien vers la page d'index des contacts #}
+	<a class="dropdown-item" href="{{ path('app_contact_index') }}">  <i class="fas fa-address-book"></i> Gestion des contacts </a>
+{# Lien vers la page de contact #}
+	<a class="dropdown-item" href="{{ path('app_contact_new') }}">  <i class="fas fa-plus"></i> Nouvelle demande de contact </a>
+
+
+  </div>
+</div>
+
+
+
+
+          <div class="dropdown mt-2 mx-1 ">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Mon compte
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style=".dropdown-menu.show : display: block;
+    left: -5em;">
+              {% if app.user %}
+                <a class="dropdown-item" href="{{ path('app_user_edit', {'id': app.user.id}) }}"><i class="fas fa-user-edit"></i> Modifier mon profil</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                {{ include('user/_delete_form.html.twig') }}
+              {% endif %}
+            </div>
+          </div>
+
+
+
+
+
+<!-- ancienne nav -->
+
+<!--<ul class="list-group mt-3">
+    
+    <li class="list-group-item">
+        <a href="{{ path('app_category_admin') }}" class="nav-link">Gestion des catégories</a>
+    </li>
+    
+ 
+    <li class="list-group-item">
+        <a href="{{ path('app_category_new') }}" class="nav-link">Créer une nouvelle catégorie</a>
+    </li>
+</ul>
+
+<ul class="list-group mt-3">
+    
+    <li class="list-group-item">
+        <a href="{{ path('app_contact_index') }}" class="nav-link">
+            <i class="fas fa-address-book"></i> Gestion des contacts
+        </a>
+    </li>
+    </ul>
+        <ul class="list-group mb-4">
+        <li class="list-group-item">
+            <a href="{{ path('app_properties_index') }}" class="nav-link">
+                <i class="fas fa-list"></i> Liste des propriétés
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ path('app_properties_new') }}" class="nav-link">
+                <i class="fas fa-plus"></i> Ajouter une propriété
+            </a>
+        </li>
+    </ul>
+
+        <a href="{{ path('app_rental_new') }}" class="nav-link">Créer une nouvelle location</a>
+        <a href="{{ path('app_rental_index') }}" class="nav-link">Les location en cour</a>
+<a href="{{ path('app_home_interest_index') }}" class="nav-link">Les Demandes d'achat</a>
+<a href="{{ path('app_home_interest_new') }}" class="nav-link">Créer une nouvelle demande d'achat</a>-->
+
+

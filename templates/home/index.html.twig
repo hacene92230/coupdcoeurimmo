@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-
-
 {% block title %}Accueil
 	{{ parent() }}
 {% endblock %}
@@ -15,7 +13,7 @@
     {% for property in properties %}
     
             <div class=" col-md-4 card bordered w-50 h-25">
-                <h2>{{ property.title }}</h2>
+                <h2>{{ property.title }} ({{ property.category.name }})</h2>
                 {% if property.images|length > 0 %}
                 <div id="carousel-{{ property.id }}" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
@@ -187,7 +185,7 @@
 									<div class="card">
 										<div class="modal-footer">
 											<a href="{{ path('app_pdf_generate', {'id': property.id}) }}" target="_blank" class="btn btn-sm btn-coupdcoeur">Généré une fiche au format pdf</a>
-											{% if property.category.name == "location" %}
+											{% if property.category.name == "Locations" %}
 												<a href="{{ path('app_rental_application_new', {'id': property.id}) }}" class="btn btn-sm btn-coupdcoeur">Soumettre un dossier pour cette location</a>
 											{% else %}
 												<a href="{{ path('app_home_interest_new', {'id': property.id}) }}" class="btn btn-sm btn-coupdcoeur">Remplir la fiche d'intérêt</a>
