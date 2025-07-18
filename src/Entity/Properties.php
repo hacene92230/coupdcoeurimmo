@@ -93,7 +93,7 @@ class Properties
     private $heating;
 
     /** 
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="properties", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="properties", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $images;
 
