@@ -113,12 +113,18 @@ class Properties
      */
     private $rentalApplications;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Favori::class, mappedBy="property", orphanRemoval=true)
+     */
+    private $favoris;
+
     public function __construct()
     {
         $this->address = new Address();
         $this->images = new ArrayCollection();
         $this->rentalInterests = new ArrayCollection();
         $this->rentalApplications = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -365,6 +371,36 @@ class Properties
     {
         if ($this->rentalInterests->removeElement($rentalInterest)) {
             $rentalInterest->removeProperty($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favori>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favori $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+            $favori->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favori $favori): self
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getProperty() === $this) {
+                $favori->setProperty(null);
+            }
         }
 
         return $this;

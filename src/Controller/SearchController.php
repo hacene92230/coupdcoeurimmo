@@ -30,6 +30,8 @@ public function index(Request $request): Response
         $priceMax = $formData['priceMax'];
         $category = $formData['category'];
         $rent = $formData['rent'];
+        $roomNumber = $formData['roomNumber'];
+        $harea = $formData['harea'];
         $errors = [];
 
         if ($priceMin && $priceMax && $priceMin > $priceMax) {
@@ -96,6 +98,16 @@ public function index(Request $request): Response
                 ->andWhere('p.rent <= :rentMax')
                 ->setParameter('rentMin', $rentMin)
                 ->setParameter('rentMax', $rentMax);
+        }
+
+        if ($roomNumber) {
+            $queryBuilder->andWhere('p.roomNumber >= :roomNumber')
+                ->setParameter('roomNumber', $roomNumber);
+        }
+
+        if ($harea) {
+            $queryBuilder->andWhere('p.harea >= :harea')
+                ->setParameter('harea', $harea);
         }
 
         $properties = $queryBuilder->getQuery()->getResult();

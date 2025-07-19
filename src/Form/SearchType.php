@@ -44,6 +44,14 @@ class SearchType extends AbstractType
             ->add('inputPrixMax', IntegerType::class, [
                 'label' => false,
                 'required' => false,
+            ])
+            ->add('roomNumber', IntegerType::class, [
+                'label' => 'Nombre de pièces',
+                'required' => false,
+            ])
+            ->add('harea', IntegerType::class, [
+                'label' => 'Surface minimum (en m²)',
+                'required' => false,
             ]);
     }
 

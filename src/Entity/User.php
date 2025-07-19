@@ -81,12 +81,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $rentalApplications;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Favori::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $favoris;
+
     public function __construct()
     {
         $this->properties = new ArrayCollection();
         $this->address = new Address();
         $this->rentalInterests = new ArrayCollection();
         $this->rentalApplications = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -298,6 +304,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($rentalInterest->getUser() === $this) {
                 $rentalInterest->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favori>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favori $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+            $favori->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favori $favori): self
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getUser() === $this) {
+                $favori->setUser(null);
             }
         }
 

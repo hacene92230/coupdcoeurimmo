@@ -7,52 +7,97 @@
 
 {% block body %}
 
-       
- <div class="row">
-
-    {% for property in properties %}
-    
-            <div class=" col-md-4 card bordered w-50 h-25">
-                <h2>{{ property.title }} ({{ property.category.name }})</h2>
-                {% if property.images|length > 0 %}
-                <div id="carousel-{{ property.id }}" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        {% for image in property.images %}
-                        <li data-target="#carousel-{{ property.id }}" data-slide-to="{{ loop.index0 }}" {% if loop.first %} class="active" {% endif %}></li>
-                        {% endfor %}
-                    </ol>
-                    <div class="carousel-inner carousel-fade">
-                        {% for image in property.images %}
-                        <div class="carousel-item {% if loop.first %}active{% endif %}">
-                            <!-- Je remplace les images pour l'instant -->
-                            <!--<img src="{{ asset('images/properties/' ~ image.imagename) }}" class="d-block w-100 animate__animated animate__fadeIn" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">-->
-                            <img src="{{ asset('images/properties/appartement.jpg') }}" class="d-block w-100 animate__animated animate__fadeIn" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">
+<div class="container">
+    <div class="row">
+        {% for property in properties %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    {% if property.images|length > 0 %}
+                        <div id="carousel-{{ property.id }}" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                {% for image in property.images %}
+                                    <li data-target="#carousel-{{ property.id }}" data-slide-to="{{ loop.index0 }}" {% if loop.first %} class="active" {% endif %}></li>
+                                {% endfor %}
+                            </ol>
+                            <div class="carousel-inner">
+                                {% for image in property.images %}
+                                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                        <img src="{{ asset('images/properties/appartement.jpg') }}" class="d-block w-100" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
-                        {% endfor %}
+                    {% endif %}
+                    <div class="card-body">
+                        <h4 class="card-title">{{ property.title }}</h4>
+                        <h5>{{ property.price }} €</h5>
+                        <p class="card-text">{{ property.content|slice(0, 100) ~ '...' }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ loop.index }}">
+                            Voir les détails
+                        </button>
+                        {% if app.user %}
+                            {% set isFavori = false %}
+                            {% for favori in app.user.favoris %}
+                                {% if favori.property.id == property.id %}
+                                    {% set isFavori = true %}
+                                    <a href="{{ path('app_favori_remove', {'id': favori.id}) }}" class="btn btn-danger">
+                                        <i class="fas fa-heart"></i> Retirer des favoris
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                            {% if not isFavori %}
+                                <a href="{{ path('app_favori_add', {'id': property.id}) }}" class="btn btn-outline-primary">
+                                    <i class="far fa-heart"></i> Ajouter aux favoris
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('app_login') }}" class="btn btn-outline-primary">
+                                <i class="far fa-heart"></i> Ajouter aux favoris
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
-                {% endif %}
-                <div class="btn-toolbar" role="toolbar">
-                    <div class="btn-group btn-group-horizontal" role="group">
-                        <button class="btn btn-primary" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://coupdcoeurimmo.fr/properties/{{ property.id }}', 'facebook-share-dialog', 'width=626,height=436'); return false;">
-                            <i class="fa fa-facebook"></i> Partager sur Facebook
-                        </button>
-                        <button class="btn btn-primary" onclick="window.open('https://twitter.com/share?url=https://coupdcoeurimmo.fr/properties/{{ property.id }}', 'twitter-share-dialog', 'width=626,height=436'); return false;">
-                            <i class="fa fa-twitter"></i> Partager sur Twitter
-                        </button>
-                    </div>
-                    <div class="btn-group btn-group-horizontal" role="group">
-                        <button id="favori-button-{{ property.id }}" class="btn btn-primary favori-button" onclick="toggleFavori({{ property.id }})" data-property-id="{{ property.id }}"></button>
-                        <div class="col-md-12 text-center mt-3">
-                            <!-- Button that triggers the modal -->
-                            <button type="button" id="btnModal{{ loop.index }}" class="btn btn-primary btn-group-horizontal" data-toggle="modal" data-target="#myModal{{ loop.index }}" aria-label="Voir {{ property.title }}">
-                                Voir
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel{{ loop.index }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel{{ loop.index }}">{{ property.title }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                                <span aria-hidden="true">&times;</span>
                             </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img src="{{ asset('images/properties/appartement.jpg') }}" class="img-fluid" alt="{{ property.title }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ property.content|raw }}</p>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Prix: {{ property.price }} €</li>
+                                        <li class="list-group-item">Type: {{ property.housingType == 'house' ? "Maison" : "Appartement" }}</li>
+                                        <li class="list-group-item">Surface: {{ property.harea }} m²</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ path('app_pdf_generate', {'id': property.id}) }}" target="_blank" class="btn btn-sm btn-coupdcoeur">Généré une fiche au format pdf</a>
+                            {% if property.category.name == "Locations" %}
+                                <a href="{{ path('app_rental_application_new', {'id': property.id}) }}" class="btn btn-sm btn-coupdcoeur">Soumettre un dossier pour cette location</a>
+                            {% else %}
+                                <a href="{{ path('app_home_interest_new', {'id': property.id}) }}" class="btn btn-sm btn-coupdcoeur">Remplir la fiche d'intérêt</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 
@@ -65,54 +110,6 @@
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
-
-						<style>
-						.close{
-						color: black !important;
-						}
-						.close:hover{
-						color:#cd2148 !important;
-						}
-						.bg-coupdocoeur{
-						background-color:#cd2148;
-						font-size: 16px;
-						color: white;
-						font-weight: normal;
-						}
-						.btn-coupdcoeur{
-						color: white !important;
-  						background-color: #cd2148;
-  						border-color: #cd2148;
-						}
-						.btn-coupdcoeur:hover{
-						color: #cd2148 !important;
-  						background-color: white;
-						}
-						.modal-footer{
-						justify-content: left;
-						}
-						#title{
-						font-size: 72px;
-						}
-						.text-danger{
-						padding-left: 35px;
-						}
-						img{
-						padding:1em;
-						}
-						.w-100 {
-  						width: 67% !important;
- 						border-radius: 64px;
- 						padding: 2.25rem;
-						}
-						.card{
-						border: 1px solid rgb(255, 255, 255);
-						}
-						@media (min-width: 576px) {
-  						.modal-dialog {
-    						max-width: 75em;}}
-	
-						</style>
 						<h1 class="font-weight-bold text-danger" id="title">{{ property.title|raw }}</h1>
 						<div style="display:flex;">
 						<img src="{{ asset('images/properties/appartement.jpg') }}" class="d-block w-100 animate__animated animate__fadeIn" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">

@@ -1,0 +1,44 @@
+.close{
+color: black !important;
+}
+.close:hover{
+color:#cd2148 !important;
+}
+.bg-coupdocoeur{
+background-color:#cd2148;
+font-size: 16px;
+color: white;
+font-weight: normal;
+}
+.btn-coupdcoeur{
+color: white !important;
+  background-color: #cd2148;
+  border-color: #cd2148;
+}
+.btn-coupdcoeur:hover{
+color: #cd2148 !important;
+  background-color: white;
+}
+.modal-footer{
+justify-content: left;
+}
+#title{
+font-size: 72px;
+}
+.text-danger{
+padding-left: 35px;
+}
+img{
+padding:1em;
+}
+.w-100 {
+  width: 67% !important;
+ border-radius: 64px;
+ padding: 2.25rem;
+}
+.card{
+border: 1px solid rgb(255, 255, 255);
+}
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 75em;}}
