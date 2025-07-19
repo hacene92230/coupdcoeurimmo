@@ -7,54 +7,44 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container mt-5">
     <div class="row">
         {% for property in properties %}
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100">
+                <div class="card property-card h-100 shadow-sm">
                     {% if property.images|length > 0 %}
-                        <div id="carousel-{{ property.id }}" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                {% for image in property.images %}
-                                    <li data-target="#carousel-{{ property.id }}" data-slide-to="{{ loop.index0 }}" {% if loop.first %} class="active" {% endif %}></li>
-                                {% endfor %}
-                            </ol>
-                            <div class="carousel-inner">
-                                {% for image in property.images %}
-                                    <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                        <img src="{{ asset('images/properties/appartement.jpg') }}" class="d-block w-100" alt="{{ 'Image ' ~ loop.index0 ~ ' de ' ~ property.title }}">
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
+                        <img src="{{ asset('images/properties/appartement.jpg') }}" class="card-img-top" alt="{{ property.title }}">
                     {% endif %}
                     <div class="card-body">
-                        <h4 class="card-title">{{ property.title }}</h4>
-                        <h5>{{ property.price }} €</h5>
-                        <p class="card-text">{{ property.content|slice(0, 100) ~ '...' }}</p>
+                        <h5 class="card-title">{{ property.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ property.address.city }}</h6>
+                        <p class="card-text">{{ property.content|slice(0, 80) ~ '...' }}</p>
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><i class="fas fa-bed"></i> {{ property.roomNumber }}</li>
+                            <li class="list-inline-item"><i class="fas fa-ruler-combined"></i> {{ property.harea }} m²</li>
+                            <li class="list-inline-item"><i class="fas fa-euro-sign"></i> {{ property.price }}</li>
+                        </ul>
                     </div>
-                    <div class="card-footer">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ loop.index }}">
-                            Voir les détails
-                        </button>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ loop.index }}">Voir plus</a>
                         {% if app.user %}
                             {% set isFavori = false %}
                             {% for favori in app.user.favoris %}
                                 {% if favori.property.id == property.id %}
                                     {% set isFavori = true %}
-                                    <a href="{{ path('app_favori_remove', {'id': favori.id}) }}" class="btn btn-danger">
-                                        <i class="fas fa-heart"></i> Retirer des favoris
+                                    <a href="{{ path('app_favori_remove', {'id': favori.id}) }}" class="btn btn-danger float-right">
+                                        <i class="fas fa-heart"></i>
                                     </a>
                                 {% endif %}
                             {% endfor %}
                             {% if not isFavori %}
-                                <a href="{{ path('app_favori_add', {'id': property.id}) }}" class="btn btn-outline-primary">
-                                    <i class="far fa-heart"></i> Ajouter aux favoris
+                                <a href="{{ path('app_favori_add', {'id': property.id}) }}" class="btn btn-outline-danger float-right">
+                                    <i class="far fa-heart"></i>
                                 </a>
                             {% endif %}
                         {% else %}
-                            <a href="{{ path('app_login') }}" class="btn btn-outline-primary">
-                                <i class="far fa-heart"></i> Ajouter aux favoris
+                            <a href="{{ path('app_login') }}" class="btn btn-outline-danger float-right">
+                                <i class="far fa-heart"></i>
                             </a>
                         {% endif %}
                     </div>
@@ -197,101 +187,7 @@
 			</div>
 		</div>
 	</div>
-<script>
-// Fonction pour basculer l'état de favori
-function toggleFavori(propertyId) {
-    if (isPropertyInFavoris(propertyId)) {
-        retirerFavori(propertyId);
-    } else {
-        ajouterFavori(propertyId);
-    }
-}
-
-// Vérifie si la propriété est dans les favoris
-function isPropertyInFavoris(propertyId) {
-    var favoris = getFavorisFromCookie();
-    return favoris.includes(propertyId.toString());
-}
-
-// Ajoute une propriété aux favoris
-function ajouterFavori(propertyId) {
-    var favoris = getFavorisFromCookie();
-    if (!favoris.includes(propertyId.toString())) {
-        favoris.push(propertyId.toString());
-        updateFavorisCookie(favoris);
-        alert('La propriété a été ajoutée aux favoris avec succès.');
-        updateButtonState(propertyId, true);
-    }
-}
-
-// Retire une propriété des favoris
-function retirerFavori(propertyId) {
-    var favoris = getFavorisFromCookie();
-    var index = favoris.indexOf(propertyId.toString());
-    if (index > -1) {
-        favoris.splice(index, 1);
-        updateFavorisCookie(favoris);
-        alert('La propriété a été retirée des favoris avec succès.');
-        updateButtonState(propertyId, false);
-    }
-}
-
-// Obtient la liste des favoris à partir du cookie
-function getFavorisFromCookie() {
-    var favorisCookie = document.cookie
-        .split(';')
-        .map(cookie => cookie.trim())
-        .find(cookie => cookie.startsWith('favoris='));
-
-    if (favorisCookie) {
-        var favorisString = favorisCookie.split('=')[1];
-        return JSON.parse(favorisString);
-    }
-
-    return [];
-}
-
-// Met à jour le cookie des favoris
-function updateFavorisCookie(favoris) {
-    var favorisString = JSON.stringify(favoris);
-    var expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + 14); // Définir une durée de validité de 14 jours
-
-    document.cookie = 'favoris=' + favorisString + '; expires=' + expirationDate.toUTCString() + '; path=/';
-}
-
-// Met à jour l'état des boutons en fonction des favoris
-function updateButtonState(propertyId, isFavori) {
-    var button = document.getElementById('favori-button-' + propertyId);
-
-    if (button) {
-        if (isFavori) {
-            button.innerHTML = '<i class="fa fa-heart"></i> Retirer des favoris';
-        } else {
-            button.innerHTML = '<i class="fa fa-heart"></i> Ajouter aux favoris';
-        }
-    }
-}
-
-// Met à jour l'état des boutons lors du chargement de la page
-window.addEventListener('load', function() {
-    var buttons = document.querySelectorAll('.favori-button');
-    var favoris = getFavorisFromCookie();
-
-    buttons.forEach(function(button) {
-        var id = button.dataset.propertyId;
-
-        if (favoris.includes(id)) {
-            button.innerHTML = '<i class="fa fa-heart"></i> Retirer des favoris';
-        } else {
-            button.innerHTML = '<i class="fa fa-heart"></i> Ajouter aux favoris';
-        }
-    });
-});
-
-</script>
-
-	{% endfor %}
+        {% endfor %}
 
 		<nav aria-label="Page">
 			<ul class="pagination pagination-lg justify-content-center shadow">
