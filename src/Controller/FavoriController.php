@@ -28,10 +28,21 @@ class FavoriController extends AbstractController
         $favori->setUser($user);
         $favori->setProperty($property);
 
-        $entityManager->persist($favori);
-        $entityManager->flush();
+        $existingFavori = $entityManager->getRepository(Favori::class)->findOneBy([
+            'user' => $user,
+            'property' => $property,
+        ]);
 
-        return $this->redirectToRoute('app_home');
+        if (!$existingFavori) {
+            $favori = new Favori();
+            $favori->setUser($user);
+            $favori->setProperty($property);
+
+            $entityManager->persist($favori);
+            $entityManager->flush();
+        }
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
@@ -49,6 +60,6 @@ class FavoriController extends AbstractController
         $entityManager->remove($favori);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirect($request->headers->get('referer'));
     }
 }

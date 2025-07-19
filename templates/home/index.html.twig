@@ -83,6 +83,10 @@
                             {% else %}
                                 <a href="{{ path('app_home_interest_new', {'id': property.id}) }}" class="btn btn-sm btn-coupdcoeur">Remplir la fiche d'intérêt</a>
                             {% endif %}
+                            <div class="mt-3">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uriForPath(path('app_properties_show', {'id': property.id})) }}" target="_blank" class="btn btn-primary"><i class="fab fa-facebook-f"></i> Partager</a>
+                                <a href="https://twitter.com/intent/tweet?url={{ app.request.uriForPath(path('app_properties_show', {'id': property.id})) }}&text={{ property.title }}" target="_blank" class="btn btn-info"><i class="fab fa-twitter"></i> Tweeter</a>
+                            </div>
                         </div>
                     </div>
                 </div>
