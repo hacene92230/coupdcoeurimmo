@@ -38,7 +38,9 @@
 		     
 			{% block body %}{% endblock %}
 		</main>
-		{% block javascripts %}{% endblock %}
+		{% block javascripts %}
+            <script src="{{ asset('js/favori.js') }}"></script>
+        {% endblock %}
 		{% include "shared/footer.html.twig" %}
 	</body>
 </html>

@@ -15,7 +15,7 @@ class FavoriController extends AbstractController
     /**
      * @Route("/favori/add/{id}", name="app_favori_add")
      */
-    public function add(Properties $property, EntityManagerInterface $entityManager): Response
+    public function add(Request $request, Properties $property, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
 
@@ -48,7 +48,7 @@ class FavoriController extends AbstractController
     /**
      * @Route("/favori/remove/{id}", name="app_favori_remove")
      */
-    public function remove(Favori $favori, EntityManagerInterface $entityManager): Response
+    public function remove(Request $request, Favori $favori, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
 

@@ -39,6 +39,15 @@ padding:1em;
 .card{
 border: 1px solid rgb(255, 255, 255);
 }
+
+.property-card .card-footer .btn {
+    margin-right: 5px;
+}
+
+.property-card .card-footer .btn:last-child {
+    margin-right: 0;
+}
+
 @media (min-width: 576px) {
   .modal-dialog {
     max-width: 75em;}}
