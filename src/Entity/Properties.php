@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PropertiesRepository::class)
@@ -17,46 +18,55 @@ class Properties
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"property_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"property_list"})
      */
     private $roomNumber;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"property_list"})
      */
     private $rent;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"property_list"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"property_list"})
      */
     private $garden;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"property_list"})
      */
     private $housingType;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"property_list"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=10000)
+     * @Groups({"property_list"})
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({"property_list"})
      */
     private $createdAt;
 
@@ -73,33 +83,39 @@ class Properties
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"property_list"})
      */
     private $harea;
 
     /**
      * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="properties", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"property_list"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"property_list"})
      */
     private $yearBuilt;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"property_list"})
      */
     private $heating;
 
     /** 
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="properties", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Groups({"property_list"})
      */
     private $images;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="properties")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"property_list"})
      */
     private $category;
 
