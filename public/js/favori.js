@@ -7,25 +7,30 @@ document.addEventListener('DOMContentLoaded', function() {
             const url = this.href;
             const icon = this.querySelector('i');
 
-            fetch(url)
-                .then(response => {
-                    if (response.ok) {
-                        if (url.includes('add')) {
-                            this.href = url.replace('add', 'remove');
-                            icon.classList.remove('far');
-                            icon.classList.add('fas');
-                            this.classList.remove('btn-outline-danger');
-                            this.classList.add('btn-danger');
-                        } else {
-                            this.href = url.replace('remove', 'add');
-                            icon.classList.remove('fas');
-                            icon.classList.add('far');
-                            this.classList.remove('btn-danger');
-                            this.classList.add('btn-outline-danger');
-                        }
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+            fetch(url, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isFavori) {
+                    this.href = data.url;
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    this.classList.remove('btn-outline-danger');
+                    this.classList.add('btn-danger');
+                    this.setAttribute('aria-label', 'Retirer des favoris');
+                } else {
+                    this.href = data.url;
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    this.classList.remove('btn-danger');
+                    this.classList.add('btn-outline-danger');
+                    this.setAttribute('aria-label', 'Ajouter aux favoris');
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
     });
 });
