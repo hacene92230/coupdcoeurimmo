@@ -9,14 +9,31 @@
         {% if properties is not empty %}
             <div class="row">
                 {% for property in properties %}
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card property-card h-100 shadow-sm">
+                            {% if property.images|length > 0 %}
+                                <img src="{{ asset('images/properties/appartement.jpg') }}" class="card-img-top" alt="{{ property.title }}">
+                            {% endif %}
                             <div class="card-body">
                                 <h5 class="card-title">{{ property.title }}</h5>
-                                <p class="card-text">Ville : {{ property.address.city }}</p>
-                                <a href="{{ path('app_properties_show', {'id': property.id}) }}" class="btn btn-info">
-                                    <i class="fas fa-eye"></i> Afficher
-                                </a>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ property.address.city }}</h6>
+                                <p class="card-text">{{ property.content|slice(0, 80) ~ '...' }}</p>
+                                <ul class="list-inline">
+                                    <li class="list-inline-item"><i class="fas fa-bed"></i> {{ property.roomNumber }}</li>
+                                    <li class="list-inline-item"><i class="fas fa-ruler-combined"></i> {{ property.harea }} m²</li>
+                                    <li class="list-inline-item"><i class="fas fa-euro-sign"></i> {{ property.price }}</li>
+                                </ul>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0">
+                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ loop.index }}">Voir plus</a>
+                                <div class="mt-3">
+                                    {% set isFavori = true %}
+                                    <a href="{{ path('app_favori_remove', {'id': property.id}) }}" class="btn btn-danger" aria-label="Retirer des favoris">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uriForPath(path('app_properties_show', {'id': property.id})) }}" target="_blank" class="btn btn-primary" aria-label="Partager sur Facebook"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="https://twitter.com/intent/tweet?url={{ app.request.uriForPath(path('app_properties_show', {'id': property.id})) }}&text={{ property.title }}" target="_blank" class="btn btn-info" aria-label="Partager sur Twitter"><i class="fab fa-twitter"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
